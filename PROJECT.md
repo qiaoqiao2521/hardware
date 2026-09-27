@@ -17,6 +17,6 @@
 - `mcu/`: 单片机与控制器工程（51, STM32, ESP32）
 - `lab/`: 嵌入式综合实验工作区（embedded-lab-monorepo）
 - `tools/`: 烧录工具与跨端脚本（flash.ps1, migrate_51.ps1 等）
-- `docs/`: 硬件接线、引脚定义与工具链指南
+- `docs/`: 硬件接线、引脚定义、工具链指南与实战调优案例（`docs/cases/`）
 - `hardwire/`: 硬件体检探针与只读诊断核心模块（core, targets, benchmarks）
 - `snapshots/`: 板卡硬件体检快照数据

@@ -27,7 +27,7 @@ hardware/
 ├── tools/        # 固件烧录、迁移与跨端工具链
 ├── snapshots/    # 实体板卡硬件体检快照数据
 ├── tests/        # 单元与集成测试
-└── docs/         # 硬件接线、引脚定义与芯片手册
+└── docs/         # 硬件接线、引脚定义、芯片手册与调优案例 (docs/cases/)
 ```
 
 ---
@@ -50,3 +50,11 @@ python3 -m hardwire diff snapshots/rock-5c-before.json snapshots/rock-5c-after.j
 # 5. 查看嵌入式多板卡选型对比横评
 python3 -m hardwire matrix
 ```
+
+---
+
+## 📚 真实体检与调优案例 (Case Studies)
+
+- [案例 001：Linux 宿主机端到端网络诊断、低风险可逆优化与前后复测](docs/cases/case-001-network-optimization.md)
+  - 核心场景：Wi-Fi 节能抖动排查、真实链路 vs 本地 TUN/代理识别、上游 DNS 与 BBR 拥塞控制无缝优化。
+
