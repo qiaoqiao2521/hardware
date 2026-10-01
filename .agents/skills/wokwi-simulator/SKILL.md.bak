@@ -1,0 +1,148 @@
+---
+name: wokwi-simulator
+description: Wokwi online electronics simulator documentation. Use when generating Wokwi diagram.json configurations, simulating Arduino/ESP32/STM32 circuits, or explaining how to use Wokwi for hardware simulation. Triggers: wokwi, simulate circuit, diagram.json, online simulator, virtual hardware.
+---
+
+# Wokwi-Simulator Skill
+
+Comprehensive assistance with wokwi-simulator development, generated from official documentation.
+
+## When to Use This Skill
+
+This skill should be triggered when:
+- Working with wokwi-simulator
+- Asking about wokwi-simulator features or APIs
+- Implementing wokwi-simulator solutions
+- Debugging wokwi-simulator code
+- Learning wokwi-simulator best practices
+
+## Quick Reference
+
+### Common Patterns
+
+**Pattern 1:** Wokwi Automation ScenariosAutomation scenarios allow you to automate the simulation, push buttons, change the state of the sensors, and check the serial output. You can use automation scenarios to test your firmware in a realistic environment, and verify that it behaves as expected. Each automation scenario is a YAML file that describes a sequence of actions that the simulator should take. You can use the --scenario CLI option to load an automation scenario file. Scenario File Structure​ The basic structure of an automation scenario file is as follows: name: 'Your scenario name'version: 1author: 'Your name'steps: # List of steps: - set-control: part-id: btn1 control: pressed value: 1 - delay: 500ms - wait-serial: 'Button 1 pressed' warningAutomation scenarios are currently in alpha. The API is not fully documented yet, and may change in the future. You can use the example projects as a reference. Available Steps​ These can be used as a sequence of actions to perform when running the scenario. Use these to build a list of steps for testing your project. Wait (delay)​ Wait for an amount of time. Parameters​ NameDescriptionvalueAmount of time to wait for. Units are required (e.g. 200ms) Example Usage​ delay: 30ms Assert Pin Value (expect-pin)​ Check if a pin is set to an expected value. Parameters​ NameDescriptionpart-idID of the target compontentpinName of pin to checkvalueExpected value of the pin Example Usage​ expect-pin: part-id: esp pin: 2 expected: 1 Control a Part (set-control)​ Set a controllable part of a compontent to a specified value. View part documentation for available controls or see a list of supported parts below. Parameters​ NameDescriptionpart-idID of the target compontentcontrolAspect of the target compontent to modify (e.g. temperature, humidity)valueValue to set the control to Example Usage​ set-control: part-id: dht control: humidity value: 39 Wait and Match Text from Serial (wait-serial)​ Wait for serial console output which matches a given string. Parameters​ NameDescriptiontextString to wait and match for Example Usage​ wait-serial: 'Ready for testing!' Write to Serial (write-serial)​ Write text or an array of numbers to the serial console. Parameters​ NameDescriptionvalueThe string or array of numbers to write to the serial console Example Usage​ StringArraywrite-serial: 'Ready for testing!'write-serial: [87, 111, 107, 119, 105] Take a Screenshot (take-screenshot)​ Take a screenshot of a specific component and compare it with an existing capture. NameDescriptionpart-idID of the target compontentsave-toPath to save screenshot tocompare-withPath of a screenshot to compare with This step requires part-id and save-to and/or compare-with. Example usage: take-screenshot: part-id: 'oled1' compare-with: 'screenshots/oled-1.png' Running Scenarios​ To build the test projects and run the tests, you need to install PlatformIO Core and the Wokwi CLI, get a Wokwi CI token and set the WOKWI_CLI_TOKEN environment variable with the token. You can then use pio run to compile the project and wokwi-cli . --scenario <scenraio_file>.yaml to run the tests. You can also use Wokwi for VS Code to interactively simulate the test projects. Example Usage​ Example parts with test scenarios are available at the wokwi-part-tests GitHub repository. We will try to compile and run tests for the wokwi-dht22 part on the ESP32. Begin with cloning the repository: git clone https://github.com/wokwi/wokwi-part-tests Navigate to the part in question: cd wokwi-dht22/dht22-esp32 Build the required microcontroller firmware: pio run This can also be done via the PlatformIO VS Code extension - just click the build button. Finally, run the test! wokwi-cli . --scenario dht22.test.yaml If successful, the output of the test looks as follows: Wokwi CLI v0.18.3 (786fa8e49d9c)Connected to Wokwi Simulation API 1.0.0-20251028-g60747fe2Starting simulation...ets Jul 29 2019 12:21:46[DHT22 Sensor Test (ESP32)] Expected text matched: "ets Jul 29 2019 12:21:46"rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)configsip: 0, SPIWP:0xeeclk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00mode:DIO, clock div:2load:0x3fff0030,len:1156load:0x40078000,len:11456ho 0 tail 12 room 4load:0x40080400,len:2972entry 0x400805dcDHT22 test![DHT22 Sensor Test (ESP32)] Expected text matched: "DHT22 test!"Humidity: 45.80% Temperature: 23.50°C[DHT22 Sensor Test (ESP32)] Expected text matched: "Humidity: 45.80% Temperature: 23.50°C"Humidity: 45.80% Temperature: 23.50°C[DHT22 Sensor Test (ESP32)] Expected text matched: "Humidity: 45.80% Temperature: 23.50°C"Humidity: 66.90% Temperature: 21.50°C[DHT22 Sensor Test (ESP32)] Expected text matched: "Humidity: 66.90% Temperature: 21.50°C"[DHT22 Sensor Test (ESP32)] Scenario completed successfully Supported Parts with Automation Controls​ Several Wokwi parts support automation controls that can be controlled using automation scenarios. These controls allow you to programmatically change the state of sensors, press buttons, and modify component values during simulation. Parts with Automation Controls​ Push Button - Control button presses and releases Potentiometer - Adjust the potentiometer position MPU6050 Sensor - Set acceleration, rotation, and temperature values Analog Joystick - Set direction and pressed state HX711 Load Cell Amplifier - Set load value of scale Photoresistor Sensor - Set lux Each part's documentation page contains detailed information about the specific automation controls available, including control names, types, and example usage.
+
+```
+--scenario
+```
+
+**Pattern 2:** Example usage:
+
+```
+take-screenshot:  part-id: 'oled1'  compare-with: 'screenshots/oled-1.png'
+```
+
+**Pattern 3:** wokwi-pi-pico ReferenceRaspberry Pi Pico, an RP2040 microcontroller board with dual-core ARM Cortex-M0+ processor, 264k of internal RAM, and flexible Programmable I/O (PIO) feature. Pin names​ Pins GP0 to GP22 are digital GPIO pins. Pins GP26, GP27, and GP28 are digital GPIO pins with analog input function. NameDescriptionAnalog input channelGP0 … GP22Digital GPIO pins (0 to 22)GP26Digital GPIO pin 260GP27Digital GPIO pin 271GP28Digital GPIO pin 282GND.1 … GND.8Ground pins *VSYS, VBUS, 3V3Positive power supplyTP4 †Digital GPIO pin 23TP5 †Digital GPIO pin 25 + LED * The physical pin numbers of the ground pins are 3, 8, 13, 18, 23, 28, 33, and 38. † These pins do not appear in the visual diagram editor, but you can use them in your diagram.json file. Pins 3V3_EN / RUN / ADC_VREF are not available in the simulation and are therefore omitted from the table. Onboard LED​ The Raspberry Pi Pico has an onboard LED, attached to GPIO PIN 25. The LED is lit when the pin is driven high. You can also use the LED_BUILTIN constant to reference the LED in your Arduino code: pinMode(LED_BUILTIN, OUTPUT);digitalWrite(LED_BUILTIN, HIGH); See Blink for a complete code example. Simulation features​ The Raspberry Pi Pico is simulated using the RP2040js Library. This table summarizes the status of the simulation features: PeripheralStatusNotesProcessor core✔️Only a single core is simulatedGPIO✔️PIO✔️PIO Debugger availableUSB🟡USB CDC (Serial) supported, see Serial Monitor belowUART✔️I2C✔️Master mode onlySPI✔️Master mode onlyPWM✔️DMA✔️Only for the PIO peripheralTimer✔️Pausing the timer not implemented yetARM SysTick Timer✔️Watchdog✔️RTC✔️ADC + Temp sensor✔️Temperature sensor always reads 0SSI🟡Just the minimum to make the bootloader happyGDB Debugging✔️See the GDB Debugging guide Legend: ✔️ Simulated 🟡 Partial implementation/work in progress ❌ Not implemented Arduino core​ The Arduino core provides the built-in Arduino functions, such as pinMode() and digitalRead(), as well as a set of standard Arduino libraries, such as Servo, Wire and SPI. When compiling your code for the Raspberry Pi Pico and for the Raspberry Pi Pico W, Wokwi uses the Arduino-Pico core, built on top of the Pi Pico SDK. In the past, Wokwi also supported the RP2040-mbed Arduino core, but it has been deprecated in favor of the Arduino-Pico core. Serial Monitor​ You can use the Serial Monitor to receive information from the code running on the Pi Pico, such as debug prints. By default, the Serial Monitor communicates with the Pi Pico over USB. Setting up the USB connection can take some time, and any messages printed during the USB setup time will be lost. Therefore, it's recommended to tell setup() to wait for the Serial Monitor connection before printing anything: void setup() { Serial.begin(115200); while (!Serial) { delay(10); // wait for serial port to connect. Needed for native USB } // Now you can safely print message: Serial.println("Hello, Serial Monitor!");} Serial Monitor over UART​ The Serial Monitor can also communicate with the Pi Pico over the physical UART interface. To configure the UART communication between the Raspberry Pi Pico and the Serial Monitor, add the following connections to your diagram.json file: "connections": [ [ "$serialMonitor:RX", "pico:GP0", "", [] ], [ "$serialMonitor:TX", "pico:GP1", "", [] ], … ] The example assumes that the Pi Pico was defined with an id of "pico", e.g. "parts": [ { "type": "wokwi-pi-pico", "id": "pico", … }, … ] The use the Serial1 object in your code: initialize the port using Serial1.begin(115200), and then print messages with Serial1.println(). For example: void setup() { Serial1.begin(115200); Serial1.println("Hello, world!");}void loop() { } For a complete example, check out the Pi Pico Serial Monitor over UART Example. Exporting UF2 binary​ You can upload the program from the emulator directly into a physical Raspberry Pi Pico board. The steps are: Press "F1" in the Wokwi code editor and select "Download UF2 Binary". The download should start within a few seconds. Start your Pi Pico in bootloader mode. You can do this by pressing the boot loader button while plugging the Pi Pico into the USB port of your computer. You should see a new drive appear on your computer (named "RPI-RP2"). Copy the UF2 file you downloaded into that drive. MicroPython Support​ The Raspberry Pi Pico supports MicroPython, and you can use it for running MicroPython projects in Wokwi. For more information, check out the MicroPython Guide. Simulator examples​ Pi Pico and LCD1602 Pi Pico Traffic Light Pi Pico C++ SDK Blink Pi Pico C++ SDK 7-Segment Example
+
+```
+LED_BUILTIN
+```
+
+**Pattern 4:** The use the Serial1 object in your code: initialize the port using Serial1.begin(115200), and then print messages with Serial1.println(). For example:
+
+```
+Serial1
+```
+
+**Pattern 5:** wokwi-pushbutton Reference12mm Tactile Switch Button (momentary push button). Pin names​ NameDescription1.l / 1.rFirst contact (left / right)2.l / 2.rSecond contact (left / right) The push button has two set of pins (contacts), 1 and 2. When the push button is pressed, it connects these two contacts, thus closing an electrical circuit. Each contact has a pin of the left side of the push button, and another pin on the right side of the push button. So pin 1.l is the left pin for first contact, and 1.r is the right pin for the first contact. Since both belong to the same contact, they are always connected, even when the button is not pressed. The following diagram illustrates the connections inside the pushbutton: When working with Arduino, you'd usually connect one contact (e.g. 1.r or 1.l) to a digital pin and configure that pin as INPUT_PULLUP, and the other contact (e.g. 2.r or 2.l) to the ground. The digital pin will read LOW when you press the button, and HIGH when the button is not pressed. Attributes​ NameDescriptionDefault valuecolorThe color of the push button"red"xrayShow internal wiring: "1" or """"labelText that appears below the button""keyKeyboard shortcut for buttonbounceSet to "0" to disable bouncing"" Defining a keyboard shortcut​ You can use the "key" attribute to define a keyboard key that will control the button. The key is only active when the simulation is running and the diagram has focus. For example, suppose you defined "key" to "Q". Then, when you run the simulation, pressing Q in the keyboard will press the push button. The button will be kept in pressed state as long as you keep pressing Q, and once you release the key, the button will also be released. You can define any alphanumerical keyboard shortcut (so English letters and numbers), and for letters, the value of "key" is case insensitive (so "q" and "Q" mean the same). You can also target some special keys, such as "Escape", "ArrowUp", "F8", " " (space), or "PageDown", but some keys could be blocked by the browser (e.g. "F5" that refreshes the page). The full list of key names can be found here. Note the the special key names are case sensitive - so "Escape" will work, "escape" won't. Firefox users: if the keyboard shortcuts don't work for you, please make sure that the "Search for text when you start typing" setting is disabled. Bouncing​ When you press physical pushbutton, the circuit opens and closes tens or hundreds of times. This phenomenon is called Bouncing. This happens because of the mechanical nature of pushbuttons: when the metal contacts come together, there's a brief period when the contact isn't perfect, which causes a series of rapid open/close transitions. Wokwi simulates button bouncing by default. You can disable bouncing simulation by setting the "bounce" attr to "0": { "bounce": "0" } The bouncing simulation follows the behaviour described in "The Art of electronics" by Horowitz & Hill: When the switch is closed, the two contacts actually separate and reconnect, typically 10 to 100 times over a period of about 1ms. For example, this project shows the difference between bouncing and non bouncing button. It has two buttons connected to the same Arduino input pin: The blue button does not simulate bouncing. Pressing on it once will only print a single pair of "pressed" and "released" messages. The red button simulates bouncing. Pressing on it once will print multiple "pressed" and "released" messages. Stickiness​ If you want the button to stay pressed, Ctrl-click it (Cmd-click on Mac). It will cause the button to stay pressed until the next click. This is useful when you need multiple buttons pressed at the same time. Examples​ ResultAttrs{ "color": "green" }{ "color": "#FFFF00" }{ "label": "Push me!" }{ "xray": "1" } Automation controls​ The pushbutton can be controlled using Automation Scenarios. It exposes the following controls: ControlTypeDescriptionpressedintSet to 1 to press the button, 0 to release it. The following example simulates a button press on "btn1" for 200ms: - set-control: part-id: btn1 control: pressed value: 1- delay: 200ms- set-control: part-id: btn1 control: pressed value: 0 Simulator examples​ Basic example: Arduino and pushbutton, active-high Basic example: Arduino and pushbutton, active-low Bounce vs non-bounce Simon Game - A memory game with 4 push buttons Diatonic Piano - A 8-note piano, use keys 1-8 to press the buttons and play the notes.
+
+```
+1.l
+```
+
+**Pattern 6:** GPIO pins API Chips interact with the simulator using digital pins. The pins are defined in a JSON file, called {chip-name}.chip.json (replace {chip-name} with the actual name of the chip). For instance, the following JSON file defines a chip with 4 pins (IN, OUT, VCC, GND): { "name": "Inverter", "author": "Uri Shaked", "pins": ["OUT", "IN", "VCC", "GND"]} The GPIO pins API allows your chip implementation code to interact with the GPIO pins: pin_t pin_init(const char *name, uint32_t mode)​ Initializes the given pin, and returns a pin identifier for use with the other pin methods. The mode parameters configure the initial state of the pin. The following values are available: INPUT - configures the pin as a digital input INPUT_PULLUP - configures the pin as a digital input, and attaches a pull-up register to the pin. INPUT_PULLDOWN - configures the pin as a digital input, and attaches a pull-down register to the pin. OUTPUT - configures the pin as a digital output OUTPUT_LOW - configures the pin as a digital output, sets the value of the pin to LOW OUTPUT_HIGH - configures the pin as a digital output, sets the value of the pin to HIGH ANALOG - configures the pin as an analog pin. See the Analog API section for more detail. warningNote: pin_init() can only be called from chip_init(). Do not call it at a later time. You can use pin_mode() to change the mode of a pin at any time. void pin_mode(pin_t pin, uint32_t mode)​ Configures the given pin as digital input or output. The valid values for mode are the same as pin_init(): INPUT, INPUT_PULLUP, INPUT_PULLDOWN, OUTPUT, OUTPUT_LOW, OUTPUT_HIGH, and ANALOG. void pin_write(pin_t pin, uint32_t value)​ Set the output value for a digital pin. Use the LOW and HIGH constants for value. uint32_t pin_read(pin_t pin)​ Reads the current digital value of the pin, returns either LOW or HIGH. bool pin_watch(pin_t pin, pin_watch_config_t *config)​ Listens for changes in the digital value of the given pin. The config structure contains the following fields: FieldTypeDescriptionedgeuint32_tWhat pin value changes we listen for (RISING, FALLING or BOTH)pin_changecallbackCalled when the pin value changes (see below)user_datavoid *Data that will be passed in the first argument to pin_change The valid values for edge are: BOTH - Listen for any value change FALLING - Listen for HIGH to LOW changes RISING - Listen for LOW to HIGH changes You can only have one watch for a pin at any given time. The function returns true if the watch was successfully set, or false in case there is already a watch defined for this pin (and thus the new watch was not set). The pin_change callback signature is as follows: void chip_pin_change(void *user_data, pin_t pin, uint32_t value) { // value will either be HIGH or LOW} Usage example: const pin_watch_config_t watch_config = { .edge = FALLING, .pin_change = chip_pin_change, .user_data = chip,};pin_watch(pin, &watch_config); void pin_watch_stop(pin_t pin)​ Stops watching for changes on the given pin.
+
+```
+{chip-name}.chip.json
+```
+
+**Pattern 7:** Usage example:
+
+```
+const pin_watch_config_t watch_config = {  .edge = FALLING,  .pin_change = chip_pin_change,  .user_data = chip,};pin_watch(pin, &watch_config);
+```
+
+**Pattern 8:** Custom Chip Definition (JSON) The pinout and properties of custom chips are defined in a Chip Definition JSON file. The file name should be <chip-name>.chip.json. For example, if your chip is called i2c-light-sensor, the file name should be i2c-light-sensor.chip.json. The JSON file should contain a single object with the following properties: PropertyTypeDescriptionnamestringThe name of the chip. This name will be displayed in the diagram editorauthorstringThe name of the chip authorpinsarray of stringsThe list of pins for the chipcontrolsarray of objectsThe list of controls for the chip (optional)displayobjectConfiguration of an attached display (optional) Pins​ The pins array should contain the names of the pins for your chip, starting from pin number 1. If you wish to skip some pins (e.g. you want the breakout board to only have pins on its left side), use an empty string ("") for the pin name. For example: "pins": ["VCC", "GND", "RST", "", "SCL", "SDA"], The example above defines a chip with 5 pins, ordered as follows: ___ VCC -|⚬ |- SDA GND -| |- SCL RST -|___|- Controls​ Controls provide a way for users to interact with your chip while the simulation is running. For example, a temperature sensor chip can have a control that lets the user set the current temperature. The controls property should contain an array of control objects. Each control object should have the following properties: PropertyTypeDescriptionExampleidstringThe identifier for the control, please use camelCase (e.g. relativeHumidity)"relativeHumidity"labelstringThe name of the control that will be displayed to the user"Relative Humidity"typestringThe type of the control. Currently, the only valid value is "range", which displays a slider"range"minnumberThe minimum value for the control0maxnumberThe maximum value for the control100stepnumberThe step size for the slider1 For example: "controls": [ { "id": "relativeHumidity", "label": "Relative Humidity", "type": "range", "min": 0, "max": 100, "step": 1 } ], To read the value of the control from your chip code, use the Attributes API. Display​ The display property allows you to attach a display to your chip. Use the display to implement a custom LCD, OLED, or e-paper display, or to show the state of your chip (e.g. draw a graph of the temperature over time, or visually indicate the state of a blinds controller). The display property should contain an object with the following properties: PropertyTypeDescriptionExamplewidthnumberThe width of the display, in pixels128heightnumberThe height of the display, in pixels64 For example: "display": { "width": 128, "height": 64 }, To draw on the display from your chip code, use the Framebuffer API.
+
+```
+<chip-name>.chip.json
+```
+
+### Example Code Patterns
+
+**Example 1** (cpp):
+```cpp
+pinMode(LED_BUILTIN, OUTPUT);digitalWrite(LED_BUILTIN, HIGH);
+```
+
+**Example 2** (bash):
+```bash
+wokwi-cli init
+```
+
+**Example 3** (bash):
+```bash
+wokwi-cli <your-project-directory>
+```
+
+**Example 4** (cpp):
+```cpp
+void setup() {  Serial.begin(115200);  pinMode(A0, INPUT);}void loop() {  int value = analogRead(A0);  Serial.println(value);  delay(100);}
+```
+
+**Example 5** (yaml):
+```yaml
+- set-control:      part-id: pot1      control: position      value: 0.5
+```
+
+## Reference Files
+
+This skill includes comprehensive documentation in `references/`:
+
+- **boards.md** - Boards documentation
+- **diagram_format.md** - Diagram Format documentation
+- **getting_started.md** - Getting Started documentation
+- **guides.md** - Guides documentation
+- **other.md** - Other documentation
+- **parts.md** - Parts documentation
+
+Use `view` to read specific reference files when detailed information is needed.
+
+## Working with This Skill
+
+### For Beginners
+Start with the getting_started or tutorials reference files for foundational concepts.
+
+### For Specific Features
+Use the appropriate category reference file (api, guides, etc.) for detailed information.
+
+### For Code Examples
+The quick reference section above contains common patterns extracted from the official docs.
+
+## Resources
+
+### references/
+Organized documentation extracted from official sources. These files contain:
+- Detailed explanations
+- Code examples with language annotations
+- Links to original documentation
+- Table of contents for quick navigation
+
+### scripts/
+Add helper scripts here for common automation tasks.
+
+### assets/
+Add templates, boilerplate, or example projects here.
+
+## Notes
+
+- This skill was automatically generated from official documentation
+- Reference files preserve the structure and examples from source docs
+- Code examples include language detection for better syntax highlighting
+- Quick reference patterns are extracted from common usage examples in the docs
+
+## Updating
+
+To refresh this skill with updated documentation:
+1. Re-run the scraper with the same configuration
+2. The skill will be rebuilt with the latest information
