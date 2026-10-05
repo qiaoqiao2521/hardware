@@ -57,4 +57,3 @@ python3 -m hardwire matrix
 
 - [案例 001：Linux 宿主机端到端网络诊断、低风险可逆优化与前后复测](docs/cases/case-001-network-optimization.md)
   - 核心场景：Wi-Fi 节能抖动排查、真实链路 vs 本地 TUN/代理识别、上游 DNS 与 BBR 拥塞控制无缝优化。
-
