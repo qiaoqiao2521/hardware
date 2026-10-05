@@ -64,3 +64,9 @@ python3 -m hardwire matrix
 
 - [案例 001：Linux 宿主机端到端网络诊断、低风险可逆优化与前后复测](docs/cases/case-001-network-optimization.md)
   - 核心场景：Wi-Fi 节能抖动排查、真实链路 vs 本地 TUN/代理识别、上游 DNS 与 BBR 拥塞控制无缝优化。
+
+## 硬件资产与项目规划
+
+- [我的硬件资产与实验平台](docs/HARDWARE_ASSETS.md)：完整设备清单、历史规格、接口验收边界与待核实项。
+- [Frigate与HAOS监控计划](docs/FRIGATE_HAOS_PLAN.md)：候选设备、兼容性条件与分阶段验收。
+- [B68TK触摸J1900历史档案](docs/boards/j1900-b68tk.md)：2026-10-04检查结果与未验收接口。
