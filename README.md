@@ -53,6 +53,13 @@ python3 -m hardwire matrix
 
 ---
 
+## 板卡记录
+
+- [康士达 K-B68TK-J1900 触摸工控机：硬件枚举、双 I211、6 路 COM 与无线扩展](docs/boards/j1900-b68tk.md)
+  - 2026-10-04 实测，含产品目录链接、原始采集证据与尚未完成的实物测试。
+
+---
+
 ## 📚 真实体检与调优案例 (Case Studies)
 
 - [案例 001：Linux 宿主机端到端网络诊断、低风险可逆优化与前后复测](docs/cases/case-001-network-optimization.md)
