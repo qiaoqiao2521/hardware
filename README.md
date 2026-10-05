@@ -68,5 +68,6 @@ python3 -m hardwire matrix
 ## 硬件资产与项目规划
 
 - [我的硬件资产与实验平台](docs/HARDWARE_ASSETS.md)：完整设备清单、历史规格、接口验收边界与待核实项。
+- [淘机选型与升级限制附录](docs/HARDWARE_SELECTION_CONTEXT.md)：历史商品、HP主板/电源线索、CAN与旧NPU限制及官方规格差异。
 - [Frigate与HAOS监控计划](docs/FRIGATE_HAOS_PLAN.md)：候选设备、兼容性条件与分阶段验收。
 - [B68TK触摸J1900历史档案](docs/boards/j1900-b68tk.md)：2026-10-04检查结果与未验收接口。

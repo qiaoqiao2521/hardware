@@ -33,6 +33,18 @@ Frigate先用运动检测找到感兴趣区域，再送入目标检测，并持�
 
 这一版本的RKNN检测器读取 `/proc/device-tree/compatible` 的最后一个字段，再与支持SoC列表严格比较；列表包含 `rk3588`，没有 `rk3588s` 或 `rk3588s2`。如果用户所选系统返回后两者，会在型号识别阶段被拒绝。若返回 `rk3588`，仍须检验驱动、模型与持续推理，不能仅凭通过型号匹配判定全部可用。[RKNN源码](https://github.com/blakeblackshear/frigate/blob/v0.18.0/frigate/detectors/plugins/rknn.py#L80)、[支持常量](https://github.com/blakeblackshear/frigate/blob/v0.18.0/frigate/const.py#L96)
 
+## 新补会话中的候选限制
+
+新增设备与历史商品配置见[选型及升级附录](HARDWARE_SELECTION_CONTEXT.md)。它们先保留为候选，不改变单路试验、准确率比较和逐台身份确认的验收顺序。
+
+| 候选 | 可评估角色 | 必须先核实的条件 |
+|---|---|---|
+| 天波TELPO V15B | ARM检测/工控节点 | 官方为RK3588S；商品实装、可用Linux、管理权限、恢复固件、设备树匹配及NPU/VPU分别核实，不能将宣传接入路数当检测FPS |
+| Firefly RK3399Pro板线索 | 旧NPU/CAN研究 | 商品板型待确认；官方Toolkit2将RK3399Pro指向旧Toolkit，两者不兼容，不能直接套用当前Frigate Rockchip镜像与模型。系统截图已占满存储，但没有推理或故障定位证据。[Rockchip官方说明](https://github.com/airockchip/rknn-toolkit2) |
+| Wyse5070 J5005、HP t630/t740 | x86解码/服务候选 | 商品实装、供电、存储协议、UEFI和目标负载待核实；核显EU数量与CPU跑分不能代替摄像头硬件解码或检测能力 |
+| J4125触摸机、国美云、阿里CM01 | 显示/触摸交互候选 | 屏幕、触摸、摄像头、音频和可维护系统分别确认；CM01的SoC仍是旧助手社区推断 |
+| 旧惠普商用板与航嘉电源 | 旧平台实验讨论项 | 先确认主板型号；若为4000 Pro SFF，官方最大8GB，换CPU不解决32GB目标。电源健康未验收，不能凭能开机分配长期供电职责 |
+
 ## 分阶段执行与验收
 
 | 阶段 | 工作 | 验收依据 | 当前状态 |

@@ -1,0 +1,114 @@
+# 淘机选型、升级限制与来源附录
+
+更新日期：2026-10-06（Asia/Shanghai）。关联入口：[硬件资产总表](HARDWARE_ASSETS.md)、[Frigate与HAOS计划](FRIGATE_HAOS_PLAN.md)。
+
+本附录续接两段历史对话：[淘机评测分享](chatgpt-conversation://6ac2b21c-33a4-83e8-9118-0f31d4995a0a)与[升级处理器建议](chatgpt-conversation://6ac3a454-ac90-83e8-a208-421ecc0ab4a5)。前者可读取五个回合、七张附件，后者两个回合、四张附件。历史报价没有刷新；商品、助手描述与官方平台规格不构成已购证明或功能验收。
+
+用户原话明确支持“惠普商用主板已拆下”和“手边旧电源约14年、实际运行时间不长”。其他讨论设备的在手状态均待核实。以下保留设备线索，避免将“曾比较过”变成“已经拥有”。
+
+## 历史商品与配置线索
+
+| 设备 | 历史讨论价／配置 | 证据与保留项 |
+|---|---|---|
+| J4125触摸一体机 | 380元；旧助手汇总8GB板载+64GB eMMC、10.1英寸1920×1200、电池37Wh | 旧助手另述摄像头、麦克风、扬声器、TF、HDMI、I225-V 2.5GbE、外置USB3×2与内置USB×2、双频Wi-Fi/蓝牙。对应原图不在本次返回附件中；PoE及全部实装规格待核实 |
+| i5-3230M板U组合 | 168元；旧助手汇总8GB+128GB mSATA、可拆内存、散热器/风扇 | 旧助手说已购，当前可读取用户原话不足以确认。USB、RJ45、VGA、音频、主板型号和功能待核实 |
+| 国美云RK3566 | 199.9～215元；旧助手汇总4GB+128GB、8英寸触摸屏、摄像头/扬声器 | 百兆网口与双频Wi-Fi为旧描述；对应原图未返回，不能据此确认实装或可用Linux外设 |
+| 黑豹X2 RK3566 | 约130元；旧助手汇总4GB+32GB、千兆网口、USB2、TF、Wi-Fi/蓝牙、无HDMI | 原图、准确型号、系统与恢复方式未核实；按无头终端候选记录 |
+| 阿里CM01 | 153元；旧助手据社区帖推测RK3399 | 触摸屏、摄像头、网口、Micro-USB为旧描述。RAM、存储、屏幕与无线版本未明确；SoC与Linux外设支持待确认 |
+| RK3568B2路由板 | 188元；旧助手汇总4GB+256GB、四千兆网口、2.4/5GHz Wi-Fi | 不与原会话4GB+16GB、双SATA板直接合并；256GB介质与商品身份待核实 |
+| Firefly RK3399Pro板线索 | 商品图171元，丝印AIO-07C、AIO-3399PRO、V1.2、202005 | 旧助手对应AIO-3399ProC产品线，准确板型待确认；另称NPU 3 TOPS、6GB由CPU侧4GB与NPU侧2GB组成。容量分配与TOPS尚未完成本轮官方规格页核对，不写成实测 |
+| Dell Wyse 5070 | 图中J5005；230元裸机，厚版加40元，电源加30元 | 厚版加电源算术合计300元，仍不含RAM/盘；无线另收费。卖家称最大32GB，官方支持范围有版本差异，见下文 |
+| HP t630 | 商品图75元，卖家称GX-420GI | 明示无电源、内存与盘；实装扩展和接口功能未知，不以75元表示完整可用整机成本 |
+| HP t740 | 商品图620元，机身标签t740，裸机 | CPU、RAM和盘未在商品图确认。官方平台是V1756B，不能当成该商品已核实配置 |
+| 天波TELPO V15B | 商品图580元，型号V15B | 图片没有可读CPU/RAM/接口配置；采用官方RK3588S常规配置作平台参考，商品版本待核实 |
+| 150元手表线索 | 旧助手提到“欧坦”、32GB存储 | 未取得对应原图或准确型号；不能写成32GB内存，也不按Android/CPU型号作性能结论 |
+
+所有价格仅保存原讨论背景，不作为当前采购建议。缺少完整机器成本、可维护固件、功耗和实际目标负载表现，暂不作购买排序。
+
+另有两条旧助手线索需要保留：淘机会话称用户已有普通RK3399，但没有独立板号，不与CM01或RK3399Pro自动归并；升级会话提到“你那个8通道逻辑分析仪”，当前用户原话与附件未确认型号及在手状态。逻辑分析仪不能按八通道数量充当示波器或电源纹波测量依据。万用表、假负载与示波器在旧回复中属于测量建议，不列为已确认拥有的工具。
+
+## x86平台：核显、内存与扩展
+
+用户提到“5505对比4125核显能力升级”。返回的5070商品图明确写的是 **J5005**，本档案据此记录J5005与J4125对照，保留原口头型号存在误写的可能。
+
+| 平台 | 官方规格与限制 | 本次商品／实机的未知项 |
+|---|---|---|
+| J5005与J4125 | J5005为UHD 605、18 EU；J4125为UHD 600、12 EU。[Intel J5005](https://www.intel.co.jp/content/www/jp/ja/products/sku/128984/intel-pentium-silver-j5005-processor-4m-cache-up-to-2-80-ghz/specifications.html)、[Intel J4125](https://www.intel.com/content/www/us/en/products/sku/197305/intel-celeron-processor-j4125-4m-cache-up-to-2-70-ghz/specifications.html) | EU数量不能换算成游戏、解码或AI推理性能倍数；未与用户J1900或N100作同负载比较 |
+| Wyse 5070内存 | 旧Extended指南写2×DDR4 SODIMM、最大8GB；后续datasheet列16GB（2×8GB DDR4-2400），限定Windows 10 IoTE配置。[旧指南](https://www.dell.com/support/manuals/en-nz/wyse-5070-thin-client/5070_extd_ug/memory-specifications?guid=guid-21fdde5d-f0cd-41b1-8233-82a644849e86&lang=en-us)、[后续datasheet](https://www.delltechnologies.com/asset/en-ca/products/thin-clients/technical-support/Wyse_5070_executive_summary_and_data_sheet.pdf) | 不能统一写“官方最多8GB”；本轮也没有官方32GB保证。具体主板、BIOS、条子兼容及长期稳定性未测 |
+| Wyse 5070存储 | 板载M.2 2260/2280 SSD槽为SATA 6Gb/s，不能按外形记成NVMe。[官方存储说明](https://www.dell.com/support/manuals/en-nz/wyse-5070-thin-client/5070_extd_ug/storage?guid=guid-a99ec7b1-03bc-4165-920d-87be8e8a9840&lang=en-us) | 盘是否包含、容量与健康状态未知；PCIe扩展卡上的存储能力不能反推板载槽协议 |
+| Wyse 5070显示与扩展 | USB-C显示与DP2互斥、USB-C优先；选配VGA与DP3互斥。Extended厚版有PCIe卡扩展，薄版不能套用；第二RJ45/SFP等为选配。[ThinOS硬件能力](https://www.dell.com/support/manuals/en-uk/wyse-5070-thin-client/thinos_8.5.1_ag/hardware-capability?guid=guid-d04b9949-3105-4c10-b14b-1f248a4130f1&lang=en-us)、[datasheet](https://www.delltechnologies.com/asset/en-ca/products/thin-clients/technical-support/Wyse_5070_executive_summary_and_data_sheet.pdf) | 卖家图称1路COM、3个DP与USB-C显示，未做功能检查；不能按插口数量相加为四屏，PCIe通道/代际未核实 |
+| HP t630 | GX-420GI；2×DDR4 SODIMM，官方容量到32GB、最高1866MT/s。存储主M.2槽到2280、副槽2242，官方配置为SATA；另有M.2 PCIe×1附件槽。[QuickSpecs](https://h20195.www2.hp.com/v2/getpdf.aspx/c04984422.pdf)、[维护指南，印刷页13–14、28](https://h10032.www1.hp.com/ctg/Manual/c05193361.pdf) | 不写成NVMe存储或“完全无PCIe”；附件槽不等于t740的桌面卡扩展槽，商品实装未知 |
+| HP t740 | V1756B；2×DDR4 SODIMM，官方容量到32GB、最高3200MT/s；一M.2槽支持NVMe/eMMC，另一M.2槽支持SATA，另有低矮PCIe卡槽。[QuickSpecs](https://h20195.www2.hp.com/v2/GetDocument.aspx?docname=c06393061)、[家族datasheet](https://h20195.www2.hp.com/V2/GetPDF.aspx/4AA4-5632ENW.pdf.pdf) | RAM、盘、扩展卡与电源是否随商品提供未知；32GB平台上限不表示当前已经配有32GB |
+
+上述部分官方PDF通过官方搜索索引片段核对，直接下载存在403或抓取限制；资料支持范围与商品实装仍分开记录，不把抓取失败当成设备验收。
+
+## ARM平台与CAN线索
+
+### Firefly板卡线索：CAN能力需要分层确认
+
+商品图中可读RS232、RS485/CAN、HDMI、USB3、USB2、Type-C OTG、microSD、MIPI-CSI0等标注，另见RJ45和SATA形状连接器；这些是外观线索，未测试功能。
+
+[Firefly AIO-3399ProC官方CAN文档](https://wiki.t-firefly.com/en/AIO-3399ProC/driver_can.html)说明该产品默认优先RS485，CAN需要相应硬件电阻配置调整，控制器为MCP2515。用户商品与该资料的板型、修订对应关系仍需确认，不能按“看见CAN字样就能直接替代USB-CAN适配器”判断商品价值。本附录不保存未经板修订核对的改焊步骤。
+
+MCP2515支持经典CAN 2.0B、最高1Mb/s、0～8字节数据，不是CAN FD。[Microchip官方数据表，第1页](https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP2515-Family-Data-Sheet-DS20001801K.pdf) 后续若确认在手并选择CAN用途，先核对板修订、实际配置、收发器与驱动，再用外部真实节点确认双向通信、波特率、错误计数与稳定性；出现`can0`或内部回环结果不能代替总线验收。
+
+### Firefly旧NPU与系统截图
+
+附件截图可读Ubuntu 18.04.5、内核4.4.194、aarch64；`free -h`显示约3.7G系统内存、无swap。磁盘截图中`userdata`约9.3G且使用率100%，覆盖层同为100%，另有临时文件创建错误。存储占满是相关线索，尚不能据此判定eMMC损坏、NPU故障或准确物理存储容量；截图也没有NPU推理输出。
+
+Firefly文档前言是V2.0.6、2022-03-10的文档记录，其中4.4/4.19支持表属于历史资料，不能称为当前主线Linux维护承诺。[官方前言](https://wiki.t-firefly.com/en/AIO-3399ProC/preface.html)
+
+Rockchip官方RKNN Toolkit2明确将RK3399Pro/RK1808用户指向旧RKNN Toolkit，并说明新旧工具包不兼容。[官方Toolkit2仓库](https://github.com/airockchip/rknn-toolkit2)、[旧Toolkit仓库](https://github.com/airockchip/rknn-toolkit) 因此RK3399Pro列为旧工具链研究对象，不能套用RK3566/RK3568/RK3588的Toolkit2模型或Frigate RKNN安装路线。本轮未确认当前新内核可以替代其旧NPU驱动。
+
+### 天波TELPO V15B与阿里CM01
+
+V15B官方FAQ写的是RK3588S，常规配置8GB LPDDR4+64GB eMMC；双千兆RJ45、RS232×2、RS485×1、4 IO，国际页细分为GPIO两输入两输出。另有USB3/USB2、Type-C、HDMI、音频与TF等平台接口；M.2 SSD选配容量列到1TB，但协议没有明确为NVMe。[中文官方页](https://sec.telpo.cn/edge-computing-series/V15B)、[国际官方页](https://www.telpo.com.cn/es/viot/edge-al-box-telpo-v15b)
+
+用户商品的配置版本、管理员权限、可获得固件、恢复方式、NPU/VPU驱动与模型表现均待核实。宣传的视频接入路数不能替代多路YOLO检测帧率与准确率。
+
+CM01的RK3399身份与改机能力来自旧助手引用的[社区第一页](https://www.znds.com/tv-1262113-1-1.html)、[第二页](https://www.znds.com/tv-1262113-2-1.html)、[第三页](https://www.znds.com/tv-1262113-3-1.html)。这些页面本轮抓取失败，未重新核实原帖内容。保留为来源线索，不认定为阿里官方硬件规格；不同无线/固件版本的外设支持也不互相套用。
+
+## 惠普商用主板：32GB目标与CPU升级分别记录
+
+用户已拆板的经历可确认，照片可读HP标识、两个DIMM槽和可拆CPU，但主板备件号、CPU型号均无法可靠辨认。**HP Compaq 4000 Pro SFF是旧助手的机型判断，尚需板号或整机铭牌确认。** 不能将外观匹配写成最终型号鉴定。
+
+如果确认为4000 Pro SFF，HP官方Parts & Service Map（640048-001，2011年1月）规定B43芯片组、非ECC DDR3 PC3-10600、最大8GB；两个槽为XMM1/XMM3。其内存上限属于具体平台支持范围，换CPU不能把该平台改成32GB支持。[HP官方服务图，第1、3页](https://h10032.www1.hp.com/ctg/Manual/c02680642.pdf)
+
+同一文档第2页列Q9550S（2.83GHz、12MB）、Q9505S（2.83GHz、6MB）及E8600（3.33GHz、6MB）等CPU。Q9550S与普通Q9550不能混作HP同一验证项。主板备件号608748-001及China Netclone 640126-001可以作为后续身份核对线索，不能反向判定用户照片已读到这些号码。[HP官方服务图，第2页](https://h10032.www1.hp.com/ctg/Manual/c02680642.pdf)
+
+旧助手提到“换一个内存槽才亮”，当前可读取用户原话与照片未确认这一故障。因此作为待核实故障线索保留，不登记已定位的坏槽，也不假设两槽已通过满配测试。当前CPU型号、原配置容量与CPU升级收益均未知，不复制旧PassMark数字为本机性能。
+
+## 航嘉睿智320：身份与健康状态分别记录
+
+电源照片能读到Huntkey／航嘉、睿智320与额定220W；系列名“320”不能按320W功率使用。照片不足以可靠抄录全部电流表、制造日期与具体修订。未找到可核验的同型号官方规格页，因此不从现代航嘉型号补填ATX版本、保护项目或风扇规格。
+
+“约14年、运行不多、长期在机箱吃灰、尽量不接贵设备”来自用户陈述。它有助于记录使用背景，不能量化继续服役的风险。**健康状态为待核实；旧助手“中等偏低风险、可继续当测试电源”的评价缺少负载电压、纹波、绝缘和保护状态证据，不作为验收结论。**
+
+Nichicon官方铝电解电容技术资料的Storage Performance与Life章节说明，储存也会影响漏电等特性，温度与纹波等影响寿命；这仅是一般老化机制，不证明该电源使用Nichicon电容，也不能据此估算其剩余年限。[官方技术资料，第2-6、2-9节](https://www.nichicon.co.jp/english/products/pdf/aluminum.pdf)
+
+本次未拆解、通电或带载测量。后续若取得外观检查、冷启动、实际负载下电压／纹波、温升和风扇运行记录，应写明测量条件、仪器与日期。能开机或单次万用表读数不等于完整健康验收；在此之前保留实验供电讨论项，不登记为已验收长期供电设备。
+
+## 附件来源索引
+
+下列文件名对应已读取的对话附件；公开仓库只保存可读事实与来源，不复制商品图片、卖家信息、设备照片或私人画面。附件自身也不能证明设备属于用户。
+
+| 对话／附件原名 | 本轮可读内容 |
+|---|---|
+| 淘机评测分享／1000038259.jpg | 天波V15B、580元商品；没有可读CPU/RAM实装 |
+| 淘机评测分享／1000038258.jpg | Wyse5070、J5005；卖家扩展与32GB声明、230元及配件加价 |
+| 淘机评测分享／1000038256.jpg | HP t630、75元、GX-420GI卖家文字、无内存盘电源 |
+| 淘机评测分享／1000038257.jpg | HP t740标签、620元、裸机描述 |
+| 淘机评测分享／1000038252.jpg | 丝印AIO-07C、AIO-3399PRO、V1.2、202005与接口标注；171元。AIO-3399ProC是旧助手对应的产品线，不是照片完整丝印；页面搜索框其他机型不能当成板卡型号 |
+| 淘机评测分享／1000038253.jpg | Ubuntu18.04.5、4.4.194 aarch64、临时文件创建错误；屏幕时钟不是附件拍摄日期 |
+| 淘机评测分享／1000038254.jpg | 系统可用内存约3.7G、userdata与覆盖层100%；不证明NPU或eMMC故障 |
+| 升级处理器建议／image-1791206412719.jpg | HP主板、两个DIMM槽、可拆CPU；CPU与备件号不可可靠辨认 |
+| 升级处理器建议／image-1791208030740.jpg | 电源外壳、风扇；无足够清晰的电气规格 |
+| 升级处理器建议／image-1791208018982.jpg | Huntkey品牌、固定线材 |
+| 升级处理器建议／image-1791208006273.jpg | 航嘉睿智320、额定220W；完整电流表与日期未可靠读取 |
+
+## 后续补证顺序
+
+1. 设备在手与独立身份：按铭牌、板号、外观或已有系统输出逐条确认；先解决两种RK3568B2描述与惠普主板型号。
+2. 当前用途和完整配置：记录CPU、实际RAM、存储协议/容量、供电及可恢复系统，区别裸机价与整机成本。
+3. 目标功能：CAN做真实外部节点通信，解码与NPU分别验证，32GB配置验证条子兼容与稳定性；已有截图只作历史线索。
+4. 比较与规划：采用[资产总表的N100/J1900比较口径](HARDWARE_ASSETS.md)，按目标负载补证后再分配监控、交互、网关或实验角色。

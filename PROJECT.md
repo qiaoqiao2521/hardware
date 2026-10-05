@@ -24,5 +24,6 @@
 ## 硬件资产与当前规划
 
 - 长期资产入口：[我的硬件资产与实验平台](docs/HARDWARE_ASSETS.md)，逐台记录规格、接口、历史实测、故障、用途、性能比较与下一步；先列全，未知数量与身份保留待核实。
+- 选型背景：[淘机与升级限制附录](docs/HARDWARE_SELECTION_CONTEXT.md)，保存新增历史商品和附件来源；在手状态、官方平台规格与实机验收分别记录。
 - 当前监控规划：[Frigate与HAOS计划](docs/FRIGATE_HAOS_PLAN.md)。ROCK 5C为优先检测试验候选，空闲合格J1900或Pi 5为HAOS候选；兼容性、部署与准确率尚未现场验收。
 - 本轮进度：[资产整理任务](plans/hardware-asset-records/progress.md)。本轮完成文档整理，不以历史快照证明当前设备状态。
