@@ -28,7 +28,7 @@ HARDWARE_DATABASE = [
         "soc": "Rockchip RK3582",
         "arch": "ARM64 (v8.2-A)",
         "cores": "2 × A76 (最高2.4GHz) + 4 × A55 (最高1.8GHz)；无GPU",
-        "ram": "用户确认8GB LPDDR4X；实机待复核",
+        "ram": "用户确认8GB LPDDR4X；Linux实测7.7 GiB",
         "npu": "5 TOPS @ INT8；推理待验收",
         "pcie": "FPC PCIe 2.1 x1；扩展需转接板",
         "storage": "MicroSD / eMMC；FPC扩展需转接板",
@@ -36,11 +36,11 @@ HARDWARE_DATABASE = [
         "load_power": "待实测",
         "best_for": {
             "service": "待验证 (系统与持续运行)",
-            "compile": "待实测 (标称6核)",
+            "compile": "待实测 (标称6核；当前8核在线)",
             "inference": "待验证 (驱动、模型、解码与准确率)",
             "power_save": "待实测 (功耗与温升)"
         },
-        "verdict": "用户确认在手Lite；列为Frigate试验候选，型号标识与功能分别验收。"
+        "verdict": "OTP确认RK3582；系统当前8核在线，启动策略差异待核实；Frigate功能待验收。"
     },
     {
         "id": "j1900",
@@ -92,7 +92,7 @@ class BoardMatrix:
         md = []
         md.append("# 嵌入式板卡与小主机横向对比矩阵 (Board Matrix)\n")
         md.append("重点解决：**在手头这几块板子中，到底哪个做服务、哪个做编译、哪个做推理、哪个最省电？**\n")
-        md.append("ROCK条目于2026-10-06按用户确认修正为Lite。规格依据[Radxa官方Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)；旧基准不作为Lite性能证明。其他条目沿用历史参考，当前资产状态见资产总表。\n")
+        md.append("ROCK条目于2026-10-06按用户确认修正为Lite。OTP确认RK3582，当前系统8核在线，与官方6核分开记录。规格依据[Radxa官方Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)；旧基准不作为Lite性能证明。其他条目沿用历史参考，当前资产状态见资产总表。\n")
         
         # 表格一：核心硬件规格
         md.append("### 1. 硬件参数与芯片底色")

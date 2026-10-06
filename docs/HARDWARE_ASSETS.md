@@ -2,7 +2,7 @@
 
 更新日期：2026-10-06（Asia/Shanghai）。
 
-本档案集中列举已讨论的硬件、仓库已有实体设备快照和实验工程，作为后续补充规格、接口、用途、故障与项目安排的入口。当前优先完成清单；未确认的在手状态、数量和规格保留为“待核实”。本轮依据已有记录整理，没有连接设备重新体检。
+本档案集中列举已讨论的硬件、仓库已有实体设备快照和实验工程，作为后续补充规格、接口、用途、故障与项目安排的入口。当前优先完成清单；未确认的在手状态、数量和规格保留为“待核实”。此前按已有记录整理；本次按用户要求对ROCK执行只读连接、CPU、OTP和设备树检查，功能与持续负载验收另行记录。
 
 ## 记录依据
 
@@ -31,7 +31,7 @@
 | HW-J1900-MONITOR | 在手，用于监控；板号、内存、盘与系统待补 |
 | HW-J1900-ROUTER | 在手，用于软路由；板号、内存、盘与系统待补 |
 | HW-J1900-B68TK 触摸工控机 | 在手，独立于上述两台；当前用途待补，历史体检仍保留 |
-| HW-ROCK5C ROCK 5C Lite | 用户确认购买版本为RK3582、8GB，并告知已上线；本机SSH入口暂未连通，见[板卡档案](boards/rock-5c-lite.md) |
+| HW-ROCK5C ROCK 5C Lite | 用户确认购买版本为RK3582、8GB；本次OTP确认RK3582，局域网和Tailscale SSH均已连通，见[板卡档案](boards/rock-5c-lite.md) |
 
 | 后续购买目标 | 用户给出的选择理由／设想 |
 |---|---|
@@ -52,7 +52,7 @@
 | HW-J1900-ROUTER 软路由 | 用户确认在手，用于软路由；与监控及触摸机为不同设备 | 板号、内存、盘、网口与系统待补；不沿用B68TK配置 | 保留软路由职责；不默认腾空或重装为HAOS |
 | HW-J1900-B68TK 触摸工控机 | 用户确认在手且为另外一台；历史报告：康士达 K-B68TK-J1900；J1900 4核4线程；1条8GB；Kston 128GB SATA；Ubuntu 24.04.5；Legacy BIOS | 双 Intel I211；6路真实 UART；eGalax触摸、ALC282音频已枚举；当时未装无线卡。详见[设备档案](boards/j1900-b68tk.md) | 当前用途待补；触摸/接口实验候选。若评估HAOS，须先确认可用性与UEFI；历史Legacy启动不满足官方直接安装前提 |
 | J1900 D3 线索 | 现有本地图片文件名包含 `j1900-d3`；文件名不足以确认主板型号或独立设备 | 图片为监控画面，没有建立与 B68TK 的机器对应关系 | 保留线索，归并关系待核实；不增加确定设备数量 |
-| HW-ROCK5C ROCK 5C Lite | 用户确认RK3582、8GB LPDDR4X；官方Lite为2×A76+4×A55、无GPU、5 TOPS NPU | 用户告知已上线；本机对现有SSH别名连接超时，当前入口待补。历史快照的 `RK3588/S` 来自错误识别规则；独立的8线程记录与标称6核有冲突，保留待复核。[板卡档案](boards/rock-5c-lite.md) | Frigate检测试验候选；先复核芯片标识与系统，再验证BSP、NPU/VPU和设备树兼容性 |
+| HW-ROCK5C ROCK 5C Lite | 用户确认RK3582、8GB LPDDR4X；官方Lite为2×A76+4×A55、无GPU、5 TOPS NPU | 本次OTP `35 82` 确认RK3582；系统报告4×A76+4×A55、8核在线，Linux内存7.7 GiB；有线共享及Tailscale SSH均已连通。历史 `RK3588/S` 来自错误识别规则；当前8核与官方6核差异原因待核实。[板卡档案](boards/rock-5c-lite.md) | Frigate检测试验候选；继续核对8核启动策略，再验证BSP、NPU/VPU和设备树兼容性 |
 | HW-RK3566-GOME 国美云盒子 | 用户确认在手；旧助手汇总RK3566、4GB+128GB、8英寸触摸屏、摄像头与扬声器，具体型号与实装待核实 | 旧描述为百兆网口与双频Wi-Fi，未取得对应原图或实测；见[选型附录](HARDWARE_SELECTION_CONTEXT.md) | 当前用途待补；触摸终端/轻服务候选，不能按SoC能力认定NPU可用 |
 | HW-RK3568B2 平台或板卡 | 原讨论助手提到RK3568B2、4GB+16GB、2×SATA+千兆网口；均待板级核实 | PCIe、SATA、双网口、CAN、UART等是否引出均待核实 | 工控/网关/存储实验候选；SoC接口上限不能直接当实机接口清单 |
 | HW-RK3568B2-ROUTER 路由板 | 用户确认在手；旧助手另列RK3568B2、4GB+256GB、四千兆网口、双频Wi-Fi | 与上行4GB+16GB、双SATA描述不同；暂时分列，是否同一设备待核实；实际容量、介质与接口待补 | 当前用途待补；路由/网关候选，不与J1900软路由自动归并 |
@@ -75,7 +75,7 @@
 | HW-HIKVISION-NVR 海康NVR与摄像头 | 上一位助手总结称“三路RTSP实测”；NVR/摄像头型号、物理数量与通道关系待核实 | 尚未取回三路检查的原始输出；不能登记为本轮已通过。RTSP地址、账号与密码不写入仓库 | 视频源候选；逐通道记录主副码流、编码、分辨率、FPS与稳定性 |
 | REF-N100 比较基准 | 旧总结要求所有设备与N100比较；没有足够信息确认用户拥有N100设备 | 仅作为比较参照，采购状态与实机基线均待核实 | 采用同一负载和测试条件形成比较，暂不填写性能倍数 |
 
-ROCK购买版本按用户纠正登记为ROCK 5C Lite / RK3582 / 8GB。官方规格见[Radxa介绍](https://docs.radxa.com/en/rock5/rock5c/getting-started/introduction)和[Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)。历史内存和系统信息仍只代表快照当时；本次未取得远端CPU或OTP输出。
+ROCK购买版本按用户纠正登记为ROCK 5C Lite / RK3582 / 8GB。官方规格见[Radxa介绍](https://docs.radxa.com/en/rock5/rock5c/getting-started/introduction)和[Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)。历史记录保持原样。本次OTP确认RK3582，但系统8核在线与官方6核规格不同，分别保留为芯片身份、官方能力和实机软件状态，不外推稳定性或功能。
 
 ## 仓库已有其他实体设备
 
@@ -111,7 +111,7 @@ ROCK 5C来源：[原快照](../snapshots/rock-5c.json)；Pi 5来源：[原快照
 
 ## 监控与家庭自动化规划
 
-当前拟议结构为“海康NVR/摄像头提供视频 → Frigate检测与事件录像 → Home Assistant联动与通知”。J1900监控机与软路由保留用户确认的现有职责；ROCK 5C Lite沿用此前试验候选，用户告知已上线，SSH入口与驱动可用性仍待复核。HAOS从在手x86设备中核对现有用途、空闲状态与安装条件后再安排，暂无指定空闲宿主机；已售Pi 5不参与。V15B与Wyse5070仅在购入并核实后进入候选验证。详细步骤见[监控项目计划](FRIGATE_HAOS_PLAN.md)。
+当前拟议结构为“海康NVR/摄像头提供视频 → Frigate检测与事件录像 → Home Assistant联动与通知”。J1900监控机与软路由保留用户确认的现有职责；ROCK 5C Lite沿用此前试验候选，本次有线共享与Tailscale SSH均已连通，芯片身份已确认；驱动与功能可用性仍待验收。HAOS从在手x86设备中核对现有用途、空闲状态与安装条件后再安排，暂无指定空闲宿主机；已售Pi 5不参与。V15B与Wyse5070仅在购入并核实后进入候选验证。详细步骤见[监控项目计划](FRIGATE_HAOS_PLAN.md)。
 
 现有YOLO的识别问题要保留为独立目标。Frigate的区域检测与目标跟踪流程值得比较，但更换软件不能保证准确率提高。
 
