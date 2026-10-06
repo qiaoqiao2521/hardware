@@ -24,23 +24,23 @@ HARDWARE_DATABASE = [
     },
     {
         "id": "rock5c",
-        "name": "Radxa ROCK 5C",
-        "soc": "Rockchip RK3588S",
+        "name": "Radxa ROCK 5C Lite (RK3582)",
+        "soc": "Rockchip RK3582",
         "arch": "ARM64 (v8.2-A)",
-        "cores": "4 × A76 (2.4GHz) + 4 × A55 (1.8GHz) 大小核",
-        "ram": "4GB / 8GB / 16GB LPDDR4X",
-        "npu": "6 TOPS 独立 NPU (支持 INT4/INT8/FP16)",
-        "pcie": "PCIe 2.1 M.2 M-Key",
-        "storage": "MicroSD / eMMC 5.1 / M.2 NVMe",
-        "idle_power": "~2.5W",
-        "load_power": "~12.0W",
+        "cores": "2 × A76 (最高2.4GHz) + 4 × A55 (最高1.8GHz)；无GPU",
+        "ram": "用户确认8GB LPDDR4X；实机待复核",
+        "npu": "5 TOPS @ INT8；推理待验收",
+        "pcie": "FPC PCIe 2.1 x1；扩展需转接板",
+        "storage": "MicroSD / eMMC；FPC扩展需转接板",
+        "idle_power": "待实测",
+        "load_power": "待实测",
         "best_for": {
-            "service": "⭐⭐⭐⭐☆ (稳定性已随 6.x 主线内核日趋成熟)",
-            "compile": "⭐⭐⭐⭐☆ (8 核心全开，多线程编译速度明显领先 Pi 5)",
-            "inference": "⭐⭐⭐⭐⭐ (板载 6 TOPS NPU，RKNN 跑 YOLOv8/bilingual 极佳)",
-            "power_save": "⭐⭐⭐⭐☆ (小核 A55 待机仅两瓦出头，能效比极高)"
+            "service": "待验证 (系统与持续运行)",
+            "compile": "待实测 (标称6核)",
+            "inference": "待验证 (驱动、模型、解码与准确率)",
+            "power_save": "待实测 (功耗与温升)"
         },
-        "verdict": "嵌入式算力怪兽：最适合边缘模型推理（RKNN）、视频编解码和多任务编译。"
+        "verdict": "用户确认在手Lite；列为Frigate试验候选，型号标识与功能分别验收。"
     },
     {
         "id": "j1900",
@@ -92,10 +92,11 @@ class BoardMatrix:
         md = []
         md.append("# 嵌入式板卡与小主机横向对比矩阵 (Board Matrix)\n")
         md.append("重点解决：**在手头这几块板子中，到底哪个做服务、哪个做编译、哪个做推理、哪个最省电？**\n")
+        md.append("ROCK条目于2026-10-06按用户确认修正为Lite。规格依据[Radxa官方Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)；旧基准不作为Lite性能证明。其他条目沿用历史参考，当前资产状态见资产总表。\n")
         
         # 表格一：核心硬件规格
         md.append("### 1. 硬件参数与芯片底色")
-        md.append("| 板卡名称 | SoC 架构 | 核心规格 | 内存上限 | NPU 算力 | 存储接口 | 待机/满载功耗 |")
+        md.append("| 板卡名称 | SoC 架构 | 核心规格 | 内存配置 | NPU 算力 | 存储接口 | 待机/满载功耗 |")
         md.append("|---|---|---|---|---|---|---|")
         for b in HARDWARE_DATABASE:
             md.append(f"| **{b['name']}** | {b['arch']} | {b['cores']} | {b['ram']} | {b['npu']} | {b['storage']} | {b['idle_power']} / {b['load_power']} |")
@@ -112,15 +113,15 @@ class BoardMatrix:
         md.append("   - **次选：东芝/老款笔记本**。如果部署必须保证断电不崩，老笔记本自带的锂电池天然就是免维护 UPS。\n")
 
         md.append("2. **哪个适合作为编译机？**")
-        md.append("   - **ARM 生态首选：Radxa ROCK 5C**。4大核 + 4小核（8线程）协同工作，编译速度比 Pi 5 明显快一个量级。")
+        md.append("   - **ARM候选：Radxa ROCK 5C Lite**。标称2大核 + 4小核；实际编译速度须用相同工程比较。")
         md.append("   - **全平台性能首选：x86 主力笔记本**。主频高，NVMe 写入快，内存大，适合重型大包构建。\n")
 
         md.append("3. **哪个适合模型推理？**")
-        md.append("   - **边缘板载绝对首选：Radxa ROCK 5C**。自带的 6 TOPS NPU 是树莓派 5 完全不具备的原生硬件优势，通过 RKNN 框架跑 YOLOv8 视觉检测或轻量语言模型极快。")
+        md.append("   - **边缘推理候选：Radxa ROCK 5C Lite**。标称5 TOPS NPU；须分别验证RKNN驱动、目标模型和实际准确率。")
         md.append("   - **通用大模型推理：带 CUDA 独显的笔记本**。\n")
 
         md.append("4. **哪个最省电？**")
-        md.append("   - **待机省电之王：Radxa ROCK 5C**（A55 能效小核待机约 2W）与 **Raspberry Pi 5**（约 2.8W）。按 24 小时开机计算，一年电费仅约 10~15 元。\n")
+        md.append("   - **ROCK 5C Lite功耗待测**。用同一供电测量待机与目标负载功耗，再比较长期运行成本。\n")
 
         md.append("### 4. 个人全量设备实测天梯榜与 N100 当量矩阵")
         md.append("| 设备资产 | 核心配置与架构 | 单核性能 | 全核多进程 | 内存拷贝带宽 | N100 综合当量 | 最适合的角色与定位 |")
@@ -130,7 +131,7 @@ class BoardMatrix:
         md.append("| **树莓派 5 (Pi 5)** | BCM2712 A76 (4T @ 2.4G) | 0.427s | 0.484s | 3611 MB/s | **~1.0 个 N100** | 黄金服务基准：最稳本地 Docker 中枢、自动化网关 |")
         md.append("| **qiaobird (EPYC)** | AMD EPYC-Rome (4T) | 0.490s | 0.632s | 1206 MB/s | **~1.1 个 N100** | 稳健云端主力：多任务数据库、常驻应用、云端开发 |")
         md.append("| **东芝 R73 笔记本** | i5-7200U (4T @ 2.5G) | 0.392s | 0.905s | 1492 MB/s | **~0.85 个 N100** | 自带 UPS 免维护：不怕断电，离线工控与数据库冷备 |")
-        md.append("| **ROCK 5C (RK3588S)** | 4×A76 + 4×A55 (8T) + 6 TOPS | 0.426s | 1.004s | 7509 MB/s | **~1.2 个 N100 + 专用NPU** | 边缘推理之王：板载 6 TOPS NPU，四通道高带宽 |")
+        md.append("| **ROCK 5C历史记录（型号未实证）** | 旧记录称8线程；不能代表Lite标称6核 | 0.426s（历史） | 1.004s（历史） | 7509 MB/s（历史） | 待核实 | 原始测试、时间与型号绑定缺失；不据此评价Lite |")
         md.append("| **racknerd-436b0c0** | Xeon E5-2680 v2 (6T @ 2.8G) | 0.519s | 0.809s | 330 MB/s | **~1.3 个 N100** | 闷声发大财：母机 0 抢占，适合内网 CI/CD 构建与批处理 |")
         md.append("| **racknerd-bf2025** | Xeon Gold 6152 (6T @ 2.1G) | 0.681s | 0.886s | 558 MB/s | **~1.1 个 N100** | 指令集最全 (支持 AVX-512)：建议走 Tailscale 避免丢包 |")
         md.append("| **greenrise (Contabo)** | Intel Broadwell (2T @ 2.0G) | 0.735s | 0.921s | 355 MB/s | **~0.6 个 N100** | 性价比存储机：空间充足，适合长效数据备份与同步 |")

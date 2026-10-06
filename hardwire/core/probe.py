@@ -31,10 +31,11 @@ class SystemProbe:
         cpuname_raw = raw_payload.get("cpuname", "").strip()
         cpuinfo = raw_payload.get("cpuinfo", "")
         kernel = raw_payload.get("kernel", "").strip()
+        cpuname = ""
 
-        # 针对 ARM SBC 特别精准识别 SoC 型号
+        # ARM 核心类型不足以确认 SoC SKU 或每类核心数量。
         if "0xd0b" in cpuinfo and "0xd05" in cpuinfo:
-            cpuname = "Rockchip RK3588/S (4×Cortex-A76 + 4×Cortex-A55)"
+            cpuname = "ARM Cortex-A76 + Cortex-A55 (SoC unverified)"
         elif "0xd0b" in cpuinfo and ("Raspberry" in model or "2712" in kernel):
             cpuname = "Broadcom BCM2712 (4×Cortex-A76)"
         elif "0xd08" in cpuinfo:

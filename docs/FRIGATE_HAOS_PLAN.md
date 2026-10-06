@@ -9,7 +9,7 @@
 | 组件 | 作用 | 候选设备与条件 |
 |---|---|---|
 | 海康NVR与摄像头 | 提供RTSP视频；现有录像职责保留到验证迁移必要性 | 型号与通道关系待核实；三路RTSP只有旧助手总结，原始检查记录待补 |
-| Frigate | 目标检测、跟踪、事件录像与快照 | ROCK 5C沿用此前试验候选，当前可用性待确认；监控J1900保留现有职责，RK3566/RK3568需板级与驱动检查 |
+| Frigate | 目标检测、跟踪、事件录像与快照 | ROCK 5C Lite沿用此前试验候选；用户告知已上线，SSH入口与驱动可用性待复核；监控J1900保留现有职责，RK3566/RK3568需板级与驱动检查 |
 | Home Assistant与HAOS | 自动化规则、仪表盘、通知；HAOS是其系统安装方式 | 树莓派已售出；从在手x86中核实用途、空闲状态与UEFI后再安排，暂无指定空闲宿主机 |
 | 现有YOLO | 准确率比较基线与问题定位 | 用同一录像比较，保留现有模型、输入分辨率与参数记录 |
 
@@ -19,7 +19,7 @@ Frigate先用运动检测找到感兴趣区域，再送入目标检测，并持�
 
 | 项目 | 官方资料结论 | 用户设备的待核实项 |
 |---|---|---|
-| ROCK 5C型号 | 标准版RK3588S2，Lite版RK3582 | 历史快照只写RK3588/S，仍需确认实机具体版本。[Radxa](https://docs.radxa.com/en/rock5/rock5c/getting-started/introduction) |
+| ROCK 5C型号 | 标准版RK3588S2；Lite为RK3582、6核、无GPU、5 TOPS | 用户确认购买版本为Lite 8GB。旧探针错误推断RK3588/S，8线程历史字段仍待复核；见[板卡档案](boards/rock-5c-lite.md)。[Radxa](https://docs.radxa.com/en/rock5/rock5c/getting-started/introduction) |
 | Frigate Rockchip检测 | RKNN为社区支持路线；文档列RK3562、RK3566、RK3568、RK3576、RK3588 | 型号之外，还需模型、驱动与系统兼容。[检测器文档](https://docs.frigate.video/configuration/object_detectors/) |
 | Rockchip系统与镜像 | 官方安装说明要求适用的BSP 5.10/6.1与NPU/VPU驱动，采用Rockchip镜像 | ROCK 5C历史内核为6.18.45-current-rockchip64，不能直接判为满足这一路线。[安装文档](https://docs.frigate.video/frigate/installation/) |
 | 视频解码 | RKMPP路线提供 `preset-rkmpp` | 摄像头编码、分辨率与实际VPU工作状态单独验证；解码成功不等于NPU推理通过。[硬件解码](https://docs.frigate.video/configuration/hardware_acceleration_video/) |
@@ -31,7 +31,7 @@ Frigate先用运动检测找到感兴趣区域，再送入目标检测，并持�
 
 试验候选版本固定为Frigate v0.18.0及对应 `0.18.0-rk` 镜像；执行时再核对镜像摘要，避免浮动标签改变比较条件。[发布说明](https://github.com/blakeblackshear/frigate/releases/tag/v0.18.0)
 
-这一版本的RKNN检测器读取 `/proc/device-tree/compatible` 的最后一个字段，再与支持SoC列表严格比较；列表包含 `rk3588`，没有 `rk3588s` 或 `rk3588s2`。如果用户所选系统返回后两者，会在型号识别阶段被拒绝。若返回 `rk3588`，仍须检验驱动、模型与持续推理，不能仅凭通过型号匹配判定全部可用。[RKNN源码](https://github.com/blakeblackshear/frigate/blob/v0.18.0/frigate/detectors/plugins/rknn.py#L80)、[支持常量](https://github.com/blakeblackshear/frigate/blob/v0.18.0/frigate/const.py#L96)
+这一版本的RKNN检测器读取 `/proc/device-tree/compatible` 的最后一个字段，再与支持SoC列表严格比较；列表包含 `rk3588`，没有 `rk3582`、`rk3588s` 或 `rk3588s2`。如果用户所选系统返回这三个未列入的名称，会在型号识别阶段被拒绝。若返回 `rk3588`，仍须检验驱动、模型与持续推理，不能仅凭通过型号匹配判定全部可用。[RKNN源码](https://github.com/blakeblackshear/frigate/blob/v0.18.0/frigate/detectors/plugins/rknn.py#L80)、[支持常量](https://github.com/blakeblackshear/frigate/blob/v0.18.0/frigate/const.py#L96)
 
 ## 新补会话中的候选限制
 
@@ -52,7 +52,7 @@ Frigate先用运动检测找到感兴趣区域，再送入目标检测，并持�
 
 | 阶段 | 工作 | 验收依据 | 当前状态 |
 |---|---|---|---|
-| 1 设备身份与角色 | J1900数量与监控/软路由角色已确认，触摸机为第三台；补逐台板号与配置，ROCK 5C核对可用性、版本、系统和驱动 | 板号/系统信息与台账对应；保留现有职责，指定宿主前确认空闲状态 | 用户角色已确认；身份/配置待补 |
+| 1 设备身份与角色 | J1900数量与监控/软路由角色已确认，触摸机为第三台；补逐台板号与配置，ROCK 5C Lite补当前SSH入口、芯片标识、系统和驱动 | 板号/系统信息与台账对应；保留现有职责，指定宿主前确认空闲状态 | 用户角色已确认；身份/配置待补 |
 | 2 单路视频基线 | 从一条已知摄像头记录主副码流编码、分辨率、FPS、画面与稳定性；保存可用于比较的录像 | 同一片段可重复播放；时间与人工标注可靠；凭据单独保管 | 待执行 |
 | 3 单路Frigate试验 | 验证解码、模型推理、跟踪、事件录像与快照；记录资源、温度和连续运行状态 | 输出与实际目标对应，事件录像可回放；VPU/NPU分别有运行证据；试运行时长记录在结果中 | 待执行 |
 | 4 准确率比较 | 现有YOLO与Frigate使用同一录像，覆盖白天、夜间、远处小人、遮挡；记录各自模型与参数 | 同一人工标注下比较漏报、误报、事件延迟；改善与退化均保留 | 待执行 |
@@ -69,6 +69,6 @@ MQTT与集成前提见[Frigate安装文档](https://docs.frigate.video/frigate/i
 
 ## 接续入口
 
-本轮完成清单与计划。下一次从“阶段1的设备可用性/配置核实”和“一条摄像头的录像基线”接续；ROCK 5C需先确认当前可用性再验证兼容性，其余尚未指定角色的设备保留候选安排。硬件仓库负责资产与验收记录，运行凭据、摄像头录像和服务运维资料按已有项目边界保存。
+本轮完成清单与计划。下一次从“阶段1的设备可用性/配置核实”和“一条摄像头的录像基线”接续；ROCK 5C Lite已按用户纠正登记；先补当前SSH入口并复核芯片标识，再验证兼容性，其余尚未指定角色的设备保留候选安排。硬件仓库负责资产与验收记录，运行凭据、摄像头录像和服务运维资料按已有项目边界保存。
 
 当前职责以用户确认的三台J1900记录为准：一台监控、一台软路由、一台B68TK触摸工控机（用途待补）。设备在手不代表空闲，不默认重装监控机或软路由；Pi 5已售出，不安排HAOS。其余在手x86和未来Wyse5070是否承担HAOS，待用途与安装条件确认后决定。
