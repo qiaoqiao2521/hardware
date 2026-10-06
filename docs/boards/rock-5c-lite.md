@@ -8,7 +8,7 @@
 |---|---|---|
 | 购买版本 | ROCK 5C Lite / RK3582 / 8GB | 购买版本与8GB为用户纠正；本次OTP的 `cpu-code=35 82` 确认实际SoC为RK3582 |
 | 标称CPU | 2×Cortex-A76 + 4×Cortex-A55，6核 | Radxa官方Lite规格；不能仅由 `nproc` 确认型号 |
-| GPU / NPU | Lite官方无GPU；5 TOPS @ INT8 NPU | 本次OTP的GPU掩码位有标记，设备树无GPU节点；未验证本机NPU驱动或推理 |
+| GPU / NPU | Lite官方无GPU；5 TOPS @ INT8 NPU | 本次OTP的GPU掩码位有标记，设备树无GPU节点；三个NPU节点均disabled、无驱动绑定，当前NPU未启用 |
 | 当前CPU | 4×A55 + 4×A76，系统报告8核在线 | `nproc`、`nproc --all` 均为8；CPU masks为0-7；与官方Lite六核规格分开记录 |
 | 内存类型 | LPDDR4X | 8GB为用户确认容量；本次Linux报告总内存7.7 GiB，不能把可用容量当作标称容量 |
 | 上线状态 | 电脑有线共享与SSH已现场连通 | `eno1`共享10.42.0.1/24；DHCP租约名rock-5c、地址10.42.0.220；保存的SSH主机密钥匹配，用户qiao。随后Tailscale上线，原 `ssh rock-5c` 新连接也通过 |
@@ -48,9 +48,29 @@ DT cpu@0、100、200、300、400、500、600、700: 均未显式禁用
 
 当前U-Boot主线RK3582策略会把原始 `00 08 00` 转成 `c0 9e 04`，额外禁用一组A76、GPU以及各一个vdec/venc。因此当前8核在线结果不符合这版主线的CPU裁切策略；实际启动固件版本、厂商策略或设备树处理原因仍待核实。不能称为特殊料、解锁成功或八核稳定性验收。[U-Boot实现](https://github.com/u-boot/u-boot/blob/master/arch/arm/mach-rockchip/rk3588/rk3588.c)
 
-设备树可见三个NPU节点；DRM只有card0及HDMI，没有render节点。这些只属于枚举结果，不证明NPU推理、TOPS或图形功能通过。OTP的上述三字节映射不含NPU状态位。
+设备树可见三个NPU节点，但后续逐节点读取确认全部为 `disabled`；没有NPU平台驱动绑定或设备接口。DRM只有card0及HDMI，没有render节点。OTP的上述三字节映射不含NPU状态位。
 
 先前本机 `eno1` 未连通、Tailscale别名超时；本次重查时有线链路与DHCP已建立，随后Tailscale恢复在线。恢复过程未修改网络配置、SSH别名、固件或设备树，也未重启服务；不能据此断言永久恢复或唯一故障原因。
+
+## GPU与NPU：官方规格和当前系统
+
+Radxa产品对比表明确写Lite的GPU为 `N/A`；官方Product Brief明确写NPU为5 TOPS @ INT8。官网通用介绍中的八核CPU与Mali-G610段落不能套到Lite，应以明确标注型号的参数表为依据。
+
+Rockchip RK3582 Datasheet第9页§1.2.6写三个NPU core、最高5 TOPS，第10页§1.2.7另列2D图像引擎。2D缩放、旋转、显示控制与Mali 3D GPU是不同单元；有HDMI或DRM card0不证明有Mali GPU。[芯片官方资料](https://dl.radxa.com/rock5/5c/docs/hw/datasheet/Rockchip%20RK3582%20Datasheet%20V1.1-20230221.pdf)
+
+本次只读系统检查：
+
+| 项目 | 现场结果 | 可支持的结论 |
+|---|---|---|
+| NPU设备树 | npu@fdab0000、fdac0000、fdad0000均 `status=disabled`，兼容名为rockchip,rk3588-rknn-core | 三个软件节点存在，但当前系统未启用它们 |
+| NPU驱动与接口 | 没有NPU平台驱动绑定；未加载rknpu/rocket；没有 `/dev/rknpu` 或 `/dev/accel`；ldconfig未列出RKNN库 | 当前未提供可用的NPU推理栈；不能称板上没有NPU或硬件损坏 |
+| 内核选项 | CONFIG_DRM_ACCEL_ROCKET=m | 内核配置选择以模块编译，不证明模块文件已安装，也不代表加载、绑定或与RKNN运行时兼容 |
+| GPU与显示 | 无GPU设备树节点、无 `/dev/mali0` 或render节点；card0绑定rockchip-drm的display-subsystem | 当前未提供Mali图形加速；card0为显示控制器 |
+| RGA / VPU | rockchip-rga平台驱动已绑定，但未见 `/dev/rga` 或 `/dev/mpp_service` | 驱动绑定与用户态接口/实际功能分别验收；未做图像或编解码验证 |
+
+Radxa专门说明ROCK 5C Lite / RK3582在RKNN和RKLLM中使用 `target_platform=rk3588`，RK3588模型可用于RK3582。软件名称与实际芯片标识分开，不能因为模型平台叫rk3588而改判SoC。[RK3582 NPU平台指定说明](https://docs.radxa.com/e/e54c/app-development/artificial-intelligence/rk3582_npu_explanation)
+
+此轮只核对官方资料、设备树、模块、驱动绑定和设备节点。没有修改设备树、加载模块、安装运行时、更换内核或运行推理。下一步须选择与RKNN栈匹配的系统/驱动并实际验证模型，不能仅把disabled改为okay就宣称NPU可用。
 
 ## 最短接续入口
 

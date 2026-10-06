@@ -21,11 +21,13 @@ Frigate先用运动检测找到感兴趣区域，再送入目标检测，并持�
 |---|---|---|
 | ROCK 5C型号 | 标准版RK3588S2；Lite为RK3582、6核、无GPU、5 TOPS | 用户确认购买版本为Lite 8GB。OTP确认RK3582，现场8核在线与官方6核的启动策略差异待核实；见[板卡档案](boards/rock-5c-lite.md)。[Radxa](https://docs.radxa.com/en/rock5/rock5c/getting-started/introduction) |
 | Frigate Rockchip检测 | RKNN为社区支持路线；文档列RK3562、RK3566、RK3568、RK3576、RK3588 | 型号之外，还需模型、驱动与系统兼容。[检测器文档](https://docs.frigate.video/configuration/object_detectors/) |
-| Rockchip系统与镜像 | 官方安装说明要求适用的BSP 5.10/6.1与NPU/VPU驱动，采用Rockchip镜像 | ROCK 5C历史内核为6.18.45-current-rockchip64，不能直接判为满足这一路线。[安装文档](https://docs.frigate.video/frigate/installation/) |
+| Rockchip系统与镜像 | 官方安装说明要求适用的BSP 5.10/6.1与NPU/VPU驱动，采用Rockchip镜像 | 本次ROCK内核为6.18.45-current-rockchip64；三个NPU节点均disabled、无驱动绑定，当前RKNN推理栈未启用，不能直接判为满足这一路线。[安装文档](https://docs.frigate.video/frigate/installation/) |
 | 视频解码 | RKMPP路线提供 `preset-rkmpp` | 摄像头编码、分辨率与实际VPU工作状态单独验证；解码成功不等于NPU推理通过。[硬件解码](https://docs.frigate.video/configuration/hardware_acceleration_video/) |
 | HAOS on Pi 5（平台参考） | 官方安装页面提供Pi 5镜像 | 用户确认已售出，已从当前候选移除；仅保留官方能力背景。[Pi安装](https://www.home-assistant.io/installation/raspberrypi/) |
 | HAOS on Generic x86-64 | 要求64位、UEFI、关闭Secure Boot，使用512n/512e启动介质 | B68TK在2026-10-04以Legacy BIOS启动，UEFI能力与可用性待核实；不直接安装覆盖。[x86安装](https://www.home-assistant.io/installation/generic-x86-64/) |
 | HAOS on ROCK 5C | 官方板级支持名单没有ROCK 5C | 不将社区方式写成官方板级镜像支持。[支持名单](https://developers.home-assistant.io/docs/operating-system/boards/overview/) |
+
+Radxa明确RK3582的RKNN/RKLLM模型平台选 `rk3588`；这是模型兼容约定，不会改变实际芯片型号，也不会绕过下述Frigate自身设备树识别。[官方说明](https://docs.radxa.com/e/e54c/app-development/artificial-intelligence/rk3582_npu_explanation)
 
 ### ROCK 5C的设备树识别条件
 

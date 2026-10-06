@@ -46,3 +46,11 @@
 - GPU掩码bit3有原始标记；设备树没有GPU节点，DRM没有render节点。NPU三个节点只属于枚举，不证明推理、TOPS或健康。
 - 随后Tailscale本机PeerOnline与远端SelfOnline均恢复true，远端BackendState=Running且Health为空；HTTPS端点返回302、TLS验证通过；原ssh rock-5c新会话也读取hostname及8核成功。没有更改配置、重启服务或实施修复，恢复原因与永久稳定性未判定。
 - 现场结果写回已有档案和计划，旧快照保持原样；本次CPU字段复核撤销了“8线程字段仍待现场复核”的暂存状态，但没有回写成标准版芯片。
+
+## GPU/NPU官方复核与当前驱动（2026-10-06）
+
+- Radxa型号表明确Lite GPU=N/A、Product Brief写5 TOPS INT8。通用宣传段落的8核+G610不能套Lite。Rockchip RK3582 Datasheet第9页明确三个NPU core、最高5 TOPS，2D图像引擎与Mali GPU分开。来源统一写在板卡档案。
+- Radxa专门说明ROCK5C Lite的RKNN/RKLLM模型平台填rk3588；这不否定OTP35 82的RK3582身份。官网正式规格没有解释本机8核现象。
+- 本次三个NPU DT节点均disabled，未见NPU平台绑定、rknpu/rocket模块、rknn动态库或/dev/accel、/dev/rknpu；当前NPU未启用，不将其说成硬件没有或损坏。内核CONFIG_DRM_ACCEL_ROCKET=m不能替代运行证据。
+- card0绑定rockchip-drm显示子系统，没有GPU节点、mali0或render接口；RGA已有驱动绑定，但/dev/rga与mpp_service未见，功能未测。缺失节点命令的非零状态按缺失记录处理，没有当作全项通过。
+- 只读核实，没有启用节点、加载模块、安装运行时或改内核。NPU恢复应另行按匹配系统、驱动、运行时、模型的顺序验证；本次未实施部署。
