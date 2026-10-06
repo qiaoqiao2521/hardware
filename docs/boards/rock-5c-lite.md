@@ -72,6 +72,31 @@ Radxa专门说明ROCK 5C Lite / RK3582在RKNN和RKLLM中使用 `target_platform=
 
 此轮只核对官方资料、设备树、模块、驱动绑定和设备节点。没有修改设备树、加载模块、安装运行时、更换内核或运行推理。下一步须选择与RKNN栈匹配的系统/驱动并实际验证模型，不能仅把disabled改为okay就宣称NPU可用。
 
+## Wi-Fi连接排查
+
+2026-10-06再次现场读取：当前SSH由电脑有线共享网络承载，`end0=10.42.0.220/24`、默认网关为电脑的 `10.42.0.1`；SSH别名使用Tailscale地址 `100.103.100.10`。用户希望ROCK自动连接家庭Wi-Fi。直接SSH成功不证明无线已连接。
+
+板上使用Netplan、systemd-networkd与wpa_supplicant管理网络，当前没有可用的nmcli命令。`/etc/netplan/60-rock5c-wifi.yaml` 文件存在，权限为root 0600；`netplan-wpa-wlan0.service` 为active。没有读取或导出无线密码。
+
+只读现场字段：
+
+```text
+iw dev wlan0 link: Not connected.
+networkctl status wlan0: no-carrier (configuring), Online state: offline
+wlan0: 接口存在，无IPv4地址
+Wi-Fi rfkill soft=0, hard=0
+lsusb: AICSemi AIC 8800D80
+netplan-wpa-wlan0.service: active (running)
+```
+
+接口、配置文件和服务存在不能证明关联或联网成功；历史快照的 `active_interfaces` 也只枚举非lo接口，不能证明历史Wi-Fi已连接。当前qiao账号不能免密sudo，也无权访问wpa控制接口，因此保存的SSID、网络启用标志和认证状态仍待核实，不能判定密码错误、信号问题或驱动故障。
+
+最短接续入口：由用户在自己的终端执行以下只读命令，输入板子sudo密码后提供输出；密码不发送到聊天。根Codex根据 `list_networks` 和 `status` 再定位原因。当前无需先刷TF；本次没有修改配置、重启服务或刷写介质。
+
+```bash
+ssh -t rock-5c 'sudo wpa_cli -i wlan0 list_networks && sudo wpa_cli -i wlan0 status'
+```
+
 ## 最短接续入口
 
 接续owner：根Codex。当前 `ssh rock-5c` 已通过；若Tailscale暂不可达，先核对电脑共享租约，再用 `ssh -o HostName=10.42.0.220 rock-5c` 连接本次局域网地址。DHCP地址可能变化，不能固定猜测旧地址。只读复核命令：

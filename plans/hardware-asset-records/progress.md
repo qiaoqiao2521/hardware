@@ -2,7 +2,7 @@
 
 ## Current
 
-2026-10-06：GPU/NPU官方复核完成。ROCK身份仍为RK3582；Lite官方无Mali GPU、NPU为三个core且标称5 TOPS。当前三个NPU节点均disabled、无驱动绑定或设备接口，NPU未启用；仅有显示控制器card0。系统8核与官方6核差异仍待核对启动链。只读结果与来源已写回板卡档案，未部署或修改设备。
+2026-10-06：ROCK Wi-Fi排查进行中。用户希望自动连接家庭Wi-Fi；当前SSH经电脑有线共享和Tailscale连通，wlan0未关联、无IPv4。Netplan无线配置文件仍存在，wpa服务运行，rfkill未阻断。qiao不能免密sudo，保存的SSID、网络启用标志和认证状态待用户执行只读wpa_cli命令后接续；未改配置或刷TF。GPU/NPU复核已完成，功能及8核启动链差异仍待验证。
 
 ## Done
 
@@ -58,6 +58,7 @@
 
 ## Remaining
 
+- Wi-Fi恢复待用户提供root权限下的wpa_cli list_networks/status输出；接续owner：根Codex，最短入口见板卡档案的Wi-Fi连接排查。当前仅确认配置文件存在与无线未连接，没有定位唯一失败原因。
 - 此前探针修复与CPU/OTP现场记录已交付。本轮GPU/NPU官方与节点状态复核完成；设备功能验证仍待执行。
 - ROCK的SSH、CPU与芯片标识检查已完成；接续owner：根Codex。下一步核对实际启动固件/设备树处理为何保留8核；最短入口见 `docs/boards/rock-5c-lite.md`。
 - 后续现场工作从ROCK启动链差异、驱动兼容性与单路摄像头基线开始；用户告知已上线与本机SSH连通分别记录。
@@ -71,4 +72,4 @@
 
 ## Next
 
-从本次已确认的RK3582与8核差异接续，只读核对启动链后按 `docs/FRIGATE_HAOS_PLAN.md` 的阶段1和阶段2接续。
+先接续Wi-Fi保存配置与认证状态检查，恢复用户指定家庭网络后验证独立SSH路径；随后只读核对RK3582的8核启动链差异，并按 `docs/FRIGATE_HAOS_PLAN.md` 的阶段1和阶段2接续。
