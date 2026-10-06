@@ -38,8 +38,8 @@ hardware/
 # 1. 本地整机体检
 python3 -m hardwire collect --local
 
-# 2. 远程无侵入探测树莓派 5
-python3 -m hardwire collect --ssh muqiaopi
+# 2. 远程无侵入探测在手目标（替换为实际用户与主机）
+python3 -m hardwire collect --ssh user@device-host
 
 # 3. 远程无侵入探测 Radxa ROCK 5C
 python3 -m hardwire collect --ssh rock-5c
