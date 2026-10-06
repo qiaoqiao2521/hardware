@@ -64,13 +64,19 @@ Rockchip RK3582 Datasheet第9页§1.2.6写三个NPU core、最高5 TOPS，第10�
 |---|---|---|
 | NPU设备树 | npu@fdab0000、fdac0000、fdad0000均 `status=disabled`，兼容名为rockchip,rk3588-rknn-core | 三个软件节点存在，但当前系统未启用它们 |
 | NPU驱动与接口 | 没有NPU平台驱动绑定；未加载rknpu/rocket；没有 `/dev/rknpu` 或 `/dev/accel`；ldconfig未列出RKNN库 | 当前未提供可用的NPU推理栈；不能称板上没有NPU或硬件损坏 |
-| 内核选项 | CONFIG_DRM_ACCEL_ROCKET=m | 内核配置选择以模块编译，不证明模块文件已安装，也不代表加载、绑定或与RKNN运行时兼容 |
+| 内核选项与模块文件 | CONFIG_DRM_ACCEL_ROCKET=m；后续现场确认rocket.ko已安装，modinfo匹配当前内核与rockchip,rk3588-rknn-core | 模块文件存在，但未加载、绑定或启用NPU；不能等同于官方RKNN的rknpu驱动栈 |
 | GPU与显示 | 无GPU设备树节点、无 `/dev/mali0` 或render节点；card0绑定rockchip-drm的display-subsystem | 当前未提供Mali图形加速；card0为显示控制器 |
 | RGA / VPU | rockchip-rga平台驱动已绑定，但未见 `/dev/rga` 或 `/dev/mpp_service` | 驱动绑定与用户态接口/实际功能分别验收；未做图像或编解码验证 |
 
 Radxa专门说明ROCK 5C Lite / RK3582在RKNN和RKLLM中使用 `target_platform=rk3588`，RK3588模型可用于RK3582。软件名称与实际芯片标识分开，不能因为模型平台叫rk3588而改判SoC。[RK3582 NPU平台指定说明](https://docs.radxa.com/e/e54c/app-development/artificial-intelligence/rk3582_npu_explanation)
 
 此轮只核对官方资料、设备树、模块、驱动绑定和设备节点。没有修改设备树、加载模块、安装运行时、更换内核或运行推理。下一步须选择与RKNN栈匹配的系统/驱动并实际验证模型，不能仅把disabled改为okay就宣称NPU可用。
+
+后续系统选择复核：当前系统提供主线rocket模块；Linux官方文档将其用户态定义为Mesa Gallium rocket，并仅列RK3588为支持硬件，未对本块RK3582完成验证。Rockchip官方RKNN方案使用RKNPU内核驱动与RKNN Runtime/Lite2，不能把rocket模块存在视为RKNN环境就绪。[Linux rocket文档](https://www.kernel.org/doc/html/latest/accel/rocket/index.html)、[Rockchip RKNN说明](https://github.com/airockchip/rknn-toolkit2)
+
+不必先重装整个系统：Armbian支持切换内核，当前本机APT索引中有vendor内核与DTB候选26.8.3；但仅有候选包或vendor名称不证明已包含并启用rknpu。保留现有系统时，需核对匹配的内核、DTB、驱动和运行库，再执行模型验收。当前Python为3.14.4，而官方RKNN 2.3.2说明列Python 3.6–3.12；使用Python接口还需单独配置匹配环境。[Armbian内核管理](https://docs.armbian.com/config/)、[Rockchip版本说明](https://github.com/airockchip/rknn-toolkit2)
+
+若选择备用TF测试官方路线，Radxa下载页明确提供ROCK 5C Lite的Debian12 CLI b1镜像。镜像启动后仍需检查rknpu驱动、用户态包与实际推理，不能承诺刷入即通过NPU验收；Radxa说明部分CLI镜像可能缺少RKNPU2用户态包。本次没有下载镜像、切换内核、安装软件或刷写介质。[Lite官方下载入口](https://docs.radxa.com/en/rock5/rock5c/download)、[Radxa板端驱动与CLI包说明](https://docs.radxa.com/rock5/rock5a/app-development/ai/rkllm-install)
 
 ## Wi-Fi连接排查
 
