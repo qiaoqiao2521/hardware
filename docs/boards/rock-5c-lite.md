@@ -2,7 +2,9 @@
 
 更新日期：2026-10-06（Asia/Shanghai）。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
 
-## 当前结论与证据
+## 刷写前结论与证据
+
+以下运行结果来自2026-10-06刷写前的Armbian系统。用户随后明确选择重刷官方Radxa OS；新系统启动与网络验收单独记录，不沿用这些旧系统结果。
 
 | 项目 | 结论 | 依据与边界 |
 |---|---|---|
@@ -78,7 +80,7 @@ Radxa专门说明ROCK 5C Lite / RK3582在RKNN和RKLLM中使用 `target_platform=
 
 若选择备用TF测试官方路线，Radxa下载页明确提供ROCK 5C Lite的Debian12 CLI b1镜像。镜像启动后仍需检查rknpu驱动、用户态包与实际推理，不能承诺刷入即通过NPU验收；Radxa说明部分CLI镜像可能缺少RKNPU2用户态包。本次没有下载镜像、切换内核、安装软件或刷写介质。[Lite官方下载入口](https://docs.radxa.com/en/rock5/rock5c/download)、[Radxa板端驱动与CLI包说明](https://docs.radxa.com/rock5/rock5a/app-development/ai/rkllm-install)
 
-## Wi-Fi连接排查
+## 刷写前Wi-Fi连接排查
 
 2026-10-06再次现场读取：当前SSH由电脑有线共享网络承载，`end0=10.42.0.220/24`、默认网关为电脑的 `10.42.0.1`；SSH别名使用Tailscale地址 `100.103.100.10`。用户希望ROCK自动连接家庭Wi-Fi。直接SSH成功不证明无线已连接。
 
@@ -97,15 +99,29 @@ netplan-wpa-wlan0.service: active (running)
 
 接口、配置文件和服务存在不能证明关联或联网成功；历史快照的 `active_interfaces` 也只枚举非lo接口，不能证明历史Wi-Fi已连接。当前qiao账号不能免密sudo，也无权访问wpa控制接口，因此保存的SSID、网络启用标志和认证状态仍待核实，不能判定密码错误、信号问题或驱动故障。
 
-最短接续入口：由用户在自己的终端执行以下只读命令，输入板子sudo密码后提供输出；密码不发送到聊天。根Codex根据 `list_networks` 和 `status` 再定位原因。当前无需先刷TF；本次没有修改配置、重启服务或刷写介质。
+此前接续入口为用户执行以下只读命令；后来用户改为直接重刷，不再等待旧系统sudo检查。TF插入电脑后，离线读取确认保存的家庭SSID与无线密码均匹配当前电脑配置，因此不能把旧无线故障归因于密码已失效。旧故障的唯一原因仍未确定。
 
 ```bash
 ssh -t rock-5c 'sudo wpa_cli -i wlan0 list_networks && sudo wpa_cli -i wlan0 status'
 ```
 
+## 官方系统重刷（2026-10-06）
+
+用户明确选择直接刷TF，并要求配置muqiao用户、家庭Wi-Fi与SSH，另将系统镜像加入既有Ventoy盘。Wi-Fi凭据、账号密码、SSH私钥和原系统备份只保留在受限本地目录与TF卡，不进入仓库。
+
+目标TF通过USB读卡器枚举为Mass-Storage，容量250145669120字节；原rootfs的BOARD=rock-5c、Armbian26.8.3及SSH主机公钥指纹均匹配刷写前的ROCK。Ventoy位于另一块253671505920字节U盘；内置NVMe与Ubuntu移动盘排除在写入范围外。用户的直接刷写授权覆盖此已识别目标，写前再次核对读卡器身份与原文件系统UUID。
+
+使用Radxa官方Lite下载项所链接的 `rock-5c_bookworm_cli_b1.output.img.xz`，压缩文件757179348字节；官方SHA-512核对通过。发布仓库的latest同为rsdk-b1。目标镜像为Debian12 CLI、6.1.43-15-rk2312内核，配置明确 `CONFIG_ROCKCHIP_RKNPU=y`，manifest包含rknpu2-rk3588、NetworkManager、OpenSSH与Avahi；这只证明配套软件存在，实际NPU推理待板上验收。
+
+原系统文件、分区表、文件系统元数据与前16 MiB启动区域已备份到受限本地目录；浏览器配置目录未复制。镜像副本离线创建muqiao用户与sudo组，保存密码哈希，写入家庭Wi-Fi自动连接及有线DHCP配置，启用SSH和Avahi，并保留此板的SSH主机密钥。官方首次启动脚本改为始终启用SSH，删除其默认账号创建与主机密钥重新生成步骤，保留rootfs扩容。
+
+账号哈希与组、NetworkManager真实配置解析、SSH配置/主机密钥解析、首次启动脚本及ext4/FAT只读检查均通过。4860060672字节定制镜像已写入，完整读回SHA-256与镜像一致：`2f8a62c28ac3e7eb021481b1231d8f10ddcd614fee7485b2db7dbec4be5e2b24`。卡上config/efi/rootfs三个分区正确枚举，随后安全断电移除读卡器；媒体验收通过，实机启动仍待验证。
+
+Ventoy的 `ARM/ROCK-5C-Lite` 已加入官方原始压缩镜像、校验文件与说明，复制后再次核对官方SHA-512通过。该原版镜像没有加入私人配置，也不是普通x86电脑的Ventoy启动安装项。电脑的 `ssh rock-5c` 已改为muqiao@rock-5c.local，保留维护公钥及既有主机密钥别名；新地址解析与实际登录待板子上电后验证。
+
 ## 最短接续入口
 
-接续owner：根Codex。当前 `ssh rock-5c` 已通过；若Tailscale暂不可达，先核对电脑共享租约，再用 `ssh -o HostName=10.42.0.220 rock-5c` 连接本次局域网地址。DHCP地址可能变化，不能固定猜测旧地址。只读复核命令：
+接续owner：根Codex。待媒体校验与安全移除后，用户将TF插回ROCK并断电重启；先保持网线作为恢复入口，再核对家庭Wi-Fi关联/IP、`ssh rock-5c` 与无线IP直连SSH。新系统尚未安装Tailscale，旧100.103.100.10不作为新系统验收地址。DHCP地址可能变化，应读取当前租约或mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
 
 ```bash
 nproc

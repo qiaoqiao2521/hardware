@@ -26,5 +26,5 @@
 - 长期资产入口：[我的硬件资产与实验平台](docs/HARDWARE_ASSETS.md)，逐台记录规格、接口、历史实测、故障、用途、性能比较与下一步；先列全，未知数量与身份保留待核实。
 - 选型背景：[淘机与升级限制附录](docs/HARDWARE_SELECTION_CONTEXT.md)，保存新增历史商品和附件来源；在手状态、官方平台规格与实机验收分别记录。
 - 当前状态：用户确认在手i5-3230M板U、RK3568B2路由板、国美云、HM170及三台J1900（监控、软路由、另列B68TK触摸机）。未来购买目标为V15B、Wyse5070、CM01和黑豹X2；树莓派已售出。
-- 当前监控规划：[Frigate与HAOS计划](docs/FRIGATE_HAOS_PLAN.md)。保留J1900监控/软路由职责，用户已纠正ROCK为5C Lite / RK3582 / 8GB并告知上线；本次SSH已连通、OTP确认RK3582；当前系统8核与官方6核的差异及NPU/VPU兼容性仍待核实；HAOS宿主从合格且可用的在手x86中再选，已售Pi 5不参与。部署与准确率尚未现场验收。
+- 当前监控规划：[Frigate与HAOS计划](docs/FRIGATE_HAOS_PLAN.md)。保留J1900监控/软路由职责，ROCK已由OTP确认5C Lite / RK3582 / 8GB；旧Armbian报告8核、NPU未启用。用户随后选择官方Radxa OS重刷，TF媒体验收通过并预置账号/无线/SSH；新系统启动、网络、CPU与NPU/VPU仍待板上验收，见[板卡档案](docs/boards/rock-5c-lite.md)。HAOS宿主从合格且可用的在手x86中再选，已售Pi 5不参与。部署与准确率尚未现场验收。
 - 本轮进度：[资产整理任务](plans/hardware-asset-records/progress.md)。本轮完成文档整理，不以历史快照证明当前设备状态。

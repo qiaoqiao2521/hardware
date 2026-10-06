@@ -31,7 +31,7 @@
 | HW-J1900-MONITOR | 在手，用于监控；板号、内存、盘与系统待补 |
 | HW-J1900-ROUTER | 在手，用于软路由；板号、内存、盘与系统待补 |
 | HW-J1900-B68TK 触摸工控机 | 在手，独立于上述两台；当前用途待补，历史体检仍保留 |
-| HW-ROCK5C ROCK 5C Lite | 用户确认购买版本为RK3582、8GB；本次OTP确认RK3582，局域网和Tailscale SSH均已连通，见[板卡档案](boards/rock-5c-lite.md) |
+| HW-ROCK5C ROCK 5C Lite | 用户确认购买版本为RK3582、8GB；OTP确认RK3582，刷写前局域网/Tailscale SSH通过；已按用户选择重刷官方系统，媒体验收通过，新系统启动与网络待验收，见[板卡档案](boards/rock-5c-lite.md) |
 
 | 后续购买目标 | 用户给出的选择理由／设想 |
 |---|---|
@@ -52,7 +52,7 @@
 | HW-J1900-ROUTER 软路由 | 用户确认在手，用于软路由；与监控及触摸机为不同设备 | 板号、内存、盘、网口与系统待补；不沿用B68TK配置 | 保留软路由职责；不默认腾空或重装为HAOS |
 | HW-J1900-B68TK 触摸工控机 | 用户确认在手且为另外一台；历史报告：康士达 K-B68TK-J1900；J1900 4核4线程；1条8GB；Kston 128GB SATA；Ubuntu 24.04.5；Legacy BIOS | 双 Intel I211；6路真实 UART；eGalax触摸、ALC282音频已枚举；当时未装无线卡。详见[设备档案](boards/j1900-b68tk.md) | 当前用途待补；触摸/接口实验候选。若评估HAOS，须先确认可用性与UEFI；历史Legacy启动不满足官方直接安装前提 |
 | J1900 D3 线索 | 现有本地图片文件名包含 `j1900-d3`；文件名不足以确认主板型号或独立设备 | 图片为监控画面，没有建立与 B68TK 的机器对应关系 | 保留线索，归并关系待核实；不增加确定设备数量 |
-| HW-ROCK5C ROCK 5C Lite | 用户确认RK3582、8GB LPDDR4X；官方Lite为2×A76+4×A55、无GPU、5 TOPS NPU | 本次OTP `35 82` 确认RK3582；系统报告4×A76+4×A55、8核在线，Linux内存7.7 GiB；有线共享及Tailscale SSH均已连通；三个NPU节点当前disabled、无驱动绑定，AI加速尚未启用。历史 `RK3588/S` 来自错误识别规则；当前8核与官方6核差异原因待核实。[板卡档案](boards/rock-5c-lite.md) | Frigate检测试验候选；继续核对8核启动策略，再验证BSP、NPU/VPU和设备树兼容性 |
+| HW-ROCK5C ROCK 5C Lite | 用户确认RK3582、8GB LPDDR4X；官方Lite为2×A76+4×A55、无GPU、5 TOPS NPU | OTP `35 82` 确认RK3582；刷写前Armbian报告8核、7.7 GiB，NPU节点disabled。有线/Tailscale SSH为刷写前结果；用户随后选择官方Debian12 CLI重刷，TF完整读回通过，账号/家庭Wi-Fi/SSH已预配置。新系统启动、CPU与NPU功能尚待验证。[板卡档案](boards/rock-5c-lite.md) | Frigate检测试验候选；先验收新系统网络，再验证BSP、NPU/VPU和设备树兼容性 |
 | HW-RK3566-GOME 国美云盒子 | 用户确认在手；旧助手汇总RK3566、4GB+128GB、8英寸触摸屏、摄像头与扬声器，具体型号与实装待核实 | 旧描述为百兆网口与双频Wi-Fi，未取得对应原图或实测；见[选型附录](HARDWARE_SELECTION_CONTEXT.md) | 当前用途待补；触摸终端/轻服务候选，不能按SoC能力认定NPU可用 |
 | HW-RK3568B2 平台或板卡 | 原讨论助手提到RK3568B2、4GB+16GB、2×SATA+千兆网口；均待板级核实 | PCIe、SATA、双网口、CAN、UART等是否引出均待核实 | 工控/网关/存储实验候选；SoC接口上限不能直接当实机接口清单 |
 | HW-RK3568B2-ROUTER 路由板 | 用户确认在手；旧助手另列RK3568B2、4GB+256GB、四千兆网口、双频Wi-Fi | 与上行4GB+16GB、双SATA描述不同；暂时分列，是否同一设备待核实；实际容量、介质与接口待补 | 当前用途待补；路由/网关候选，不与J1900软路由自动归并 |
