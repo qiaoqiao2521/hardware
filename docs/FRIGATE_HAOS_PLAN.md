@@ -9,7 +9,7 @@
 | 组件 | 作用 | 候选设备与条件 |
 |---|---|---|
 | 海康NVR与摄像头 | 提供RTSP视频；现有录像职责保留到验证迁移必要性 | 型号与通道关系待核实；三路RTSP只有旧助手总结，原始检查记录待补 |
-| Frigate | 目标检测、跟踪、事件录像与快照 | ROCK 5C Lite沿用此前试验候选；局域网与Tailscale SSH已连通，RK3582芯片标识已确认，驱动可用性待验收；监控J1900保留现有职责，RK3566/RK3568需板级与驱动检查 |
+| Frigate | 目标检测、跟踪、事件录像与快照 | ROCK 5C Lite沿用此前试验候选；官方系统有线/Tailscale SSH和MobileNet三核推理已通过，目标YOLO/VPU与Frigate仍待验收；监控J1900保留现有职责，RK3566/RK3568需板级与驱动检查 |
 | Home Assistant与HAOS | 自动化规则、仪表盘、通知；HAOS是其系统安装方式 | 树莓派已售出；从在手x86中核实用途、空闲状态与UEFI后再安排，暂无指定空闲宿主机 |
 | 现有YOLO | 准确率比较基线与问题定位 | 用同一录像比较，保留现有模型、输入分辨率与参数记录 |
 
@@ -21,7 +21,7 @@ Frigate先用运动检测找到感兴趣区域，再送入目标检测，并持�
 |---|---|---|
 | ROCK 5C型号 | 标准版RK3588S2；Lite为RK3582、6核、无GPU、5 TOPS | 用户确认购买版本为Lite 8GB。OTP确认RK3582，现场8核在线与官方6核的启动策略差异待核实；见[板卡档案](boards/rock-5c-lite.md)。[Radxa](https://docs.radxa.com/en/rock5/rock5c/getting-started/introduction) |
 | Frigate Rockchip检测 | RKNN为社区支持路线；文档列RK3562、RK3566、RK3568、RK3576、RK3588 | 型号之外，还需模型、驱动与系统兼容。[检测器文档](https://docs.frigate.video/configuration/object_detectors/) |
-| Rockchip系统与镜像 | 官方安装说明要求适用的BSP 5.10/6.1与NPU/VPU驱动，采用Rockchip镜像 | 本次ROCK内核为6.18.45-current-rockchip64；三个NPU节点均disabled、无驱动绑定，当前RKNN推理栈未启用，不能直接判为满足这一路线。[安装文档](https://docs.frigate.video/frigate/installation/) |
+| Rockchip系统与镜像 | 官方安装说明要求适用的BSP 5.10/6.1与NPU/VPU驱动，采用Rockchip镜像 | 旧Armbian的6.18.45内核未启用NPU。2026-10-08官方Radxa OS实机为6.1.43-15-rk2312、RKNPU0.9.6/RKNN2.0.0b0，MobileNet三核路径已通过；Frigate模型、VPU和镜像内运行仍待验收，不能直接判为满足整条路线。[板卡验收](boards/rock-5c-lite.md)、[安装文档](https://docs.frigate.video/frigate/installation/) |
 | 视频解码 | RKMPP路线提供 `preset-rkmpp` | 摄像头编码、分辨率与实际VPU工作状态单独验证；解码成功不等于NPU推理通过。[硬件解码](https://docs.frigate.video/configuration/hardware_acceleration_video/) |
 | HAOS on Pi 5（平台参考） | 官方安装页面提供Pi 5镜像 | 用户确认已售出，已从当前候选移除；仅保留官方能力背景。[Pi安装](https://www.home-assistant.io/installation/raspberrypi/) |
 | HAOS on Generic x86-64 | 要求64位、UEFI、关闭Secure Boot，使用512n/512e启动介质 | B68TK在2026-10-04以Legacy BIOS启动，UEFI能力与可用性待核实；不直接安装覆盖。[x86安装](https://www.home-assistant.io/installation/generic-x86-64/) |
@@ -71,6 +71,6 @@ MQTT与集成前提见[Frigate安装文档](https://docs.frigate.video/frigate/i
 
 ## 接续入口
 
-本轮完成清单与计划。下一次从“阶段1的设备可用性/配置核实”和“一条摄像头的录像基线”接续；ROCK 5C Lite已通过局域网及Tailscale SSH，OTP确认RK3582；接着核对当前8核启动策略并验证兼容性，其余尚未指定角色的设备保留候选安排。硬件仓库负责资产与验收记录，运行凭据、摄像头录像和服务运维资料按已有项目边界保存。
+本轮完成清单与计划。下一次从“阶段1的设备可用性/配置核实”和“一条摄像头的录像基线”接续；ROCK 5C Lite官方系统已确认6核、Tailscale远端SSH及MobileNet三核推理；接续家庭无线故障与目标YOLO/VPU兼容性，其余尚未指定角色的设备保留候选安排。硬件仓库负责资产与验收记录，运行凭据、摄像头录像和服务运维资料按已有项目边界保存。
 
 当前职责以用户确认的三台J1900记录为准：一台监控、一台软路由、一台B68TK触摸工控机（用途待补）。设备在手不代表空闲，不默认重装监控机或软路由；Pi 5已售出，不安排HAOS。其余在手x86和未来Wyse5070是否承担HAOS，待用途与安装条件确认后决定。

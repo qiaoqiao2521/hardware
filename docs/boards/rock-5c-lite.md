@@ -129,9 +129,19 @@ Ventoy的 `ARM/ROCK-5C-Lite` 已加入官方原始压缩镜像、校验文件与
 
 NPU驱动入口已出现：平台fdab0000.npu绑定RKNPU，renderD129对应RKNPU，内核报告rknpu0.9.6；renderD128对应显示驱动rockchip-drm，不作Mali GPU证据。启动日志仍有fdac/fdad资源区域申请警告，模型推理、各核可用性和稳定性尚未验收，不将服务active或设备节点存在写成功能通过。
 
+## NPU模型与私有远程SSH验收（2026-10-08）
+
+采用板上rknpu2-rk3588包记录的官方源码链：Radxa打包提交 `e16dcae133a61f3564470b98119fe1006cd6ca23` 对应Rockchip SDK提交 `77b71094e08391c543d9c65fea5f7cf98cc16eee`。使用该提交的RK3588 MobileNet V1模型与224×224狗图，按RGB输入调用RKNN模型接口；模型SHA-256为 `381dae3b7038a98b10f6ec9dcdbb094a49247341856fb294e692ef518218fcfb`。[官方模型来源](https://github.com/airockchip/rknn-toolkit2/tree/77b71094e08391c543d9c65fea5f7cf98cc16eee/rknpu2/examples/rknn_mobilenet_demo)
+
+板上查询得到API2.0.0b0、driver0.9.6；AUTO及core0/core1/core2分别推理通过，四次top1均为156、分数0.884766、概率和0.999737，跨核最大输出差异为0。单次推理及取输出调用约3.08–3.21ms；仅为此模型的短测试，不作为YOLO、5 TOPS或持续负载基准。独立INT8矩阵API探针两次出现数值不一致，原因未定位；不能将其判为接口可用，也不据此推翻已通过的模型路径。启动资源警告、其他模型、各类算子与稳定性继续保留未验收状态。
+
+Tailscale1.104.1从官方Debian12源安装，使用既有控制端签发的单次、非ephemeral、预授权tag:server登记密钥创建 `rock5c-lite-rk3582`；未复制旧节点状态。IPv4为100.67.14.84，MagicDNS为rock5c-lite-rk3582.tail24a4cf.ts.net。配置accept-dns=false、accept-routes=false、ssh=false，不广告子网或出口节点；继续使用muqiao与既有OpenSSH主机身份。所有本轮临时登记密钥文件已删除，旧离线节点未删除。[官方安装源](https://pkgs.tailscale.com/stable/#debian-bookworm)
+
+电脑及外部Greenrise均通过Tailscale新建OpenSSH会话，严格核对原主机密钥。tailscaled重启后仍Running，远端SSH复测通过；systemd自启为enabled，完整断电冷启动尚未复测。本机 `ssh rock-5c` 使用100.67.14.84，`ssh rock-5c-lan` 保留mDNS局域网恢复入口；当前end1=10.42.0.221/24，家庭无线仍未关联，因此当前外网通路依赖电脑有线共享。
+
 ## 最短接续入口
 
-接续owner：根Codex。媒体、启动和有线SSH验收已完成，保持电脑原Wi-Fi与网线恢复入口，接续家庭无线关联故障，再核对无线IP直连SSH。新系统尚未安装Tailscale，旧100.103.100.10不作为新系统验收地址。DHCP地址可能变化，应读取当前租约或mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
+接续owner：根Codex。媒体、启动、有线及Tailscale SSH、官方MobileNet三核路径已验收，保持电脑原Wi-Fi与网线恢复入口。接续家庭无线关联故障、独立矩阵API差异及目标YOLO模型验收；旧100.103.100.10不作为新系统地址。DHCP地址可能变化，应读取当前租约或mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
 
 ```bash
 nproc
