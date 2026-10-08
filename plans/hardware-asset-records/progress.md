@@ -2,7 +2,7 @@
 
 ## Current
 
-2026-10-08：官方Radxa OS启动、有线公钥/密码SSH、6核与rootfs229G已验收。新增Tailscale节点rock5c-lite-rk3582/100.67.14.84，电脑与外部Greenrise严格主机密钥SSH通过，服务重启后恢复且开机自启已启用。官方MobileNet分别在三个NPU核推理通过，跨核输出一致；独立矩阵API数值差异、启动资源警告、目标YOLO与持续负载仍待验收。家庭Wi-Fi关联失败，当前联网依赖电脑有线共享。
+2026-10-08：按用户最新选择，ROCK连接电脑当前SSID88888888成功，wlan0=192.168.0.104/24，自动连接已启用。无线地址SSH、无线出口HTTPS200及无线默认路由生效后的Tailscale远端SSH通过；默认出口和DNS已走无线，电脑Wi-Fi保持不变。此前官方系统6核、rootfs229G、MobileNet三核及Tailscale服务恢复验收结果保留；原MUQIAO关联原因、矩阵API差异、目标YOLO/VPU、持续负载与冷启动仍待验收。
 
 ## Done
 
@@ -74,7 +74,7 @@
 
 - 本轮官方MobileNet三核模型路径与Tailscale远端SSH已验收；临时登记密钥文件已删除，旧节点保留。根Codex接续矩阵API数值差异、NPU启动资源警告和目标YOLO/VPU；不能把短模型测试扩展为所有算子或持续负载通过。
 
-- 不再等待旧系统wpa_cli输出。新系统启动与有线SSH已验收；接续owner：根Codex。保持电脑原Wi-Fi，查ROCK无线关联拒绝，再验证无线SSH及NPU模型。凭据存在不等于关联完成，不把当前故障直接归因于密码。
+- 新系统88888888无线独立联网与SSH已验收；电脑原Wi-Fi保持不变。原MUQIAO-2.4G关联失败原因尚未定位，不直接判定密码错误；如后续需要该SSID，由根Codex独立接续。
 - 此前探针修复与CPU/OTP现场记录已交付。本轮GPU/NPU官方与节点状态复核完成；设备功能验证仍待执行。
 - ROCK的有线SSH、CPU与芯片标识检查已完成；接续owner：根Codex。旧Armbian为何保留8核的原因仍未确定，新官方系统已确认6核；最短入口见 `docs/boards/rock-5c-lite.md`。
 - 后续现场工作从ROCK启动链差异、驱动兼容性与单路摄像头基线开始；用户告知已上线与本机SSH连通分别记录。
@@ -88,4 +88,4 @@
 
 ## Next
 
-保持已通过的有线SSH入口，接续家庭Wi-Fi关联故障、无线IP与独立SSH登录；随后处理RKNPU启动警告并运行模型，按 `docs/FRIGATE_HAOS_PLAN.md` 的阶段1和阶段2接续。
+使用已通过的无线/Tailscale SSH入口，接续RKNPU启动警告、独立矩阵API数值差异及目标YOLO/VPU验收，按 `docs/FRIGATE_HAOS_PLAN.md` 的阶段1和阶段2继续；完整冷启动另行验证。
