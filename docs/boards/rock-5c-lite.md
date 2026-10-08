@@ -163,9 +163,43 @@ nameserver 192.168.0.1
 WIFI_HTTPS_HTTP=200
 ```
 
+## 家庭网络改名与双 Wi-Fi 配置（2026-10-08）
+
+用户确认家庭SSID由 `MUQIAO-2.4G` 改为 `MUQIAO-5G`，密码不变，旧SSID不再使用。原位更新home-wifi的SSID，保留原凭据；设置5GHz频段，清除此前指定的BSSID。电脑仍连接88888888，未切换电脑网络。
+
+| 角色 | NetworkManager配置 | SSID | 自动连接 | 优先级 |
+|---|---|---|---|---:|
+| 首选 | home-wifi | MUQIAO-5G | yes | 100 |
+| 备用 | workstation-wifi | 88888888 | yes | 30 |
+
+home-wifi设置 `connection.autoconnect-retries=2`，避免首选网络无限重试而阻止选择备用配置。自动连接优先级在启动或断线后选择网络时生效；已连接备用网络时不会仅因发现首选网络而立即切换。本轮主动激活home-wifi，一块无线网卡一次连接一个SSID。
+
+当前wlan0连接MUQIAO-5G，频率5200MHz，地址192.168.0.5/24，默认网关192.168.0.1、路由metric40；DNS采用该网络DHCP下发的192.168.0.1，优先级−60。end1的carrier为0。切换后严格核对原主机密钥，以 `ssh rock-5c` 新建Tailscale SSH会话成功，强制wlan0出口的HTTPS返回200。NetworkManager的120秒回退检查点已在验证后销毁，Checkpoints为空；切换任务退出成功。
+
+新会话的只读输出节选：
+
+```text
+connection.id:home-wifi
+802-11-wireless.ssid:MUQIAO-5G
+802-11-wireless.band:a
+connection.autoconnect:yes
+connection.autoconnect-priority:100
+connection.autoconnect-retries:2
+connection.id:workstation-wifi
+802-11-wireless.ssid:88888888
+connection.autoconnect:yes
+connection.autoconnect-priority:30
+*:MUQIAO-5G:5200 MHz
+wlan0            UP             192.168.0.5/24
+default via 192.168.0.1 dev wlan0 proto dhcp src 192.168.0.5 metric 40
+WIFI_HTTPS_HTTP=200
+```
+
+`ssh rock-5c` 继续使用100.67.14.84。电脑处于另一Wi-Fi网络，`rock-5c.local` 仍可能返回此前的缓存地址；`ssh rock-5c-lan` 需在同一局域网重新解析验证，不能把两个网络中相同的192.168.0.x网段视为互通。未进行冷启动或首选AP消失后的实际备用切换测试。旧2.4GHz关联失败记录保留为历史，已不作为当前网络接续任务。
+
 ## 最短接续入口
 
-接续owner：根Codex。媒体、启动、88888888无线独立联网、局域网/Tailscale SSH及官方MobileNet三核路径已验收。原MUQIAO-2.4G关联原因、独立矩阵API差异及目标YOLO模型另行验收；旧100.103.100.10不作为新系统地址。DHCP地址可能变化，应读取当前租约或mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
+接续owner：根Codex。媒体、启动、MUQIAO-5G无线独立联网、Tailscale SSH及官方MobileNet三核路径已验收；88888888此前通过无线与局域网SSH验收，现保留为备用。独立矩阵API差异及目标YOLO模型另行验收；旧100.103.100.10不作为新系统地址。DHCP地址可能变化，应读取当前租约或同一局域网的mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
 
 ```bash
 nproc

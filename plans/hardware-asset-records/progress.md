@@ -2,7 +2,7 @@
 
 ## Current
 
-2026-10-08：按用户最新选择，ROCK连接电脑当前SSID88888888成功，wlan0=192.168.0.104/24，自动连接已启用。无线地址SSH、无线出口HTTPS200及无线默认路由生效后的Tailscale远端SSH通过；默认出口和DNS已走无线，电脑Wi-Fi保持不变。此前官方系统6核、rootfs229G、MobileNet三核及Tailscale服务恢复验收结果保留；原MUQIAO关联原因、矩阵API差异、目标YOLO/VPU、持续负载与冷启动仍待验收。
+2026-10-08：用户确认家庭SSID已由MUQIAO-2.4G改为MUQIAO-5G，密码不变，旧SSID不再使用。已原位更新home-wifi，首选优先级100、自动连接重试2次；88888888保留为备用，优先级30。当前wlan0=192.168.0.5/24、5200MHz，默认路由metric40，DNS使用家庭网关；无网线连接时，新建Tailscale SSH与强制无线HTTPS200通过，回退检查点已销毁。电脑Wi-Fi未切换。此前官方系统6核、rootfs229G与MobileNet三核验收结果保留；矩阵API差异、目标YOLO/VPU、持续负载、冷启动与实际备用切换仍待验收，旧2.4GHz关联问题转为历史记录。
 
 ## Done
 
