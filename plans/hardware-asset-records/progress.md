@@ -89,3 +89,13 @@
 ## Next
 
 使用已通过的无线/Tailscale SSH入口，接续RKNPU启动警告、独立矩阵API数值差异及目标YOLO/VPU验收，按 `docs/FRIGATE_HAOS_PLAN.md` 的阶段1和阶段2继续；完整冷启动另行验证。
+
+## GM800 网络接续（2026-10-08）
+
+- 用户授权根Codex接管GM800无线、SSH与内网穿透；可信USB核对GM260200522与Ubuntu/systemd后完成单机配置，ROCK保持原配置。
+- AIC原厂SDIO模块匹配4.19.219；SSID88888888关联、有线与无线公钥SSH、强制无线HTTPS200通过。NetworkManager有线自动连接与Wi-Fi加载服务已配置。
+- 两次失联前日志均记录Power key pressed与Powering Off；改为logind忽略短按，并完成重启。没有将失联归因于驱动崩溃，没有卸载AIC模块。
+- 使用API核实的已有单次Tailscale密钥登记gm800-522；两端索引标记consumed、目标临时副本删除。电脑与外部Greenrise的严格公钥OpenSSH均通过。
+- 网线拔出后重启，用户选择Ubuntu；新启动、eth0 carrier0、无线自动连接、服务自启和远程SSH均通过。普通gm800固定CNN30次输出比较PASS，runtime2.3.2/driver0.4.2，最大绝对误差0.000141769648。
+- 档案与结构化采集在docs/boards/gm800.md、snapshots/gm800-522.json；原始运行日志与凭据只留本机受限安装目录。Ops-Vault维护gm800的canonical登录入口与独立lab_user_hosts清单，不加入ControlMesh部署组。
+- 本次网络验收完成；大型模型、持续负载与独立冷启动另验。原未提交snapshots/j1900-d3-live.jpg继续保留，不加入公开仓库；此前Issues中的接续owner与最短入口继续有效。

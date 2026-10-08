@@ -1,0 +1,60 @@
+{
+  "device_serial": "GM260200522",
+  "hostname": "gm800-522",
+  "user": "gm800",
+  "uid": 1000,
+  "soc": "RK3566",
+  "online_cpus": 4,
+  "os": "Ubuntu 22.04.3 LTS",
+  "kernel": "4.19.219",
+  "memory_total_kib": 3984284,
+  "root_source": "/dev/mmcblk2p14[/ubuntu/mnt]",
+  "wireless": {
+    "link": "Connected to 54:a7:03:cf:af:d1 (on wlan0)\n\tSSID: 88888888\n\tfreq: 5805\n\tRX: 114379 bytes (456 packets)\n\tTX: 92905 bytes (501 packets)\n\tsignal: -36 dBm\n\trx bitrate: 180.0 MBit/s VHT-MCS 9 40MHz VHT-NSS 1\n\ttx bitrate: 180.0 MBit/s VHT-MCS 9 40MHz VHT-NSS 1",
+    "ipv4": "9: wlan0    inet 192.168.0.105/24 brd 192.168.0.255 scope global dynamic noprefixroute wlan0\\       valid_lft 7125sec preferred_lft 7125sec",
+    "default_route": "1.1.1.1 via 192.168.0.1 dev wlan0 src 192.168.0.105 uid 1000 \n    cache"
+  },
+  "ethernet_carrier": 0,
+  "tailscale": {
+    "backend": "Running",
+    "health_count": 0,
+    "hostname": "gm800-522",
+    "dns_name": "gm800-522.tail24a4cf.ts.net",
+    "ipv4": "100.126.230.38"
+  },
+  "services": {
+    "ssh": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "NetworkManager": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "tailscaled": {
+      "active": "active",
+      "enabled": "enabled"
+    },
+    "gm800-wifi.service": {
+      "active": "active",
+      "enabled": "enabled"
+    }
+  },
+  "collected_at": "2026-10-08T05:53:59.094908+00:00",
+  "acceptance": {
+    "rebooted_into_ubuntu_without_ethernet": true,
+    "workstation_tailscale_ssh": true,
+    "greenrise_tailscale_ssh": true,
+    "hostkey_pin": "SHA256:ZLP5HE2k7GLdZNFhrwsd4qDionhJI9TzZ7WITutyKrw",
+    "npu": {
+      "result": "PASS",
+      "checked_repeats": 30,
+      "model": "gm800_test_cnn.rknn",
+      "runtime": "2.3.2",
+      "driver": "0.4.2",
+      "max_abs_error": 0.000141769648,
+      "mean_run_plus_output_ms": 0.215
+    },
+    "scope": "Small fixed NPU model and network recovery only; not a sustained workload benchmark"
+  }
+}
