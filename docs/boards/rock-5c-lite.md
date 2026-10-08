@@ -1,6 +1,6 @@
 # ROCK 5C Lite / RK3582 / 8GB
 
-更新日期：2026-10-06（Asia/Shanghai）。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
+更新日期：2026-10-08（Asia/Shanghai）。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
 
 ## 刷写前结论与证据
 
@@ -119,9 +119,19 @@ ssh -t rock-5c 'sudo wpa_cli -i wlan0 list_networks && sudo wpa_cli -i wlan0 sta
 
 Ventoy的 `ARM/ROCK-5C-Lite` 已加入官方原始压缩镜像、校验文件与说明，复制后再次核对官方SHA-512通过。该原版镜像没有加入私人配置，也不是普通x86电脑的Ventoy启动安装项。电脑的 `ssh rock-5c` 已改为muqiao@rock-5c.local，保留维护公钥及既有主机密钥别名；新地址解析与实际登录待板子上电后验证。
 
+## 新系统启动与SSH验收（2026-10-08）
+
+用户确认已重启，并将ROCK网线直接连接电脑。电脑保持 `88888888` Wi-Fi，不切换其无线配置；有线共享为10.42.0.1/24。最初ARP扫描无回应，随后收到主机名rock-5c的新DHCP请求并分配10.42.0.221。不能把此前无回应直接判为启动失败，也不能沿用旧租约地址。
+
+通过严格主机密钥检查，以muqiao成功登录；独立禁用公钥后，用户指定的密码也完成SSH登录。mDNS随后解析为10.42.0.221，原 `ssh rock-5c` 新会话通过。现场系统为Debian12 bookworm、6.1.43-15-rk2312，CPU在线范围0-5、nproc为6；rootfs已扩容至229G，剩余217G。有线接口为end1，ssh、NetworkManager、Avahi和rknpu2服务均active。
+
+家庭无线尚未通过：home-wifi配置已加载，autoconnect=yes、凭据存在，rfkill没有阻止；wlan0可扫描到MUQIAO-2.4G。无线设备为USB AIC8800D80。wpa_supplicant反复报告 `CTRL-EVENT-ASSOC-REJECT status_code=1`，失败发生在关联阶段；不能据此判定无线密码错误。手动激活曾返回网络未找到；随后关闭省电并指定该AP重试，仍发生关联拒绝，测试结束后恢复原省电设置。关联、射频条件和驱动/AP兼容性仍待核实。此前有线DHCP多次超时，取得地址后SSH才具备网络入口；账号验证本身已通过。
+
+NPU驱动入口已出现：平台fdab0000.npu绑定RKNPU，renderD129对应RKNPU，内核报告rknpu0.9.6；renderD128对应显示驱动rockchip-drm，不作Mali GPU证据。启动日志仍有fdac/fdad资源区域申请警告，模型推理、各核可用性和稳定性尚未验收，不将服务active或设备节点存在写成功能通过。
+
 ## 最短接续入口
 
-接续owner：根Codex。待媒体校验与安全移除后，用户将TF插回ROCK并断电重启；先保持网线作为恢复入口，再核对家庭Wi-Fi关联/IP、`ssh rock-5c` 与无线IP直连SSH。新系统尚未安装Tailscale，旧100.103.100.10不作为新系统验收地址。DHCP地址可能变化，应读取当前租约或mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
+接续owner：根Codex。媒体、启动和有线SSH验收已完成，保持电脑原Wi-Fi与网线恢复入口，接续家庭无线关联故障，再核对无线IP直连SSH。新系统尚未安装Tailscale，旧100.103.100.10不作为新系统验收地址。DHCP地址可能变化，应读取当前租约或mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
 
 ```bash
 nproc
