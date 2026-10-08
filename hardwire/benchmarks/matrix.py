@@ -4,7 +4,7 @@ from typing import Dict, List, Any
 HARDWARE_DATABASE = [
     {
         "id": "rpi5",
-        "name": "Raspberry Pi 5",
+        "name": "Raspberry Pi 5（已售出，历史参考）",
         "soc": "Broadcom BCM2712",
         "arch": "ARM64 (v8.2-A)",
         "cores": "4 × Cortex-A76 @ 2.4GHz",
@@ -20,7 +20,7 @@ HARDWARE_DATABASE = [
             "inference": "⭐⭐☆☆☆ (纯 CPU 推理，跑轻量视觉尚可，大模型吃力)",
             "power_save": "⭐⭐⭐⭐☆ (低负载功耗控制出色，但无待机开关机制)"
         },
-        "verdict": "适合作为主力家庭中枢服务、网络服务、自动化网关（社区资料最全）。"
+        "verdict": "用户已确认售出；规格与评分仅保留为历史参考，不参与当前节点分工。"
     },
     {
         "id": "rock5c",
@@ -29,18 +29,38 @@ HARDWARE_DATABASE = [
         "arch": "ARM64 (v8.2-A)",
         "cores": "2 × A76 (最高2.4GHz) + 4 × A55 (最高1.8GHz)；无GPU",
         "ram": "用户确认8GB LPDDR4X；Linux实测7.7 GiB",
-        "npu": "5 TOPS @ INT8；推理待验收",
+        "npu": "标称5 TOPS @ INT8；MobileNet三核分别通过",
         "pcie": "FPC PCIe 2.1 x1；扩展需转接板",
         "storage": "MicroSD / eMMC；FPC扩展需转接板",
         "idle_power": "待实测",
         "load_power": "待实测",
         "best_for": {
-            "service": "待验证 (系统与持续运行)",
-            "compile": "待实测 (标称6核；当前8核在线)",
-            "inference": "待验证 (驱动、模型、解码与准确率)",
+            "service": "无线/SSH已验收；持续运行待验",
+            "compile": "待实测 (官方Debian 12当前6核在线)",
+            "inference": "MobileNet通过；目标YOLO/VPU与持续负载待验",
             "power_save": "待实测 (功耗与温升)"
         },
-        "verdict": "OTP确认RK3582；系统当前8核在线，启动策略差异待核实；Frigate功能待验收。"
+        "verdict": "OTP确认RK3582；官方系统当前6核。旧Armbian的8核为历史差异；矩阵API数值差异与Frigate另验。"
+    },
+    {
+        "id": "gm800",
+        "name": "国美云 GM800 (RK3566)",
+        "soc": "Rockchip RK3566",
+        "arch": "ARM64",
+        "cores": "实机4核",
+        "ram": "Linux实测约3.8 GiB；标称容量另核",
+        "npu": "固定CNN模型30次输出比较通过；非TOPS基准",
+        "pcie": "接口与扩展待实机核对",
+        "storage": "内部userdata运行Ubuntu；保留Android双系统",
+        "idle_power": "待实测",
+        "load_power": "待实测",
+        "best_for": {
+            "service": "拔网线重启后无线/SSH恢复；持续运行待验",
+            "compile": "待实测 (4核；Ubuntu 22.04.3)",
+            "inference": "固定小模型通过；大型模型与目标YOLO待验",
+            "power_save": "待实测 (功耗与温升)"
+        },
+        "verdict": "RK3566；Runtime2.3.2/driver0.4.2。开机须选Ubuntu；独立冷启动、持续负载与其他外设另验。"
     },
     {
         "id": "j1900",
@@ -92,7 +112,7 @@ class BoardMatrix:
         md = []
         md.append("# 嵌入式板卡与小主机横向对比矩阵 (Board Matrix)\n")
         md.append("重点解决：**在手头这几块板子中，到底哪个做服务、哪个做编译、哪个做推理、哪个最省电？**\n")
-        md.append("ROCK条目于2026-10-06按用户确认修正为Lite。OTP确认RK3582，当前系统8核在线，与官方6核分开记录。规格依据[Radxa官方Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)；旧基准不作为Lite性能证明。其他条目沿用历史参考，当前资产状态见资产总表。\n")
+        md.append("2026-10-08同步实机验收：ROCK已由OTP确认RK3582，官方Debian 12当前6核在线；旧Armbian的8核与旧基准保留为历史。GM800无线重启SSH与固定NPU小模型通过。Pi 5已售出。规格依据[Radxa官方Product Brief](https://dl.radxa.com/rock5/5c/docs/hw/v1100/radxa_rock5c_product_brief_Revision_1.2_g02f49da.pdf)，验收范围见[ROCK档案](docs/boards/rock-5c-lite.md)、[GM800档案](docs/boards/gm800.md)；当前资产状态见[资产总表](docs/HARDWARE_ASSETS.md)。\n")
         
         # 表格一：核心硬件规格
         md.append("### 1. 硬件参数与芯片底色")
@@ -109,7 +129,7 @@ class BoardMatrix:
 
         md.append("\n### 3. 选型决策指南 (Answer to Practical Questions)\n")
         md.append("1. **哪个适合作为长期服务机？**")
-        md.append("   - **首选：Raspberry Pi 5**。生态极其稳健，各类 Docker 镜像和外设驱动支持最好，排错成本最低。")
+        md.append("   - **在手ARM候选：ROCK 5C Lite与GM800**。网络与SSH已验收；长期服务、断电恢复和目标应用仍需验证。Pi 5已售出，不分配当前职责。")
         md.append("   - **次选：东芝/老款笔记本**。如果部署必须保证断电不崩，老笔记本自带的锂电池天然就是免维护 UPS。\n")
 
         md.append("2. **哪个适合作为编译机？**")
@@ -117,18 +137,19 @@ class BoardMatrix:
         md.append("   - **全平台性能首选：x86 主力笔记本**。主频高，NVMe 写入快，内存大，适合重型大包构建。\n")
 
         md.append("3. **哪个适合模型推理？**")
-        md.append("   - **边缘推理候选：Radxa ROCK 5C Lite**。标称5 TOPS NPU；须分别验证RKNN驱动、目标模型和实际准确率。")
+        md.append("   - **ROCK 5C Lite**：官方MobileNet V1在AUTO及core0/core1/core2输出一致，单次约3.08–3.21ms；目标YOLO、解码与持续负载另验。")
+        md.append("   - **GM800**：固定CNN模型30次输出比较通过，最大误差0.000141769648、平均0.215ms；模型不同，不能据此与ROCK比较速度或TOPS。")
         md.append("   - **通用大模型推理：带 CUDA 独显的笔记本**。\n")
 
         md.append("4. **哪个最省电？**")
-        md.append("   - **ROCK 5C Lite功耗待测**。用同一供电测量待机与目标负载功耗，再比较长期运行成本。\n")
+        md.append("   - **ROCK 5C Lite与GM800功耗待测**。用同一供电测量待机与目标负载功耗，再比较长期运行成本。\n")
 
         md.append("### 4. 个人全量设备实测天梯榜与 N100 当量矩阵")
         md.append("| 设备资产 | 核心配置与架构 | 单核性能 | 全核多进程 | 内存拷贝带宽 | N100 综合当量 | 最适合的角色与定位 |")
         md.append("|---|---|---|---|---|---|---|")
         md.append("| **蛟龙 15K 笔记本** | Ryzen 7 7435H (16T, 45W+) | 0.172s | 0.454s | 1863 MB/s | **~3.8 个 N100** | 桌面性能怪物：本地大模型蒸馏、重型大工程构建 |")
         md.append("| **legacy-ai-server** | Xeon Platinum 8336C (2T) | 0.371s | 0.460s | 1303 MB/s | **~1.2 个 N100** | 单核 IPC 极高：适合跑高主频计算或轻量 API |")
-        md.append("| **树莓派 5 (Pi 5)** | BCM2712 A76 (4T @ 2.4G) | 0.427s | 0.484s | 3611 MB/s | **~1.0 个 N100** | 黄金服务基准：最稳本地 Docker 中枢、自动化网关 |")
+        md.append("| **树莓派 5 (Pi 5，已售出)** | BCM2712 A76 (4T @ 2.4G) | 0.427s（历史） | 0.484s（历史） | 3611 MB/s（历史） | **~1.0 个 N100（历史）** | 历史性能参考，不计入当前可用资产 |")
         md.append("| **qiaobird (EPYC)** | AMD EPYC-Rome (4T) | 0.490s | 0.632s | 1206 MB/s | **~1.1 个 N100** | 稳健云端主力：多任务数据库、常驻应用、云端开发 |")
         md.append("| **东芝 R73 笔记本** | i5-7200U (4T @ 2.5G) | 0.392s | 0.905s | 1492 MB/s | **~0.85 个 N100** | 自带 UPS 免维护：不怕断电，离线工控与数据库冷备 |")
         md.append("| **ROCK 5C历史记录（型号未实证）** | 旧记录称8线程；不能代表Lite标称6核 | 0.426s（历史） | 1.004s（历史） | 7509 MB/s（历史） | 待核实 | 原始测试、时间与型号绑定缺失；不据此评价Lite |")

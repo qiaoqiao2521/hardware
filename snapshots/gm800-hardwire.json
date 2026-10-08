@@ -1,0 +1,361 @@
+{
+  "machine_id": "gm800-522",
+  "arch": "aarch64",
+  "collected_at": 1791442891.1748605,
+  "facts": [
+    {
+      "category": "system",
+      "source": "dmi/device-tree",
+      "key": "board_model",
+      "value": "Rockchip RK3566 EVB2 LP4X V10 Board",
+      "timestamp": 1791442891.17487
+    },
+    {
+      "category": "system",
+      "source": "uname",
+      "key": "hostname",
+      "value": "gm800-522",
+      "timestamp": 1791442891.1748724
+    },
+    {
+      "category": "system",
+      "source": "uname",
+      "key": "kernel_release",
+      "value": "4.19.219",
+      "timestamp": 1791442891.174876
+    },
+    {
+      "category": "system",
+      "source": "/etc/os-release",
+      "key": "os_pretty_name",
+      "value": "Ubuntu 22.04.3 LTS",
+      "timestamp": 1791442891.1748772
+    },
+    {
+      "category": "cpu",
+      "source": "lscpu/cpuinfo",
+      "key": "model_name",
+      "value": "Cortex-A55",
+      "timestamp": 1791442891.174884
+    },
+    {
+      "category": "cpu",
+      "source": "nproc",
+      "key": "threads",
+      "value": 4,
+      "timestamp": 1791442891.1748867
+    },
+    {
+      "category": "memory",
+      "source": "/proc/meminfo",
+      "key": "total_mb",
+      "value": 3890.9,
+      "timestamp": 1791442891.1749084
+    },
+    {
+      "category": "memory",
+      "source": "/proc/meminfo",
+      "key": "available_mb",
+      "value": 3583.9,
+      "timestamp": 1791442891.1749096
+    },
+    {
+      "category": "memory",
+      "source": "/proc/meminfo",
+      "key": "used_percent",
+      "value": 7.9,
+      "timestamp": 1791442891.1749115
+    },
+    {
+      "category": "memory",
+      "source": "/proc/meminfo",
+      "key": "swap_total_mb",
+      "value": 0.0,
+      "timestamp": 1791442891.1749132
+    },
+    {
+      "category": "memory",
+      "source": "/proc/meminfo",
+      "key": "swap_used_mb",
+      "value": 0.0,
+      "timestamp": 1791442891.1749146
+    },
+    {
+      "category": "thermal",
+      "source": "/sys/class/thermal",
+      "key": "soc_temp_celsius",
+      "value": 40.6,
+      "timestamp": 1791442891.1749184
+    },
+    {
+      "category": "storage",
+      "source": "lsblk",
+      "key": "blockdevices",
+      "value": [
+        {
+          "name": "mmcblk2",
+          "size": "116.5G",
+          "type": "disk",
+          "mountpoint": null,
+          "model": null,
+          "children": [
+            {
+              "name": "mmcblk2p1",
+              "size": "4M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p2",
+              "size": "4M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p3",
+              "size": "4M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p4",
+              "size": "4M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p5",
+              "size": "4M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p6",
+              "size": "1M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p7",
+              "size": "40M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p8",
+              "size": "100M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p9",
+              "size": "384M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p10",
+              "size": "384M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p11",
+              "size": "16M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p12",
+              "size": "1M",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p13",
+              "size": "3G",
+              "type": "part",
+              "mountpoint": null,
+              "model": null
+            },
+            {
+              "name": "mmcblk2p14",
+              "size": "112.5G",
+              "type": "part",
+              "mountpoint": "/mnt/host-data",
+              "model": null
+            }
+          ]
+        },
+        {
+          "name": "mmcblk2boot0",
+          "size": "4M",
+          "type": "disk",
+          "mountpoint": null,
+          "model": null
+        },
+        {
+          "name": "mmcblk2boot1",
+          "size": "4M",
+          "type": "disk",
+          "mountpoint": null,
+          "model": null
+        },
+        {
+          "name": "zram0",
+          "size": "0B",
+          "type": "disk",
+          "mountpoint": null,
+          "model": null
+        }
+      ],
+      "timestamp": 1791442891.1749475
+    },
+    {
+      "category": "storage",
+      "source": "df",
+      "key": "root_device",
+      "value": "/dev/mmcblk2p14",
+      "timestamp": 1791442891.1749504
+    },
+    {
+      "category": "storage",
+      "source": "df",
+      "key": "root_size",
+      "value": "109G",
+      "timestamp": 1791442891.174951
+    },
+    {
+      "category": "storage",
+      "source": "df",
+      "key": "root_used",
+      "value": "3.1G",
+      "timestamp": 1791442891.1749518
+    },
+    {
+      "category": "storage",
+      "source": "df",
+      "key": "root_avail",
+      "value": "106G",
+      "timestamp": 1791442891.1749523
+    },
+    {
+      "category": "storage",
+      "source": "df",
+      "key": "root_use_percent",
+      "value": "3%",
+      "timestamp": 1791442891.1749527
+    },
+    {
+      "category": "network",
+      "source": "ip_a",
+      "key": "active_interfaces",
+      "value": [
+        "dummy0",
+        "eth0",
+        "ip_vti0",
+        "ip6_vti0",
+        "sit0",
+        "ip6tnl0",
+        "tailscale0",
+        "wlan0"
+      ],
+      "timestamp": 1791442891.1750784
+    }
+  ],
+  "inferences": [
+    {
+      "id": "THERMAL_NOMINAL",
+      "level": "INFO",
+      "claim": "SoC 温控非常优良 (40.6°C)，被动或主动散热处于健康状态",
+      "evidence": [
+        {
+          "source": "/sys/class/thermal",
+          "key": "soc_temp_celsius",
+          "value": 40.6
+        }
+      ],
+      "caveat": "仅代表当前轻载/待机温度，全核编译或 NPU 满载时需复测。"
+    },
+    {
+      "id": "STORAGE_ROOT_HEALTHY",
+      "level": "INFO",
+      "claim": "根文件系统余量充足 (占用率 3%)",
+      "evidence": [
+        {
+          "source": "df",
+          "key": "root_use_percent",
+          "value": "3%"
+        },
+        {
+          "source": "df",
+          "key": "root_avail",
+          "value": "106G"
+        }
+      ],
+      "caveat": "存储被成功识别并挂载不代表其掉电保护安全，关键数据仍需异机冷备。"
+    },
+    {
+      "id": "MEMORY_HEALTHY",
+      "level": "INFO",
+      "claim": "系统内存余量充足 (物理内存占用率 7.9%)",
+      "evidence": [
+        {
+          "source": "/proc/meminfo",
+          "key": "used_percent",
+          "value": 7.9
+        },
+        {
+          "source": "/proc/meminfo",
+          "key": "swap_used_mb",
+          "value": 0.0
+        },
+        {
+          "source": "/proc/meminfo",
+          "key": "swap_total_mb",
+          "value": 0.0
+        }
+      ],
+      "caveat": "内存余量健康不保证瞬时大并发或大模型加载时不会引发 OOM 保护。"
+    },
+    {
+      "id": "NETWORK_LINK_DETECTED",
+      "level": "INFO",
+      "claim": "ip a 枚举到的非回环接口（含虚拟接口）: dummy0, eth0, ip_vti0, ip6_vti0, sit0, ip6tnl0, tailscale0, wlan0",
+      "evidence": [
+        {
+          "source": "ip_a",
+          "key": "active_interfaces",
+          "value": [
+            "dummy0",
+            "eth0",
+            "ip_vti0",
+            "ip6_vti0",
+            "sit0",
+            "ip6tnl0",
+            "tailscale0",
+            "wlan0"
+          ]
+        }
+      ],
+      "caveat": "接口枚举不能证明有线carrier、Wi-Fi关联、外网连通性或DNS可靠性；须分别读取状态并执行连接测试。"
+    }
+  ],
+  "export_notes": {
+    "runtime_log_fact_omitted": true,
+    "kernel_inferences_omitted": true,
+    "scope": "Read-only hardware probe; network and NPU acceptance remain in gm800-522.json"
+  }
+}

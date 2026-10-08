@@ -41,19 +41,26 @@ python3 -m hardwire collect --local
 # 2. 远程无侵入探测在手目标（替换为实际用户与主机）
 python3 -m hardwire collect --ssh user@device-host
 
-# 3. 远程无侵入探测 Radxa ROCK 5C
+# 3. 远程无侵入探测 Radxa ROCK 5C Lite
 python3 -m hardwire collect --ssh rock-5c
 
-# 4. 对比两次硬件快照
+# 4. 采集 GM800 标准 Hardwire 快照
+python3 -m hardwire collect --ssh gm800 --save snapshots/gm800-hardwire.json
+
+# 5. 对比两次硬件快照
 python3 -m hardwire diff snapshots/rock-5c-before.json snapshots/rock-5c-after.json
 
-# 5. 查看嵌入式多板卡选型对比横评
+# 6. 查看嵌入式多板卡选型对比横评
 python3 -m hardwire matrix
 ```
 
 ---
 
 ## 板卡记录
+
+- [ROCK 5C Lite / RK3582 / 8GB：官方系统、无线 SSH 与 MobileNet NPU 验收](docs/boards/rock-5c-lite.md)
+- [国美云 GM800 / RK3566：无线重启恢复、双系统与固定 NPU 小模型验收](docs/boards/gm800.md)
+  - `snapshots/gm800-522.json` 保存网络与 NPU 验收字段；`gm800-hardwire.json` 保存标准探针事实，两者用途不同。
 
 - [康士达 K-B68TK-J1900 触摸工控机：硬件枚举、双 I211、6 路 COM 与无线扩展](docs/boards/j1900-b68tk.md)
   - 2026-10-04 实测，含产品目录链接、原始采集证据与尚未完成的实物测试。

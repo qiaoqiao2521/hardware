@@ -12,7 +12,7 @@ class SystemProbe:
         arch = raw_payload.get("arch", "").strip() or "unknown"
         bundle.arch = arch
 
-        model = raw_payload.get("model", "").strip()
+        model = raw_payload.get("model", "").strip().rstrip("\x00")
         if not model or model == "Generic Board":
             model = raw_payload.get("dmi_product", "").strip() or "Generic Linux Machine"
         bundle.add_fact("system", "dmi/device-tree", "board_model", model)

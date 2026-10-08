@@ -3,6 +3,7 @@ import unittest
 from hardwire.core.evidence import EvidenceBundle
 from hardwire.core.probe import SystemProbe
 from hardwire.benchmarks.matrix import BoardMatrix
+from hardwire.core.diagnostic import DiagnosticEngine
 
 
 class ProbeIdentityTests(unittest.TestCase):
@@ -45,6 +46,24 @@ class ProbeIdentityTests(unittest.TestCase):
     def test_missing_cpu_name_does_not_crash(self):
         facts = self.collect_cpu_facts(arch="aarch64")
         self.assertEqual(facts["model_name"], "Generic aarch64 CPU")
+
+    def test_device_tree_model_terminator_is_not_part_of_board_name(self):
+        bundle = SystemProbe.parse_raw_data(EvidenceBundle("fixture", "unknown"),
+                                          {"model": "RK3566 EVB2\x00\n"})
+        model = next(f.value for f in bundle.facts if f.key == "board_model")
+        self.assertEqual(model, "RK3566 EVB2")
+
+    def test_interface_enumeration_does_not_claim_physical_connectivity(self):
+        bundle = SystemProbe.parse_raw_data(EvidenceBundle("fixture", "unknown"), {
+            "ip_a": "1: lo: <LOOPBACK,UP>\n2: eth0: <NO-CARRIER,BROADCAST> state DOWN\n"
+                    "3: dummy0: <BROADCAST> state DOWN\n",
+        })
+        DiagnosticEngine.run_diagnostics(bundle)
+        result = next(i for i in bundle.inferences if i.id == "NETWORK_LINK_DETECTED")
+        self.assertEqual(result.evidence[0]["value"], ["eth0", "dummy0"])
+        self.assertIn("枚举", result.claim)
+        self.assertNotIn("已建立", result.claim)
+        self.assertIn("不能证明", result.caveat)
 
     def test_matrix_separates_lite_specs_from_unverified_historical_benchmarks(self):
         output = BoardMatrix.render_markdown()

@@ -104,16 +104,16 @@ class DiagnosticEngine:
                     caveat="内存余量健康不保证瞬时大并发或大模型加载时不会引发 OOM 保护。"
                 )
 
-        # 4. 网络介质连通性推断
+        # 4. 接口枚举。历史键 active_interfaces 不包含 carrier/关联状态。
         ifaces_fact = facts_by_key.get("active_interfaces")
         if ifaces_fact:
             ifaces = ifaces_fact.value
             bundle.add_inference(
                 id="NETWORK_LINK_DETECTED",
                 level="INFO",
-                claim=f"网络协议栈已建立并探测到可用网卡接口: {', '.join(ifaces)}",
+                claim=f"ip a 枚举到的非回环接口（含虚拟接口）: {', '.join(ifaces) or '无'}",
                 evidence=[ifaces_fact],
-                caveat="【严谨性声明】网卡链路建立仅代表网线插好或 WiFi 关联成功，不能直接推断出外网连通性或 DNS 可靠性。"
+                caveat="接口枚举不能证明有线carrier、Wi-Fi关联、外网连通性或DNS可靠性；须分别读取状态并执行连接测试。"
             )
 
         # 5. 内核日志异常分析

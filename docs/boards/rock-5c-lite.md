@@ -182,4 +182,4 @@ free -h
 
 若系统暴露OTP nvmem，先确认provider为 `rockchip,rk3588-otp`，仅以只读方式读取 `cpu-code` 的两个字节和 `ip-state` 的三个字节。不得导出整块OTP、唯一标识或执行写入。U-Boot主线使用逻辑偏移 `0x02` 和 `0x1d`；`35 82` 对应RK3582。解读时区分OTP原始标记和启动代码追加的禁用策略，不能把设备树 `fail` 自动判为物理坏块或可解锁单元。[U-Boot实现](https://github.com/u-boot/u-boot/blob/master/arch/arm/mach-rockchip/rk3588/rk3588.c)、[Linux只读OTP驱动](https://github.com/torvalds/linux/blob/master/drivers/nvmem/rockchip-otp.c)
 
-本次已取得远端CPU和OTP原始字段，以及网络/设备树枚举。GPU、NPU、VPU功能和持续负载未验收。Frigate部署与验收继续沿用[监控计划](../FRIGATE_HAOS_PLAN.md)，不将型号纠正扩大为功能通过。
+首次身份核对只取得远端CPU、OTP及网络/设备树枚举。后续官方系统已通过本页所述MobileNet NPU测试；Lite无Mali GPU。目标YOLO、VPU与持续负载仍未验收，Frigate部署继续沿用[监控计划](../FRIGATE_HAOS_PLAN.md)。

@@ -19,7 +19,7 @@ def main():
     # collect 命令
     p_collect = subparsers.add_parser("collect", help="执行只读硬件探测与事实诊断")
     p_collect.add_argument("--local", action="store_true", help="探测当前本机系统")
-    p_collect.add_argument("--ssh", type=str, help="通过 SSH 无侵入探测远程设备（如 muqiaopi / rock-5c）")
+    p_collect.add_argument("--ssh", type=str, help="通过 SSH 无侵入探测远程设备（如 rock-5c / gm800）")
     p_collect.add_argument("--save", "--out", dest="save", type=str, help="将生成的快照保存为指定 JSON 文件路径")
 
     # diff 命令
@@ -32,7 +32,7 @@ def main():
     p_bench.add_argument("--save", type=str, help="保存基线数据为 JSON 文件")
 
     # matrix 命令
-    subparsers.add_parser("matrix", help="查看树莓派 5、ROCK 5C、J1900、笔记本的横向选型对比矩阵")
+    subparsers.add_parser("matrix", help="查看ROCK 5C Lite、GM800、J1900、笔记本与已售Pi 5历史对比")
 
     # ip-check 命令 (固定使用开源权威 IP.Check.Place 进行纯洁度与风控检测)
     p_ip = subparsers.add_parser("ip-check", help="运行开源权威 IP.Check.Place 检查 IP 纯洁度、欺诈分与流媒体/AI 解锁")
@@ -89,4 +89,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
