@@ -1,0 +1,67 @@
+{
+  "recorded_date": "2026-10-09",
+  "record_kind": "selected_prior_evidence_and_user_report",
+  "new_device_probe_performed": false,
+  "model": "NSY-G16-Plus",
+  "soc": {
+    "user_report": "RK3566",
+    "independent_identification": "PENDING"
+  },
+  "emmc_cid": "df01185343413235361006b3c92daa00",
+  "kernel": "6.18.54-ophub",
+  "storage": {
+    "root_file_bytes": 214748364800,
+    "root_inode": 10223618,
+    "root_uuid": "d6ea7237-789f-4b7e-a984-e9a4299841b9",
+    "root": {
+      "total_bytes": 211368247296,
+      "available_bytes": 208888782848
+    },
+    "backing": {
+      "total_bytes": 245117874176,
+      "available_bytes": 20997902336
+    },
+    "rw_probe_bytes": 8388608,
+    "rw_probe": "PASS"
+  },
+  "npu": {
+    "current_deployment": "UNAVAILABLE",
+    "enumeration": "BLOCKED_NO_COMPUTE_NODE_OR_DRIVER",
+    "supply": "UNRESOLVED_PMIC_NOT_BOUND",
+    "offline_build": "PASS_NOT_DEPLOYED",
+    "inference": "NOT_RUN",
+    "hardware_failure": "NOT_ESTABLISHED"
+  },
+  "thermal": {
+    "user_estimate_celsius": 80,
+    "user_report": "大概感觉80度左右",
+    "measurement_method": "UNSPECIFIED",
+    "historical_sensor_celsius": {
+      "cpu": 53.125,
+      "gpu": 50.625
+    },
+    "historical_sensor_source": "peripheral-test-20261009/REPORT.md",
+    "same_sampling_point_and_time": "NOT_ESTABLISHED",
+    "sensor_accuracy": "UNVERIFIED",
+    "discrepancy_cause": "UNRESOLVED",
+    "requested_action": "RECORD_ONLY_NO_TROUBLESHOOTING"
+  },
+  "sources": [
+    {
+      "local_artifact": "storage-expand-20261009/after-reboot-check.json",
+      "sha256": "aa002aa69592404ccac9fa39b4a11439432c01c0ae45ecc100ca5f6ebb0f294e"
+    },
+    {
+      "local_artifact": "peripheral-test-20261009/RESULT.json",
+      "sha256": "b61697ab34365fce6c2f86c52f25ac4d046e8ab23ce92ea2da369e90d1c984f2"
+    },
+    {
+      "local_artifact": "peripheral-test-20261009/REPORT.md",
+      "sha256": "1d19f53bbb14a17ef0ab69e1a03defc11cf2364b2e35be58f842e3013b6cd1d2"
+    },
+    {
+      "local_artifact": "peripheral-test-20261009/npu-build-compat/RESULT.md",
+      "sha256": "cb240fa5e51b246e72c1b572a52ca2fc56252d2f74fa3a0c5abb235752df54e9"
+    }
+  ]
+}

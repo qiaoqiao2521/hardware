@@ -58,6 +58,8 @@ python3 -m hardwire matrix
 
 ## 板卡记录
 
+- [NSY-G16-Plus：完整 Armbian、200 GiB 根文件、NPU 当前不可用与温度差异记录](docs/boards/nsy-g16-plus.md)
+
 - [ROCK 5C Lite / RK3582 / 8GB：官方系统、无线 SSH 与 MobileNet NPU 验收](docs/boards/rock-5c-lite.md)
 - [国美云 GM800 / RK3566：无线重启恢复、双系统与固定 NPU 小模型验收](docs/boards/gm800.md)
   - `snapshots/gm800-522.json` 保存网络与 NPU 验收字段；`gm800-hardwire.json` 保存标准探针事实，两者用途不同。

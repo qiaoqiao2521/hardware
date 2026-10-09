@@ -26,6 +26,7 @@
 - 长期资产入口：[我的硬件资产与实验平台](docs/HARDWARE_ASSETS.md)，逐台记录规格、接口、历史实测、故障、用途、性能比较与下一步；先列全，未知数量与身份保留待核实。
 - 选型背景：[淘机与升级限制附录](docs/HARDWARE_SELECTION_CONTEXT.md)，保存新增历史商品和附件来源；在手状态、官方平台规格与实机验收分别记录。
 - 当前状态：用户确认在手i5-3230M板U、RK3568B2路由板、国美云、HM170及三台J1900（监控、软路由、另列B68TK触摸机）。未来购买目标为V15B、Wyse5070、CM01和黑豹X2；树莓派已售出。
+- G16已补独立[设备档案](docs/boards/nsy-g16-plus.md)：完整Armbian、200 GiB根文件与无线SSH；NPU当前不可用。用户估计约80℃，软件读数与现场估计差异未定位，本轮仅记录。
 - 国美云实机已核对为GM800 / RK3566，内部Ubuntu与Android双系统沿用安装基线。88888888无线与Tailscale SSH在拔网线重启后通过，固定NPU模型30次输出复验通过；见[设备档案](docs/boards/gm800.md)，大模型与持续负载另验。
 - 当前监控规划：[Frigate与HAOS计划](docs/FRIGATE_HAOS_PLAN.md)。保留J1900监控/软路由职责，ROCK已由OTP确认5C Lite / RK3582 / 8GB；官方Radxa OS启动、6核与扩容已验收，MobileNet三核分别推理通过。当前首选MUQIAO-5G无线独立上网与Tailscale SSH通过，88888888保留为备用，旧2.4GHz SSID已停用。矩阵API数值差异、目标YOLO/VPU与持续负载仍待验收，见[板卡档案](docs/boards/rock-5c-lite.md)。HAOS宿主从合格且可用的在手x86中再选，已售Pi 5不参与。Frigate部署与准确率尚未现场验收。
 - 本轮进度：[资产整理任务](plans/hardware-asset-records/progress.md)。本轮完成文档整理，不以历史快照证明当前设备状态。
