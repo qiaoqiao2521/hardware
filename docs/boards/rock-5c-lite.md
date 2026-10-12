@@ -1,6 +1,6 @@
 # ROCK 5C Lite / RK3582 / 8GB
 
-更新日期：2026-10-08（Asia/Shanghai）。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
+更新日期：2026-10-12（Asia/Shanghai）。本次仅补充RockDepth规划；运行证据保留各节原日期。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
 
 ## 刷写前结论与证据
 
@@ -196,6 +196,42 @@ WIFI_HTTPS_HTTP=200
 ```
 
 `ssh rock-5c` 继续使用100.67.14.84。电脑处于另一Wi-Fi网络，`rock-5c.local` 仍可能返回此前的缓存地址；`ssh rock-5c-lan` 需在同一局域网重新解析验证，不能把两个网络中相同的192.168.0.x网段视为互通。未进行冷启动或首选AP消失后的实际备用切换测试。旧2.4GHz关联失败记录保留为历史，已不作为当前网络接续任务。
+
+## RockDepth 硬件侧未来待办
+
+2026-10-12规划评审，状态 `backlog / planned`。用授权视频经现成工具发布为网络流，验证DA2 Small的相对深度，不以实体摄像头作为首期前提。本轮未SSH板卡、下载模型、安装依赖或修改运行配置。
+
+软件侧唯一[总计划](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/main/plans/rock5-network-depth/task_plan.md)位于 `uw-yolo-code-assets:plans/rock5-network-depth/`。视频输入、数据契约、参考输出、误差判据和整体进度回源该计划；本节只记录板卡复用证据与硬件侧验收要求，不维护第二份实现状态。最短本机入口为 `/home/muqiao/dev/ros2/vision/uw-yolo-code-assets/plans/rock5-network-depth/task_plan.md`。
+
+### 可复用证据与版本边界
+
+- 芯片身份按OTP确认的RK3582登记，8GB为用户确认；2026-10-08官方Radxa OS为Debian12、内核6.1.43-15-rk2312、六核CPU。Lite无Mali GPU，不规划依赖板端CUDA或Mali加速的路径。
+- 2026-10-08记录的C API为2.0.0b0、RKNPU驱动0.9.6。官方MobileNet V1在AUTO/core0/core1/core2分别输出一致，可复用其来源固定、输入与原始输出读回方法；不能外推到DA2、组合核、VPU或持续负载。独立矩阵API差异及启动资源警告仍未定位。
+- 本轮官方Toolkit2仓库标示v2.3.2，变更记录包含Norm等算子改进；这不是板端当前版本，也不证明新版产物能由历史2.0.0b0 Runtime加载。转换机Toolkit2、板端Runtime/Lite2、驱动最低要求、Python/ARM64 wheel与模型格式须在P0共同固定，不能混用版本或默认为需升级系统。[Toolkit2](https://github.com/airockchip/rknn-toolkit2)、[变更记录](https://github.com/airockchip/rknn-toolkit2/blob/master/CHANGELOG.md)
+- RK3582采用Toolkit2的 `target_platform=rk3588`。RKNN3列出的DA2 Small属于其RK1820/RK1828/RK3572路线；RK3588作为外部协处理器host不表示其集成NPU适用，RKNN3与Toolkit2不兼容。[Radxa平台说明](https://docs.radxa.com/en/e/e54c/app-development/artificial-intelligence/rk3582_npu_explanation)、[RKNN3官方范围](https://github.com/airockchip/rknn3-toolkit/blob/main/README.md)
+
+### P0/P3/P4/P5评审与后续门槛
+
+| 阶段 | 硬件侧建议 | 通过条件与未知项 |
+|---|---|---|
+| P0 环境与产物固定 | 后续获准实施时，先复核板端实际Runtime/驱动及模型查询结果，再冻结转换机环境、源码、权重和样本哈希 | 当前版本、Python Lite2是否可用及工具/Runtime/驱动匹配仍待核实；本轮不执行板端复核，不安装或升级 |
+| P3 ONNX与RKNN | 先验证官方参考与ONNX；再用Toolkit2、target=rk3588验证固定形状、非INT8量化的正确性基线 | 冻结batch=1、实际H/W、opset、预处理与输出语义；记录算子/形状报告和原始误差。INT8另用固定校准集评测，转换成功与模拟器结果不等于板端通过 |
+| P4 RK3582真实推理 | 先用同一固定输入运行同步模型API、读回原始输出，再接入单路流 | 查询实际输入/输出属性及SDK版本，记录shape、dtype、layout、量化属性与内存大小；对照P1冻结的误差判据。确认实际NPU执行及CPU回退范围；AUTO和各core mask分别验收，不预设三核并行通过 |
+| P5 性能与解码 | 先建立CPU解码基线，再单独验证现有硬件解码路径，最后测完整链路 | 同一设备、同一模型/输入/采样设置比较CPU与NPU。固定视频codec、profile、像素格式、尺寸与帧率；验证解码后正确帧和实际后端，分别报告解码、转换、推理、后处理及端到端耗时 |
+
+DA2官方预处理使用RGB、除以255、mean/std归一化及14倍数尺寸；默认短边参数518不代表所有输入都是518×518。固定518×518可作为转换候选，但CPU参考与ONNX/RKNN必须使用同一预处理后的输入，记录裁剪或长宽比处理。核对NCHW/NHWC映射，归一化只执行一次；单独固定输出恢复尺寸及插值参数。[官方预处理](https://github.com/DepthAnything/Depth-Anything-V2/blob/main/depth_anything_v2/dpt.py)
+
+优先复用总计划选定的社区ONNX导出实现，固定提交与opset；动态输入、Attention/MatMul/Softmax、Norm、Resize和位置编码的导出/编译约束属于待核实项，不因名称在算子表中出现就标为完整模型支持。非量化模型也可能改变内部数值精度，应保存原始输出对照，不能把漂亮的颜色图作为正确性证据。[既有ONNX实现](https://github.com/fabio-sim/Depth-Anything-ONNX)
+
+首期优先用标准同步输入/输出接口，避免异步结果错配到新帧。零拷贝若以后需要，另核对native tensor属性、stride、分配大小及cache同步，不用逻辑元素个数替代实际内存要求；性能诊断开关单独记录，避免其开销混入常规基准。[官方C API定义](https://github.com/airockchip/rknn-toolkit2/blob/master/rknpu2/runtime/Linux/librknn_api/include/rknn_api.h)
+
+### VPU边界与停止条件
+
+NPU负责模型推理，VPU负责视频解码，两者分开验收。MPP可作为现成候选，但当前板端的设备接口、libmpp、FFmpeg构建及PyAV所链接的libavcodec均未核实；FFmpeg列出解码器、播放器能播放或服务active都不能替代指定视频的实际硬件解码结果。CPU解码保留为明确标注的基线，不承诺硬件零拷贝或特定分辨率吞吐。[官方MPP](https://github.com/rockchip-linux/mpp)
+
+同一板卡的端到端耗时按本机单调时钟测量；网络与显示延迟单列，不相减不同设备的时钟。没有距离真值时不标米制测距精度。若P3算子、版本或数值对照失败，保留最小复现与输出，交回软件侧根Codex判定CPU低频或其他现有模型路线；不自动转入驱动升级、重刷或生产服务部署。
+
+后续从软件唯一计划的P0接续，Rock对话负责板端RKNN/解码事实，软件侧根Codex负责总状态和整合。历史跨局域网SSH只作为已有维护方式，不证明今天在线；未来操作前先明确当次连接路径。
 
 ## 最短接续入口
 

@@ -2,6 +2,8 @@
 
 ## Current
 
+2026-10-12：完成RockDepth硬件侧规划评审与未来待办登记，运行实现仍为 `backlog / planned`。软件唯一计划在 `uw-yolo-code-assets:plans/rock5-network-depth/`，本库不复制总实现状态。最短入口为 `PROJECT.md` 的RockDepth条目及 `docs/boards/rock-5c-lite.md#rockdepth-硬件侧未来待办`；本次未连接或操作板卡。
+
 2026-10-08：用户确认家庭SSID已由MUQIAO-2.4G改为MUQIAO-5G，密码不变，旧SSID不再使用。已原位更新home-wifi，首选优先级100、自动连接重试2次；88888888保留为备用，优先级30。当前wlan0=192.168.0.5/24、5200MHz，默认路由metric40，DNS使用家庭网关；无网线连接时，新建Tailscale SSH与强制无线HTTPS200通过，回退检查点已销毁。电脑Wi-Fi未切换。此前官方系统6核、rootfs229G与MobileNet三核验收结果保留；矩阵API差异、目标YOLO/VPU、持续负载、冷启动与实际备用切换仍待验收，旧2.4GHz关联问题转为历史记录。
 
 ## Done
@@ -124,3 +126,13 @@
 - 知识收尾：already_covered，沿用Wiki/自动化开发范式与智能体协作.md的“按当前任务选择验收依据”。按用户“要记住”的明确要求另存一份Codex记忆更新便笺。
 - 原未跟踪snapshots/j1900-d3-live.jpg沿用此前Issues：私人监控画面留本地，owner根Codex，来源/归并与公开范围核实后再交付，不加入本次提交。
 - 验证：7项既有回归测试、41处相对链接、结构化摘录字段和diff检查通过；未执行设备功能复测。Ops-Vault同步亦通过其完整文档与回归检查。
+
+## RockDepth硬件侧规划评审（2026-10-12）
+
+- 登记文件：`PROJECT.md`、`docs/boards/rock-5c-lite.md`。软件计划由「查找本地YOLO项目」根Codex串行维护，本轮未修改该仓库文件，也不另建总计划或实现进度。
+- 复用2026-10-08的板卡身份、官方系统和MobileNet模型基线；历史C API2.0.0b0/driver0.9.6不作为今天版本。官方Toolkit2 v2.3.2为候选资料版本，匹配关系留在未来P0核实；RKNN3路线不适用本板集成NPU。
+- P3先固定形状、RGB/layout、单次归一化、opset和非量化原始输出；P4同步输入/输出，分别验收实际NPU与core mask；P5将CPU解码、VPU解码、NPU和整链路性能分开。转换、Python Lite2、内存/stride、输出误差、持续负载和VPU实际后端仍待核实，不承诺实时FPS。
+- 接受软件侧已修正的P1帧/误差冻结与同设备单调时钟边界；本轮未发现要求改变总计划分工的冲突。下一步由软件侧根Codex收取本评审；未来经用户启动实施后从软件唯一计划P0接续。
+- 验证：10处相对链接及标题锚点、软件唯一计划本机存在性、定点diff与 `git diff --check` 通过；未执行模型转换、板端推理或解码测试。软件计划远端链接指向其既有仓库的约定交付位置，由软件侧根Codex负责发布与读回。
+- 知识收尾：`already_covered`，采用并核对 `Obsidian:控制面/HANDOFF 文档方法论.md#与当前 SpecMesh 项目的配合` 的现有入口与单一状态规则；本轮只有项目级模型/版本未知项，不新增通用知识页。
+- 遗留交接：原 `docs/HARDWARE_ASSETS.md` 的LoRa/Meshtastic未提交条目保留原位，型号、射频适用范围和加密能力声明尚缺本次可验证依据，未纳入本次提交。接续owner：根Codex；最短复核入口为 `git diff -- docs/HARDWARE_ASSETS.md`，先定位原任务来源并核实条目，再决定交付。私人监控图片继续按此前Issues保留，不提交。

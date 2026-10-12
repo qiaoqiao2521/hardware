@@ -29,4 +29,5 @@
 - G16已补独立[设备档案](docs/boards/nsy-g16-plus.md)：完整Armbian、200 GiB根文件与无线SSH；NPU当前不可用。用户估计约80℃，软件读数与现场估计差异未定位，本轮仅记录。
 - 国美云实机已核对为GM800 / RK3566，内部Ubuntu与Android双系统沿用安装基线。88888888无线与Tailscale SSH在拔网线重启后通过，固定NPU模型30次输出复验通过；见[设备档案](docs/boards/gm800.md)，大模型与持续负载另验。
 - 当前监控规划：[Frigate与HAOS计划](docs/FRIGATE_HAOS_PLAN.md)。保留J1900监控/软路由职责，ROCK已由OTP确认5C Lite / RK3582 / 8GB；官方Radxa OS启动、6核与扩容已验收，MobileNet三核分别推理通过。当前首选MUQIAO-5G无线独立上网与Tailscale SSH通过，88888888保留为备用，旧2.4GHz SSID已停用。矩阵API数值差异、目标YOLO/VPU与持续负载仍待验收，见[板卡档案](docs/boards/rock-5c-lite.md)。HAOS宿主从合格且可用的在手x86中再选，已售Pi 5不参与。Frigate部署与准确率尚未现场验收。
+- RockDepth未来待办（2026-10-12，`backlog / planned`）：使用授权网络视频验证单目相对深度，暂不需要实体摄像头。软件侧唯一[计划](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/main/plans/rock5-network-depth/task_plan.md)由uw-yolo-code-assets维护；hardware只维护[板卡证据与P0/P3/P4/P5评审](docs/boards/rock-5c-lite.md#rockdepth-硬件侧未来待办)。本轮仅完成文档规划，DA2 Small转换、真实NPU推理和VPU解码均未验收，不复用MobileNet速度承诺深度性能。
 - 本轮进度：[资产整理任务](plans/hardware-asset-records/progress.md)。本轮完成文档整理，不以历史快照证明当前设备状态。
