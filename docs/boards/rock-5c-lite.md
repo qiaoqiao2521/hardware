@@ -258,6 +258,12 @@ NPU负责模型推理，VPU负责视频解码，两者分开验收。MPP可作�
 
 部署模板、版本依赖及恢复命令见[硬件工具入口](../../tools/rockdepth/README.md)。原始probe、日志和模型保留板端 `evidence/`、`logs/` 与本机 `/home/muqiao/.cache/rockdepth-board/`，不进入Git。NPU视频流断流、进程重启与长测由软件侧根Codex继续执行；本库不复制总验收状态。VPU/RGA、米制精度、组合核并行和部署后整板冷启动未验收。
 
+### 电脑代理导致网页访问失败
+
+2026-10-12 19:49（Asia/Shanghai），用户报告内置浏览器无法加载18087，错误为 `ERR_HTTP_RESPONSE_CODE_FAILURE`。本机绕过代理请求首页返回HTTP200；通过系统配置的 `127.0.0.1:3067` HTTP代理访问同一地址返回HTTP502。Tailscale节点在线，严格主机密钥校验的SSH成功；NPU unit、回放源均运行，状态接口返回ready=true、源online、原始输出有限值、约1.99FPS和零推理错误。
+
+电脑的GNOME系统代理为manual，原ignore-hosts没有ROCK地址。已通过当前用户的桌面D-Bus在 `org.gnome.system.proxy ignore-hosts` 中追加 `100.67.14.84`，并读回确认原条目全部保留。代理模式及服务器配置保持原值；未修改板端网络、服务或模型，未打断软件侧长测。修正后直连首页仍HTTP200。浏览器控制工具的安全策略拒绝访问该标签页，因此用户刷新后的页面显示仍待确认；网络和配置检查不能替代浏览器验收。
+
 ## 最短接续入口
 
 接续owner：根Codex。媒体、启动、MUQIAO-5G无线独立联网、Tailscale SSH及官方MobileNet三核路径已验收；88888888此前通过无线与局域网SSH验收，现保留为备用。独立矩阵API差异及目标YOLO模型另行验收；旧100.103.100.10不作为新系统地址。DHCP地址可能变化，应读取当前租约或同一局域网的mDNS结果，不能固定猜测旧地址。登录后只读复核命令：
