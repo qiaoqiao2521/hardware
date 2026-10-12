@@ -96,7 +96,7 @@ sudo systemctl enable --now rockdepth-npu
 
 运行probe时使用与NPU系统unit相同的私有库绑定。AUTO及core0/core1/core2分别验收，不因一次成功宣称全部核或组合核可用。将输出交给软件侧冻结的30帧数值Oracle；`nRMSE<=0.02`且Spearman>=0.98，不先做尺度对齐。
 
-AUTO、core0、core1、core2各自的30帧原始输出通过；各核输出存在数值差异，不承诺逐元素相同或三核并行已验收。单帧/短对照不代替视频流、断流、进程重启和持续负载；NPU服务已真实输出视频深度，后续在线长测由软件侧根Codex整合。VPU和RGA未验收，当前解码与预处理使用CPU。
+AUTO、core0、core1、core2各自的30帧原始输出通过；各核输出存在数值差异，不承诺逐元素相同或三核并行已验收。软件侧另完成1800.54秒NPU连续窗口和300.15秒故障复验，均PASS；这些证据与短对照分别记录。首期完整验收由[固定版本最终报告](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/794fed65e19ec9b18154c54f21c718855214fa55/plans/rock5-network-depth/REPORT.md)持有，NPU演示保持运行。VPU和RGA未验收，当前解码与预处理使用CPU；部署后整板冷启动另验。
 
 Lite2导入会改写Python日志等级名。本轮曾导致uvicorn的INFO日志配置失败；软件侧在导入边界通过公开logging API恢复既有名称，成功及失败加载路径都有回归。本目录不复制该软件修复，重新部署时须使用软件侧验收后的后端文件。
 

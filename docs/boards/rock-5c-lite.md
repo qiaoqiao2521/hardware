@@ -1,6 +1,6 @@
 # ROCK 5C Lite / RK3582 / 8GB
 
-更新日期：2026-10-12（Asia/Shanghai）。本次补充RockDepth部署与分阶段验收；运行证据保留各节原日期。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
+更新日期：2026-10-12（Asia/Shanghai）。本次补充RockDepth首期最终验收；运行证据保留各节原日期。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
 
 ## 刷写前结论与证据
 
@@ -256,7 +256,26 @@ NPU负责模型推理，VPU负责视频解码，两者分开验收。MPP可作�
 
 初次在线启动曾因Lite2导入污染Python日志等级名而使uvicorn配置失败，不能把unit瞬间active作为视频就绪。软件侧修复日志名恢复后，service SHA为 `9ed8a870d1e01304650b56b11f58a9a6a093615a81f43aaeebf0db2cec79dd2c`，backend SHA为 `f745390bc8de4c35ad6e766a3157c4190c2e5aea4757184cd3704f2a155944b9`；实际HTTP与模型输出已通过读回。
 
-部署模板、版本依赖及恢复命令见[硬件工具入口](../../tools/rockdepth/README.md)。原始probe、日志和模型保留板端 `evidence/`、`logs/` 与本机 `/home/muqiao/.cache/rockdepth-board/`，不进入Git。NPU视频流断流、进程重启与长测由软件侧根Codex继续执行；本库不复制总验收状态。VPU/RGA、米制精度、组合核并行和部署后整板冷启动未验收。
+部署模板、版本依赖及恢复命令见[硬件工具入口](../../tools/rockdepth/README.md)。原始probe、日志和模型保留板端 `evidence/`、`logs/` 与本机 `/home/muqiao/.cache/rockdepth-board/`，不进入Git。首期NPU视频流断流、进程重启与长测已由软件侧根Codex验收，整体状态回源其[固定版本最终报告](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/794fed65e19ec9b18154c54f21c718855214fa55/plans/rock5-network-depth/REPORT.md)。VPU/RGA、米制精度、组合核并行、INT8、动态形状、真实监控精度和部署后整板冷启动未验收。
+
+### 连续流与故障恢复
+
+硬件线程只读核对软件侧 `local-runtime/rockdepth/evidence/` 的连续窗口、故障摘要、最终板端状态和浏览器报告。`final/artifact-manifest.json` 的366份已关闭证据逐份长度及SHA256吻合，清单本身SHA256为 `d9ebd7e74e90ea00388983102497dda04474acf6415b881bb9b974ffc9b44cd5`。本次没有再次连接或操作板端。
+
+| NPU健康连续窗口 | 核对结果 |
+|---|---|
+| 时长与判定 | 1800.54秒，PASS；0契约违规 |
+| 输出读回 | 1798个不同结果；原图、深度图、NPY各332次有效读取 |
+| 实际推理计数速率 | 1.980FPS；配置上限2FPS |
+| 推理P50 / P95 | 223.09 / 308.10ms |
+| 进程RSS最大值 | 260.21MB |
+| 可读thermal节点最大值 | 61.00℃，不称独立NPU温度 |
+
+另一个300.15秒严格驱动故障窗口PASS，217个不同结果，三种媒体各39次有效读取，0契约违规；该窗口包含停流，不作健康吞吐指标。publisher PID2722停止后保持65秒，恢复标记后14.86秒出现新代际结果。核对PID2756身份后SIGKILL，2.26秒拉起PID2939，杀点至新实例有限浮点结果恢复5.67秒。最终NRestarts=2对应两次已登记注入，不称零重启或整板启动验收。
+
+连续窗口使用保存的 `4ea5013d` 前缀驱动版本；故障专项使用严格正文验证的 `742eb2cc` 前缀版本，不将后续修复追溯为旧观察器的实现。此前短正文分类FAIL保留，修复经过新目录复验。最终 `board-state.json` 中模型和三份服务源码哈希与本地固定文件一致；新PID私有库哈希仍为d31fc19c前缀，宿主旧库仍为4b58cc36前缀。
+
+软件侧独立QA于20:06:58–20:07:02读取真实板端，双图解码854×480，序号6136→6160；390px视口无水平溢出或pageerror。该证据来自软件侧浏览器，不替代下节用户当前内置浏览器的代理修正验收。演示服务保持运行，首期测试观察器和注入器已退出。
 
 ### 电脑代理导致网页访问失败
 
