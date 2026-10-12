@@ -2,6 +2,8 @@
 
 本目录维护ROCK 5C Lite / RK3582的板端工具和服务模板。软件服务、官方模型参考和整体进度由[软件唯一计划](https://github.com/qiaoqiao2521/uw-yolo-code-assets/tree/main/plans/rock5-network-depth)维护。视频、权重、二进制运行库和原始运行证据不进入Git。
 
+2026-10-12当前状态：首期验收通过后，已按用户要求临时停止NPU、publisher和MediaMTX，CPU此前已停用；四个unit无运行进程，18087和18554端口关闭。配置和原自启策略保留，整板冷启动未验收。本轮不执行以下安装或启动命令，恢复按用户后续指令进行。
+
 ## 已验证环境与模型接口
 
 2026-10-12现场：Debian12、Python3.11.2、六核，驱动0.9.6。系统Runtime保持2.0.0b0；实验进程使用私有Runtime2.3.2与Lite2 2.3.2。芯片实际为RK3582，转换目标仍用 `rk3588`。
@@ -96,7 +98,7 @@ sudo systemctl enable --now rockdepth-npu
 
 运行probe时使用与NPU系统unit相同的私有库绑定。AUTO及core0/core1/core2分别验收，不因一次成功宣称全部核或组合核可用。将输出交给软件侧冻结的30帧数值Oracle；`nRMSE<=0.02`且Spearman>=0.98，不先做尺度对齐。
 
-AUTO、core0、core1、core2各自的30帧原始输出通过；各核输出存在数值差异，不承诺逐元素相同或三核并行已验收。软件侧另完成1800.54秒NPU连续窗口和300.15秒故障复验，均PASS；这些证据与短对照分别记录。首期完整验收由[固定版本最终报告](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/794fed65e19ec9b18154c54f21c718855214fa55/plans/rock5-network-depth/REPORT.md)持有，NPU演示保持运行。VPU和RGA未验收，当前解码与预处理使用CPU；部署后整板冷启动另验。
+AUTO、core0、core1、core2各自的30帧原始输出通过；各核输出存在数值差异，不承诺逐元素相同或三核并行已验收。软件侧另完成1800.54秒NPU连续窗口和300.15秒故障复验，均PASS；这些证据与短对照分别记录。停服前完整验收由[固定版本最终报告](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/794fed65e19ec9b18154c54f21c718855214fa55/plans/rock5-network-depth/REPORT.md)持有，当前演示已按用户要求暂停。VPU和RGA未验收，已验收路径的解码与预处理使用CPU；部署后整板冷启动另验。
 
 Lite2导入会改写Python日志等级名。本轮曾导致uvicorn的INFO日志配置失败；软件侧在导入边界通过公开logging API恢复既有名称，成功及失败加载路径都有回归。本目录不复制该软件修复，重新部署时须使用软件侧验收后的后端文件。
 
