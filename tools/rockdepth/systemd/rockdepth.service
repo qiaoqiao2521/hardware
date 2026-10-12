@@ -1,0 +1,18 @@
+[Unit]
+Description=RockDepth real DA2 Small CPU video service
+Wants=rockdepth-mediamtx.service
+After=rockdepth-mediamtx.service
+
+[Service]
+WorkingDirectory=%h/rockdepth/app
+Environment=OPENBLAS_NUM_THREADS=2
+Environment=OMP_NUM_THREADS=2
+Environment=MKL_NUM_THREADS=2
+Environment=LD_LIBRARY_PATH=%h/rockdepth/lib
+ExecStart=%h/rockdepth/venv/bin/python %h/rockdepth/app/service.py --source rtsp://127.0.0.1:18554/rockdepth-test --model %h/rockdepth/models/da2-small-252x448.onnx --backend onnx --fps 2 --host 100.67.14.84 --port 18086 --benchmark-dir %h/rockdepth/evidence/stream
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=10
+
+[Install]
+WantedBy=default.target

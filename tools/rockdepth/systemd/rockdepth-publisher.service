@@ -1,0 +1,15 @@
+[Unit]
+Description=RockDepth Sintel video replay
+Requires=rockdepth-mediamtx.service
+After=rockdepth-mediamtx.service
+
+[Service]
+WorkingDirectory=%h/rockdepth
+ExecStart=%h/rockdepth/bin/ffmpeg -nostdin -hide_banner -loglevel warning -re -stream_loop -1 -i %h/rockdepth/media/sintel-trailer.mp4 -map 0:v:0 -an -c:v copy -f rtsp -rtsp_transport tcp rtsp://127.0.0.1:18554/rockdepth-test
+Restart=on-failure
+RestartSec=2
+KillSignal=SIGINT
+TimeoutStopSec=5
+
+[Install]
+WantedBy=default.target

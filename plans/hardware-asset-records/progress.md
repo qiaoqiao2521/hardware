@@ -2,6 +2,8 @@
 
 ## Current
 
+2026-10-12实施接续：用户要求实际部署，替代此前仅规划边界。CPU网络视频已部署并由软件侧完成连续窗口；DA2 Small非INT8 RKNN的AUTO/core0/core1/core2各30帧通过。私有Runtime2.3.2通过systemd只读绑定与旧全局Runtime隔离；独立18087 NPU与CPU混合算子服务已HTTP就绪。NPU在线长测由软件侧根Codex持有，本线程不再操作回放/同名服务。
+
 2026-10-12：完成RockDepth硬件侧规划评审与未来待办登记，运行实现仍为 `backlog / planned`。软件唯一计划在 `uw-yolo-code-assets:plans/rock5-network-depth/`，本库不复制总实现状态。最短入口为 `PROJECT.md` 的RockDepth条目及 `docs/boards/rock-5c-lite.md#rockdepth-硬件侧未来待办`；本次未连接或操作板卡。
 
 2026-10-08：用户确认家庭SSID已由MUQIAO-2.4G改为MUQIAO-5G，密码不变，旧SSID不再使用。已原位更新home-wifi，首选优先级100、自动连接重试2次；88888888保留为备用，优先级30。当前wlan0=192.168.0.5/24、5200MHz，默认路由metric40，DNS使用家庭网关；无网线连接时，新建Tailscale SSH与强制无线HTTPS200通过，回退检查点已销毁。电脑Wi-Fi未切换。此前官方系统6核、rootfs229G与MobileNet三核验收结果保留；矩阵API差异、目标YOLO/VPU、持续负载、冷启动与实际备用切换仍待验收，旧2.4GHz关联问题转为历史记录。
@@ -136,3 +138,15 @@
 - 验证：10处相对链接及标题锚点、软件唯一计划本机存在性、定点diff与 `git diff --check` 通过；未执行模型转换、板端推理或解码测试。硬件评审提交4b2e62a已推送并独立核对远端引用；软件侧报告唯一计划已推送main的21112ee20d3424ec544f5ad7ed5cc7d9483b6746，发布与原文读回由软件侧根Codex负责。
 - 知识收尾：`already_covered`，采用并核对 `Obsidian:控制面/HANDOFF 文档方法论.md#与当前 SpecMesh 项目的配合` 的现有入口与单一状态规则；本轮只有项目级模型/版本未知项，不新增通用知识页。
 - 遗留交接：原 `docs/HARDWARE_ASSETS.md` 的LoRa/Meshtastic未提交条目保留原位，型号、射频适用范围和加密能力声明尚缺本次可验证依据，未纳入本次提交。接续owner：根Codex；最短复核入口为 `git diff -- docs/HARDWARE_ASSETS.md`，先定位原任务来源并核实条目，再决定交付。私人监控图片继续按此前Issues保留，不提交。
+
+## RockDepth板端实施（2026-10-12）
+
+- 所有权：本线程维护 `tools/rockdepth/` 和板端安装/单位；软件侧根Codex维护视频服务、参考模型和总验收。未同时编辑软件目录；未修改网络、内核、固件、J1900/BF2025/App。
+- 转换环境固定Toolkit2 2.3.2、ONNX1.16.2、ORT1.20.1、numpy1.26.4、setuptools80.9.0。首轮缺pkg_resources与ONNX1.22没有mapping为环境错误，日志保留本机；没有monkeypatch SDK或改模型图。
+- 板venv安装私有依赖，FFmpeg7.0.2-static、MediaMTX1.21.2；RTSP仅127.0.0.1:18554，禁额外协议/管理监听器。三个用户unit启用linger；publisher停止仍需5秒后SIGKILL兜底，软件侧已核对旧进程消失与源恢复，不写成优雅退出。
+- 验收：同一冻结ONNX/参考NPY经过实际RKNN转换、私有2.3.2 Runtime加载；AUTO与各核各30帧数值通过，五个CPU Resize保持原语义。 `.npy` 文件哈希与数组字节哈希明确分开，原探针误用已修；SDK版本、映射库哈希和DRM句柄读回保留。数值及原始输出文件由软件侧独立读回。
+- 服务：CPU18086停止并禁用自启，配置保留；NPU系统unit已启用，实际HTTP18087/原始浮点通过。启动日志级别故障由软件侧修复，旧失败日志保留；实际就绪以HTTP和新输出判断。2026-10-12 19:27左右PID2670；后续PID可变化，由软件侧控制故障注入与读回。
+- 接续：软件侧根Codex完成NPU UI/HTTP/断流/重启与持续流后回传结论，本线程再更新板卡范围；测试期间不重启或替换文件。最短入口为 `tools/rockdepth/README.md`、板端 `systemctl status rockdepth-npu.service` 和 `http://100.67.14.84:18087/api/status`。
+- 知识收尾：`no_reusable_delta`，本轮SDK版本/绝对库路径、日志导入副作用和模型精度仅作为该固定实验的部署边界，先沉淀项目工具与档案；共享知识页由软件侧根Codex串行判断，不并发编辑。
+- 原LoRa条目和私人监控图沿用上节具体owner/复核入口，保留原位，不纳入模型部署提交。
+- 交付检查：两个Python工具语法检查、模型哈希错误时的CLI拒绝/无输出副作用、17处本地链接及标题锚点、11项回归测试及diff-check通过。Runtime身份回归覆盖旧库API拒绝、哈希拒绝、空映射拒绝与旧文件名的正确namespace内容接受；新验证函数对实际板端记录通过。systemd模板在板端验证，NPU真实HTTP/原始浮点读回通过，不用文件名或unit瞬间active代替。

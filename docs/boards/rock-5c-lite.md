@@ -1,6 +1,6 @@
 # ROCK 5C Lite / RK3582 / 8GB
 
-更新日期：2026-10-12（Asia/Shanghai）。本次仅补充RockDepth规划；运行证据保留各节原日期。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
+更新日期：2026-10-12（Asia/Shanghai）。本次补充RockDepth部署与分阶段验收；运行证据保留各节原日期。资产编号沿用 `HW-ROCK5C`，SSH别名沿用 `rock-5c`。
 
 ## 刷写前结论与证据
 
@@ -199,7 +199,7 @@ WIFI_HTTPS_HTTP=200
 
 ## RockDepth 硬件侧未来待办
 
-2026-10-12规划评审，状态 `backlog / planned`。用授权视频经现成工具发布为网络流，验证DA2 Small的相对深度，不以实体摄像头作为首期前提。本轮未SSH板卡、下载模型、安装依赖或修改运行配置。
+2026-10-12此前规划评审，当时状态为 `backlog / planned`。用户随后要求立即部署；下述评审保留当时边界，现场部署见下一节。首期使用授权网络视频，不以实体摄像头作为前提。
 
 软件侧唯一[总计划](https://github.com/qiaoqiao2521/uw-yolo-code-assets/blob/main/plans/rock5-network-depth/task_plan.md)位于 `uw-yolo-code-assets:plans/rock5-network-depth/`。视频输入、数据契约、参考输出、误差判据和整体进度回源该计划；本节只记录板卡复用证据与硬件侧验收要求，不维护第二份实现状态。最短本机入口为 `/home/muqiao/dev/ros2/vision/uw-yolo-code-assets/plans/rock5-network-depth/task_plan.md`。
 
@@ -232,6 +232,31 @@ NPU负责模型推理，VPU负责视频解码，两者分开验收。MPP可作�
 同一板卡的端到端耗时按本机单调时钟测量；网络与显示延迟单列，不相减不同设备的时钟。没有距离真值时不标米制测距精度。若P3算子、版本或数值对照失败，保留最小复现与输出，交回软件侧根Codex判定CPU低频或其他现有模型路线；不自动转入驱动升级、重刷或生产服务部署。
 
 后续从软件唯一计划的P0接续，Rock对话负责板端RKNN/解码事实，软件侧根Codex负责总状态和整合。历史跨局域网SSH只作为已有维护方式，不证明今天在线；未来操作前先明确当次连接路径。
+
+## RockDepth 实验部署与验收
+
+2026-10-12用户要求部署后，通过既有SSH身份核对Debian12、Python3.11.2、六核和216G空闲。板重启期间Tailscale短暂离线；使用严格主机密钥检查的 `rock-5c-lan` 恢复到192.168.0.103，随后Tailscale恢复。未修改网络、固件、内核或全局NPU库。
+
+实验目录为 `/home/muqiao/rockdepth`。复用软件侧唯一实现，将已授权Sintel视频在板本机循环发布到localhost RTSP，CPU解码与预处理后运行真实DA2 Small。CPU服务先在18086运行；软件侧报告故障窗口1980.37秒及完整1800秒连续窗口通过，证据和生命周期总状态回源软件计划。
+
+模型使用软件侧官方PTH与固定ONNX：输入float32 NCHW `(1,3,252,448)`，输出相对逆深度。ONNX SHA256为 `00106243c33ead91e9d9d753c84924ef2b2d51bd947d8fd1819cc1f7a30c60a9`；Toolkit2 2.3.2以 `target_platform=rk3588`、不重复归一化、不做INT8量化导出，内部计算使用FP16。RKNN SHA256为 `67a9555089d871ae2a4712d6d0c0760bf5fbe29b7e289ab968456c5926e4e002`。
+
+原系统Runtime2.0.0b0文件SHA256保持 `4b58cc36b1a896600938ea447b136871c168ba9179f9fa2cebad5a47e6f694f5`。Lite2默认仍查找系统绝对库路径，LD_LIBRARY_PATH不足以隔离；采用systemd进程级BindReadOnlyPaths，实际SDK查询API2.3.2/driver0.9.6，namespace内映射库SHA256为 `d31fc19c85b85f6091b2bd0f6af9d962d5264a4e410bfb536402ec92bac738e8`，并打开DRM `/dev/dri/card1`。系统路径显示旧文件名不作为版本判断依据。
+
+| 运行mask | 固定参考帧 | 最大nRMSE | 最低Spearman | 调用P50 / P95 |
+|---|---:|---:|---:|---|
+| AUTO | 30 | 0.0146074 | 0.989408 | 231.1 / 240.9ms |
+| core0 | 30 | 0.0146074 | 0.989408 | 229.6 / 243.5ms |
+| core1 | 30 | 0.0146074 | 0.989408 | 242.7 / 253.2ms |
+| core2 | 30 | 0.0146074 | 0.989408 | 244.5 / 255.8ms |
+
+以上均通过软件侧冻结的nRMSE≤0.02、Spearman≥0.98，无尺度对齐。跨core0/1/2最大绝对差为0.01416015625，不声称输出完全相同。测试为单独probe的短对照；当时另有CPU视频流负载，不作为满载吞吐或三核并发基准。编译器明确保留五个align_corners Resize的CPU实现，整体为NPU与CPU混合算子。
+
+独立系统unit `rockdepth-npu.service` 以muqiao运行，私有库绑定、模型SHA与实际API版本已核对；CPU用户unit已停止并禁用自启，保留回退模板。localhost回放继续运行，NPU网页为 `http://100.67.14.84:18087`。真实状态及原始depth.npy读回HTTP200，二维浮点有限值，短窗口约1.98FPS，目标上限2FPS；该窗口不是持续负载结论。
+
+初次在线启动曾因Lite2导入污染Python日志等级名而使uvicorn配置失败，不能把unit瞬间active作为视频就绪。软件侧修复日志名恢复后，service SHA为 `9ed8a870d1e01304650b56b11f58a9a6a093615a81f43aaeebf0db2cec79dd2c`，backend SHA为 `f745390bc8de4c35ad6e766a3157c4190c2e5aea4757184cd3704f2a155944b9`；实际HTTP与模型输出已通过读回。
+
+部署模板、版本依赖及恢复命令见[硬件工具入口](../../tools/rockdepth/README.md)。原始probe、日志和模型保留板端 `evidence/`、`logs/` 与本机 `/home/muqiao/.cache/rockdepth-board/`，不进入Git。NPU视频流断流、进程重启与长测由软件侧根Codex继续执行；本库不复制总验收状态。VPU/RGA、米制精度、组合核并行和部署后整板冷启动未验收。
 
 ## 最短接续入口
 

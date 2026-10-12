@@ -1,0 +1,21 @@
+[Unit]
+Description=RockDepth DA2 Small NPU with CPU Resize operators
+Wants=network-online.target
+After=network-online.target tailscaled.service
+
+[Service]
+User=muqiao
+SupplementaryGroups=video render
+WorkingDirectory=/home/muqiao/rockdepth/app
+# Lite2 searches the system path. This bind exists only inside this service.
+BindReadOnlyPaths=/home/muqiao/rockdepth/lib/librknnrt.so:/usr/lib/aarch64-linux-gnu/librknnrt.so.2.0.0b0
+Environment=OPENBLAS_NUM_THREADS=2
+Environment=OMP_NUM_THREADS=2
+Environment=MKL_NUM_THREADS=2
+ExecStart=/home/muqiao/rockdepth/venv/bin/python /home/muqiao/rockdepth/app/service.py --source rtsp://127.0.0.1:18554/rockdepth-test --model /home/muqiao/rockdepth/models/da2-small-252x448.rknn --backend rknn --input-size 252 448 --core auto --fps 2 --host 100.67.14.84 --port 18087 --benchmark-dir /home/muqiao/rockdepth/evidence/stream-npu
+Restart=on-failure
+RestartSec=2
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
