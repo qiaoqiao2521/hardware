@@ -196,3 +196,10 @@
 - 534复用匹配Linux RKAIQ/IQ，三文件和unit逐SHA回读，正式服务active/enabled且打开统计/参数节点；实际NV12抓帧确认绿色偏色消除，first-IQ保持修复前1条未新增，桌面入口管线PLAYING。
 - 两台均未做本轮整机重启、严格色彩标定、HDR/AF或长期负载验收。私有画面不提交，网络/引导未修改。LoRa和私人监控图仍按原有pending原因及owner保留。
 - 知识收尾：already_covered；采用522计划已核对的实际交付与采集/画质分层验收方法，设备版本和证据落回原设备档案。
+
+## 新机534 Tailscale登记（2026-10-18）
+
+- 按用户要求完成GM260200534独立登记，官方Tailscale1.104.1、tag:server、100.102.209.108。核对直连身份和SSH指纹，再从管理电脑通过Tailscale地址实际公钥登录确认hostname/serial。
+- tailscaled和SSH active/enabled；保留accept-dns=false、accept-routes=false、ssh=false与无路由/出口广告。nft接口不兼容经只读检查确认，legacy规则成功后切换IPv4/IPv6后端，当前Health为空。
+- 新别名gm800-534与gm800-534-lan独立，不改522别名。一次性登记凭据目标临时文件已清理，不入Git。网络仍依赖共享以太网，Wi-Fi关联、异地独立网络和重启恢复未验收。
+- 知识收尾：already_covered；复用tailscale-network-config的独立设备登记、凭据隔离和实际SSH验收。LoRa与私人监控图保持既有pending说明和owner。
