@@ -28,6 +28,7 @@
 | HW-NSY-G16-PLUS | 在手；完整 Armbian、200 GiB 根文件与无线/Tailscale SSH 已验证；NPU 当前不可用，用户估计约 80℃，仅记录，见[设备档案](boards/nsy-g16-plus.md) |
 | HW-RK3568B2-ROUTER 路由板 | 在手；当前用途待补，不能因商品类别自动认定它就是J1900软路由 |
 | HW-RK3566-GOME 国美云 | 在手 GM800，RK3566 / 4GB；内部 Ubuntu 与 Android 双系统，88888888 无线、拔网线重启后局域网/Tailscale SSH及固定 NPU 模型已验证，见[设备档案](boards/gm800.md) |
+| HW-RK3566-GOME-534 国美云（第二台） | GM260200534；原厂安卓11与Ubuntu22.04双系统，菜单10秒默认Ubuntu；触摸、免锁屏、有线SSH及固定NPU模型通过，见[新机档案](boards/gm800-534.md) |
 | HW-HM170 平台 | 在手；具体CPU、机型和用途待补 |
 | HW-J1900-MONITOR | 在手，用于监控；板号、内存、盘与系统待补 |
 | HW-J1900-ROUTER | 在手，用于软路由；板号、内存、盘与系统待补 |
@@ -56,6 +57,7 @@
 | J1900 D3 线索 | 现有本地图片文件名包含 `j1900-d3`；文件名不足以确认主板型号或独立设备 | 图片为监控画面，没有建立与 B68TK 的机器对应关系 | 保留线索，归并关系待核实；不增加确定设备数量 |
 | HW-ROCK5C ROCK 5C Lite | 用户确认RK3582、8GB LPDDR4X；官方Lite为2×A76+4×A55、无GPU、5 TOPS NPU | OTP `35 82` 确认RK3582；官方Debian12 CLI现为6核、rootfs229G，当前MUQIAO-5G无线HTTPS/Tailscale SSH通过，88888888保留为备用；RKNN2.0.0b0/RKNPU0.9.6的MobileNet三核推理一致。矩阵API数值差异及启动资源警告仍待核实。[板卡档案](boards/rock-5c-lite.md) | Frigate检测试验候选；接续目标YOLO/VPU与持续负载验收 |
 | HW-RK3566-GOME 国美云 GM800 | 2026-10-08 实机 GM260200522、RK3566、4 核、Linux 内存约3.8 GiB；128GB与8英寸沿用历史线索 | 内部 Ubuntu22.04.3 / 4.19.219，Android12双系统；100Mbps有线与5805MHz AIC无线已连通；见[设备档案](boards/gm800.md) | 本地触摸实验终端；无线重启/SSH、固定 NPU 模型、免锁屏及扬声器通过；摄像头已出图但偏暗偏绿，大模型与持续负载未验收 |
+| HW-RK3566-GOME-534 国美云 GM800（第二台） | 2026-10-18 GM260200534；约3.8GiB RAM、116.5GiB内部盘 | Android11 + Ubuntu22.04.3 / 4.19.219；10秒默认Ubuntu，见[设备档案](boards/gm800-534.md) | 普通用户NPU固定小模型30次通过，菜单/桌面触摸及唤醒免密码通过；相机、Wi-Fi关联与持续负载待验收 |
 | HW-NSY-G16-PLUS | 用户称 RK3566，独立鉴定待补；约 4GB RAM、256GB 级 eMMC | WAN/LAN1/LAN2/LAN3；MT7615 双频短测通过；完整 Armbian 与 200 GiB 根文件已验证。NPU 当前不可用；用户估计约 80℃，与软件读数有差异，未定位 | [设备档案](boards/nsy-g16-plus.md)；本轮仅记录温度。与旧 RK3568B2-ROUTER 关系待核实，不新增确定设备数量 |
 | HW-RK3568B2 平台或板卡 | 原讨论助手提到RK3568B2、4GB+16GB、2×SATA+千兆网口；均待板级核实 | PCIe、SATA、双网口、CAN、UART等是否引出均待核实 | 工控/网关/存储实验候选；SoC接口上限不能直接当实机接口清单 |
 | HW-RK3568B2-ROUTER 路由板 | 用户确认在手；旧助手另列RK3568B2、4GB+256GB、四千兆网口、双频Wi-Fi | 与上行4GB+16GB、双SATA描述不同；暂时分列，是否同一设备待核实；实际容量、介质与接口待补 | 当前用途待补；路由/网关候选，不与J1900软路由自动归并 |

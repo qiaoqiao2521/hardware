@@ -63,6 +63,7 @@ python3 -m hardwire matrix
 - [ROCK 5C Lite / RK3582 / 8GB：官方系统、无线 SSH 与 MobileNet NPU 验收](docs/boards/rock-5c-lite.md)
 - [国美云 GM800 / RK3566：无线重启恢复、双系统与固定 NPU 小模型验收](docs/boards/gm800.md)
   - `snapshots/gm800-522.json` 保存网络与 NPU 验收字段；`gm800-hardwire.json` 保存标准探针事实，两者用途不同。
+- [国美云 GM800 第二台 GM260200534：安卓11双系统、10秒默认Ubuntu与NPU验收](docs/boards/gm800-534.md)
 
 - [康士达 K-B68TK-J1900 触摸工控机：硬件枚举、双 I211、6 路 COM 与无线扩展](docs/boards/j1900-b68tk.md)
   - 2026-10-04 实测，含产品目录链接、原始采集证据与尚未完成的实物测试。
