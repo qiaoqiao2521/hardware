@@ -2,6 +2,8 @@
 
 ## Current
 
+2026-11-15：回顾历史对话补录硬件资产已完成。更新原资产总表与README/PROJECT入口，补齐HM170配置与P104-100、AM40/CM-01、Pi2B、K70 Pro、ARM101、UVC/ADS1256、光模块与测试配件、车载设备和存储线索。CM-01由旧候选更新为已有实物；Pi5已售出、两台GM800及三台J1900身份保持。新增28行设备/组件/待归并线索，并补12组对话来源；不把28行称作28台新增整机。G16 SoC等来源冲突保留，未取回原始输出的功能仅记历史记录。此次仅文档归档，设备当前在线/健康未复测；原始私人画面与凭据未写入。
+
 2026-10-12首期部署与验收完成，随后按用户要求暂停：当前NPU、publisher、MediaMTX及CPU均inactive、MainPID=0，18087/18554端口关闭；NPU与回放服务原自启策略保留。此前DA2 Small非INT8 RKNN的AUTO/core0/core1/core2各30帧、1800.54秒NPU连续窗口和300.15秒故障复验均PASS。停服前完整报告在 `uw-yolo-code-assets:plans/rock5-network-depth/REPORT.md`；本线程只读软件侧停止回执并同步文档，没有再次操作板端。
 
 2026-10-12历史规划阶段：当时完成RockDepth硬件侧评审，状态为 `backlog / planned`，未操作板卡；此边界已被用户随后的部署要求与首期验收替代。历史评审保留在 `docs/boards/rock-5c-lite.md#rockdepth-硬件侧未来待办`，当前结论见该档案的实验部署与验收节。
