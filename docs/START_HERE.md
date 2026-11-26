@@ -1,6 +1,6 @@
 # 硬件与嵌入式学习入口
 
-硬件资产、单片机课程、嵌入式实验和诊断工具统一在 `hardware` 维护。`embedded-learning` 是旧归档仓库，日常学习和新增记录都从这里进入。
+硬件资产、单片机课程、嵌入式实验和诊断工具统一在 `hardware` 维护。旧仓库 `embedded-learning` 已于 2026-11-26 删除，日常学习和新增记录都从这里进入。
 
 [返回仓库首页](../README.md) · [查看硬件资产](HARDWARE_ASSETS.md) · [接线与烧录记录](BOARD_WIRING_AND_FLASHING.md)
 
