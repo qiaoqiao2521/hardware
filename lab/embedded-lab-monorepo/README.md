@@ -8,16 +8,18 @@
 
 # Embedded Lab Monorepo
 
+[返回硬件与嵌入式学习入口](../../docs/START_HERE.md)
+
 这是一个面向学习、迁移、验证和长期维护的嵌入式 monorepo。
 
-它现在包含三条独立主线：
+它现在包含四条独立主线：
 
 - `STM32F103` 裸机示例与平台层
 - `STC89C52 / MCS-51` 迁移与最小验证链
 - `Raspberry Pi HPAD` 采集板软件工具链
 - `WM8960 Audio HAT` 树莓派音频编解码板驱动与安装资源
 
-当前目标不是继续堆更多例程，而是把三条线都收成：
+四条主线分别保留自己的构建方式或 vendor 资源说明，维护目标是：
 
 - 可构建
 - 可验证
@@ -25,27 +27,28 @@
 
 ## 一眼看懂
 
-当前冻结状态：
+迁入时记录的冻结状态（历史基线，本次入口整理未重新验证硬件）：
 
 - `stm32_f103`: `v2.0.0-soft-validated`
 - `mcs51`: 软件侧破冰完成，真板验证 pending
 - `rpi_hpad`: `v0.1.0-soft-validated`
 - `wm8960_audio_hat`: vendor-imported, hardware-present
 
-硬件总状态：
+迁入时记录的硬件状态：
 
-- STM32F103: `hardware_pending`，当前未检测到 ST-Link
+- STM32F103: `hardware_pending`，当时未检测到 ST-Link
 - STC89C52: `hardware_pending`，等待真实板级串口/按键验证
 - Raspberry Pi HPAD: `hardware_pending`，`real` backend 仅保留配置边界，未声明 ADS1256/DAC8532 已验证
-- WM8960 Audio HAT: 当前实机已识别到 `wm8960-soundcard`，仓库内保留 vendor 驱动/overlay/安装资源
+- WM8960 Audio HAT: 历史记录中实机已识别到 `wm8960-soundcard`，仓库内保留 vendor 驱动/overlay/安装资源
 
-如果你只想快速上手，先看这里：
+以下命令均相对于本目录。从 `hardware` 仓库根目录开始时，先进入实验台，再运行三条软件主线的检查：
 
 ```bash
+cd lab/embedded-lab-monorepo
 scripts/check-all.sh
 ```
 
-它会顺序运行三条线的无硬件 gate，确认当前仓库的软件面仍然成立。
+它会顺序运行 STM32、MCS-51 和 HPAD 的无硬件检查；运行前需准备下文依赖。WM8960 vendor 安装不在此脚本范围内。
 
 ## 仓库地图
 
@@ -63,7 +66,7 @@ scripts/check-all.sh
 
 ### STM32F103
 
-路径：仓库根目录的 `examples/`, `common/`, `boards/`, `cmake/`, `scripts/`
+路径：本实验台目录下的 `examples/`, `common/`, `boards/`, `cmake/`, `scripts/`
 
 定位：
 
@@ -98,18 +101,7 @@ scripts/flash.sh 01_gpio_led
 - `08_i2c_hw`
 - `09_spi_loopback`
 
-Legacy 课程资料仍保留在：
-
-- `02软件安装及创建工程/`
-- `03GPIO通用输入输出口/`
-- `04OLED调试工具/`
-- `05EXIT外部中断/`
-- `06TIM定时器/`
-- `07ADC模数转换器/`
-- `08DMA直接存储器读取/`
-- `09USART串口/`
-- `10IIC通信/`
-- `11SPI通信/`
+旧的第三方章节目录（`02软件安装及创建工程/` 至 `11SPI通信/`）已按迁入说明移除，本目录中不存在。查阅原课程请访问作者 jjejdhhd 的 [Learn_stm32f103](https://github.com/jjejdhhd/Learn_stm32f103)；本仓库已有的逐课工程另见 [STM32 学习区](../../mcu/stm32/learning/)。
 
 ### MCS-51 / STC89C52
 
@@ -240,7 +232,7 @@ scripts/check-all.sh
 
 如果你是第一次看这个仓库，建议按这个顺序：
 
-1. 先读本页，确认三条线的边界
+1. 先读本页，确认四条线的边界
 2. 跑 `scripts/check-all.sh`
 3. 按兴趣进入 `STM32F103`、`mcs51/`、`rpi_hpad/` 或 `WM8960-Audio-HAT/`
 4. 真板相关事项只看各自的 `HARDWARE_PENDING.md` / `REALBOARD_VALIDATION_CHECKLIST.md` 或 vendor README
@@ -277,11 +269,10 @@ sed -n '1,200p' README.md
 
 ## 结构原则
 
-- 三条线共用一个 git 仓库，但不共用一个构建系统
 - 四条线共用一个 git 仓库，但不共用一个构建系统
 - 每条线保留自己的 README、脚本、硬件 pending 文档和验证 gate 或 vendor 文档
 - 根目录只提供总入口和总检查，不把 STM32、51、树莓派采集板、音频板强行揉成一个工程
-- legacy 资料保留，不作为当前主动开发入口
+- 原第三方章节通过上游链接追溯，已移除的目录不作为本地入口
 
 ## 当前不宣称
 

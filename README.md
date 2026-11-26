@@ -1,10 +1,27 @@
-# 🛠️ Hardware: 实体硬件与嵌入式大本营 (MCU, Embedded Lab & Hardwire)
+# Hardware：硬件与嵌入式学习
 
-> 纯粹面向实物硬件、微控制器工程（51 / STM32 / ESP32）与板载大夫探针（Hardwire）的唯一收敛大本营。
+硬件资产、51 / STM32 / ESP32 学习工程、嵌入式实验台和 Hardwire 诊断工具，统一在这个仓库维护。
+
+`embedded-learning` 是已经归档的旧仓库。主要工程已于 2026-09-15 迁入本仓库，2026-11-26 进一步核对旧文件、补齐遗漏资料并整理入口。以后从这里查资料、做实验、更新记录即可；`hardwire/` 是本仓库里的诊断模块。
+
+## 从这里开始
+
+| 你要做什么 | 入口 |
+| --- | --- |
+| 看全部嵌入式学习路线、选第一个实验 | [学习与实验导航](docs/START_HERE.md) |
+| 查已有设备、配件和用途 | [硬件资产总表](docs/HARDWARE_ASSETS.md) |
+| 学 51 单片机，找整理版、原课程和 AT89S52 工程 | [51 工程目录](mcu/51/) |
+| 学 STM32，找课程、模板和综合项目 | [STM32 工程目录](mcu/stm32/) |
+| 找 ESP32 机械臂控制器 | [ESP32 工程](mcu/esp32/esp32_arm_controller/README.md) |
+| 做 STM32 / 51 / HPAD / WM8960 综合实验 | [嵌入式实验台](lab/embedded-lab-monorepo/README.md) |
+| 查接线和烧录 | [接线与烧录记录](docs/BOARD_WIRING_AND_FLASHING.md) |
+| 找旧开发笔记、接线图和迁移对应关系 | [旧资料索引](docs/legacy/embedded-learning/INDEX.md) · [归集核对记录](docs/REPOSITORY_CONSOLIDATION.md) |
+
+设备当前归属以资产总表为准；旧学习记录里的工具版本、串口号和历史验收结果不代表本次已复测。
 
 ---
 
-## 🏛️ 边界与架构定位 (Architecture Boundaries)
+## 内容范围
 
 - **本仓库职责（100% 聚焦实物硬件与微控制器）**：
   - **微控制器工程（MCU）**：51 单片机、STM32、ESP32 机械臂控制器及嵌入式外设代码（`mcu/`）。
@@ -17,22 +34,21 @@
 
 ---
 
-## 📂 仓库结构速览
+## 仓库结构速览
 
-```text
-hardware/
-├── mcu/          # 单片机与控制器工程 (51, STM32, ESP32)
-├── lab/          # 嵌入式综合实验 Monorepo
-├── hardwire/     # 硬件大夫核心探针与基线测试 (core, targets, benchmarks)
-├── tools/        # 固件烧录、迁移与跨端工具链
-├── snapshots/    # 实体板卡硬件体检快照数据
-├── tests/        # 单元与集成测试
-└── docs/         # 硬件接线、引脚定义、芯片手册与调优案例 (docs/cases/)
-```
+| 目录 | 内容 |
+| --- | --- |
+| [mcu/](mcu/) | 51、STM32、ESP32 单片机与控制器工程 |
+| [lab/](lab/) | 嵌入式综合实验台，保留各子项目的构建与验证入口 |
+| [hardwire/](hardwire/) | 硬件探针、只读诊断与基线测试 |
+| [tools/](tools/) | 烧录、环境与跨端工具 |
+| [snapshots/](snapshots/) | 历史硬件体检快照 |
+| [tests/](tests/) | 诊断工具的自动检查 |
+| [docs/](docs/) | 资产、学习导航、接线、板卡档案、案例与旧资料 |
 
 ---
 
-## 🩺 板载大夫 (Hardwire) 快速上手
+## Hardwire 诊断工具快速上手
 
 ```bash
 # 1. 本地整机体检
@@ -70,7 +86,7 @@ python3 -m hardwire matrix
 
 ---
 
-## 📚 真实体检与调优案例 (Case Studies)
+## 真实体检与调优案例
 
 - [案例 001：Linux 宿主机端到端网络诊断、低风险可逆优化与前后复测](docs/cases/case-001-network-optimization.md)
   - 核心场景：Wi-Fi 节能抖动排查、真实链路 vs 本地 TUN/代理识别、上游 DNS 与 BBR 拥塞控制无缝优化。

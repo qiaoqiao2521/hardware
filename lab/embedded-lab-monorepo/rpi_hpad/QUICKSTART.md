@@ -1,11 +1,15 @@
 # 5-Minute Quickstart
 
+[Hardware learning index](../../../docs/START_HERE.md) · [Embedded lab](../README.md)
+
 This is the shortest path to confirm the software-only toolchain works.
 
 ## 1. Create a virtual environment
 
+Start from the `hardware` repository root. The directory below replaces the old standalone `/home/qiaopai/rpi_hpad` checkout path.
+
 ```bash
-cd /home/qiaopai/rpi_hpad
+cd lab/embedded-lab-monorepo/rpi_hpad
 python3 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install -e .

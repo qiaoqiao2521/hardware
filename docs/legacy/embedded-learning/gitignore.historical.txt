@@ -1,0 +1,50 @@
+# 历史忽略规则，来源 embedded-learning@ad4e5f15732bade382888a7711dd5685b73b409a / .gitignore
+# 仅作迁移对照；当前仓库的有效规则在根目录 .gitignore，此文件不被 Git 加载。
+# course media / installers / binary docs
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wmv
+*.rar
+*.zip
+*.7z
+*.iso
+*.deb
+*.exe
+*.msi
+*.pdf
+*.ppt
+*.pptx
+*.doc
+*.docx
+
+# exported courseware
+stm32/learning/课件/
+
+# Keil / GCC build artifacts
+*.obj
+*.o
+*.crf
+*.d
+*.lst
+*.dep
+*.iex
+*.lnp
+*.htm
+*.map
+*.elf
+*.su
+*.axf
+*.hex
+*.bin
+*.lib
+*.a
+Build/
+Objects/
+Listings/
+DebugConfig/
+
+# misc temp
+_tmp/
+.obsidian/

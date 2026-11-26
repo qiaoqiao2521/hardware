@@ -1,49 +1,43 @@
 # MCS-51 / STC89C52
 
-这里收纳的是 51 单片机学习资料入口，当前先以 `STC89C52` 课程/源码资料为主。
+[返回实验台](../README.md) · [返回硬件学习入口](../../../docs/START_HERE.md)
 
-当前定位：
+这里维护 STC89C52 的 SDCC 最小构建链、串口发送和按键去抖示例，平台代码与 STM32 分开。
 
-- 这是独立于 STM32 主线的 51 迁移线
-- 当前 Phase 1 已打通最小 CLI 构建链路
-- 迁移计划见 `plans/mcs51_migration/`
+## 实际入口
 
-当前收录上游：
+| 目录 | 内容 |
+| --- | --- |
+| [examples/01_blink](examples/01_blink/README.md) | 点灯最小工程 |
+| [examples/03_uart_tx](examples/03_uart_tx/README.md) | 串口发送示例 |
+| [examples/04_key_debounce](examples/04_key_debounce/README.md) | 按键去抖示例 |
+| [boards/stc89c52rc](boards/stc89c52rc/README.md) | 板卡配置与引脚说明 |
+| [common](common/) | 共用代码 |
+| [scripts](scripts/) | 工具链探测、构建与检查脚本 |
+| [tests](tests/) | 主机侧测试 |
 
-- `Learn_STC89C52`
+旧 `mcs51/Learn_STC89C52/` 第三方课程快照已在迁入时移除，本目录不再包含该路径。原课程来自 jjejdhhd 的 [Learn_STC89C52](https://github.com/jjejdhhd/Learn_STC89C52)，[UPSTREAM.md](UPSTREAM.md) 保留当年的导入日期与提交号；其中关于快照仍在本地的描述属于历史记录，以本页目录和实验台迁入说明为准。
 
-目录：
+## 工作目录与软件检查
 
-- `mcs51/Learn_STC89C52/`
-  上游课程仓库快照
-- `mcs51/UPSTREAM.md`
-  上游来源和导入信息
-
-说明：
-
-- 当前 STM32F103 裸机构建、`scripts/check.sh`、validation bundle 仍然只覆盖 STM32 主线
-- STC89C52 后续会使用独立的 `mcs51/scripts/` 和 `mcs51/examples/`，不复用 STM32 的 CMake/ST-Link 假设
-- Phase 1 先用 shell 脚本和 SDCC 原生薄头文件，不上 CMake，不写厚 `REGX52.H` 兼容层
-- 当前已验证 `01_blink` 可在树莓派上从 `.c -> .ihx -> .hex`
-- 51 资料现在的价值主要是：
-  - 统一收口到同一个学习仓库
-  - 保留课程源码与章节结构
-  - 为后续单独做 8051/STC CLI 迁移提供来源
-
-Phase 1 命令：
+从 `hardware` 仓库根目录进入：
 
 ```bash
-sudo apt install sdcc
-python3 -m venv mcs51/.venv
-mcs51/.venv/bin/pip install stcgal
-mcs51/scripts/probe-toolchain.sh
-mcs51/scripts/build.sh 01_blink
-mcs51/scripts/check.sh
+cd lab/embedded-lab-monorepo/mcs51
 ```
 
-当前状态：
+本主线使用 `SDCC + packihx` 构建；`stcgal` 用于后续匹配板卡的串口下载。依赖准备见[实验台环境依赖](../README.md#环境依赖)。在本目录运行既有入口：
 
-- `sdcc` / `packihx`：已验证可用
-- `stcgal`：默认走 `mcs51/.venv/bin/stcgal`
-- `01_blink`：已验证可生成 `firmware.ihx` 和 `firmware.hex`
-- 真板烧录与现象验证：仍为 `hardware_pending`
+```bash
+scripts/probe-toolchain.sh
+scripts/build.sh 01_blink
+scripts/check.sh
+```
+
+`check.sh` 包含工具链检查、三个示例的构建、主机侧测试与产物检查，不执行真板烧录。产物位于本目录的 `build/<example>/`。
+
+## 验证边界
+
+历史记录保留了 `01_blink` 在树莓派上由 `.c → .ihx → .hex` 的软件构建结果；本次资料整理未重复该验证，也未连接真实板卡。
+
+真板烧录、串口输出、按键脚位和现象观察仍按 [HARDWARE_PENDING.md](HARDWARE_PENDING.md) 验收。构建成功与主机测试通过不能替代这些板级结果。

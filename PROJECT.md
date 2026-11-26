@@ -14,12 +14,19 @@
 - 侵入式客户端：探针绝不在目标开发板上常驻重型依赖。
 
 ## Directory Map
+- 学习总入口：[学习与实验导航](docs/START_HERE.md)；旧仓库对应关系与逐文件核对结论见[归集记录](docs/REPOSITORY_CONSOLIDATION.md)。`embedded-learning` 已归档，后续新增学习资料与工程统一进入本仓库。
 - `mcu/`: 单片机与控制器工程（51, STM32, ESP32）
 - `lab/`: 嵌入式综合实验工作区（embedded-lab-monorepo）
 - `tools/`: 烧录工具与跨端脚本（flash.ps1, migrate_51.ps1 等）
 - `docs/`: 硬件接线、引脚定义、工具链指南与实战调优案例（`docs/cases/`）
 - `hardwire/`: 硬件体检探针与只读诊断核心模块（core, targets, benchmarks）
 - `snapshots/`: 板卡硬件体检快照数据
+
+## 仓库归集
+
+2026-11-26 再次核对 `embedded-learning` 与本仓库：此前工程已迁入，旧仓仍可见是因为保留了归档历史。本次补齐遗漏的旧文档、图示和 Proteus 备份，移除旧文档内的凭据，新增统一学习导航。历史指令文件改为普通历史说明文件，当前约定仍以根 `AGENTS.md`、本文件和对应目录现行约定为准。保持现有 `master` 分支与工程相对路径，学习资料整理不等于重新验收设备或固件。
+
+本轮任务：[hardware 与 embedded-learning 归集](plans/embedded-consolidation/task_plan.md)，[核对发现](plans/embedded-consolidation/findings.md)，[完成进度](plans/embedded-consolidation/progress.md)。
 
 ## 硬件资产与当前规划
 
