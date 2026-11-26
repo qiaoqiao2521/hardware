@@ -4,15 +4,25 @@
 
 ## 为什么会看到两个仓库
 
-`embedded-learning` 是保留提交历史的归档仓库，根目录没有迁移 README；其主要内容已经在 [2026-09-15 的迁移提交](https://github.com/qiaoqiao2521/hardware/commit/211c6abc7cdd539181413d7c0339dfb67796503e)中放入 `hardware`。此前 hardware 首页侧重 Hardwire，嵌入式学习缺少统一入口，又遗漏了一小组旧资料，因此仅看仓库列表或首页容易以为两套仍各自维护。
+`embedded-learning` 原是保留提交历史的归档仓库，根目录没有迁移 README；其主要内容已经在 [2026-09-15 的迁移提交](https://github.com/qiaoqiao2521/hardware/commit/211c6abc7cdd539181413d7c0339dfb67796503e)中放入 `hardware`。此前 hardware 首页侧重 Hardwire，嵌入式学习缺少统一入口，又遗漏了一小组旧资料，因此仅看仓库列表或首页容易以为两套仍各自维护。
 
-现在硬件资产、课程、固件、综合实验、工具和学习记录都在 `hardware` 继续维护。旧仓保留归档历史，`hardwire/` 是这里的诊断模块。仓库保留现有默认分支 `master`，没有另外建立维护分支。
+现在硬件资产、课程、固件、综合实验、工具和学习记录都在 `hardware` 继续维护，`hardwire/` 是这里的诊断模块。仓库保留现有默认分支 `master`，没有另外建立维护分支。
+
+## 旧仓删除记录
+
+归集核对通过后，`embedded-learning` 已于 2026-11-26 从 GitHub 删除，仓库列表中不再出现，远端 URL 已失效。删除前已完成下列留存：
+
+- 文件内容：5,631 个旧文件全部保留在本仓库，路径一一对应（见下表）。
+- 提交历史：删除前已克隆整仓并打包为本地 bundle `~/projects/embedded-learning-archive.bundle`（4.4 MB，含 `ad4e5f1` 全量历史），可用 `git bundle verify` 校验、用 `git clone <bundle>` 取回。
+- 元数据：该仓原本为私有且已归档，0 issue、0 PR、0 release、0 star、0 fork、无 wiki，仅 `main` 一个分支，随删除一并消失且无副本需要保留。
+
+恢复方式：GitHub 允许在删除后 90 天内通过官方支持申请恢复同名仓库；该窗口过后只能依赖上面的本地 bundle。
 
 ## 核对范围与结果
 
 | 项目 | 固定基线 |
 | --- | --- |
-| 原始学习仓库 | [embedded-learning@ad4e5f1](https://github.com/qiaoqiao2521/embedded-learning/tree/ad4e5f15732bade382888a7711dd5685b73b409a)，`main`，已归档 |
+| 原始学习仓库 | `embedded-learning@ad4e5f1`（`main`，已归档，2026-11-26 删除），文件与历史留存见[旧仓删除记录](#旧仓删除记录) |
 | 本次整理前的 hardware | [hardware@fb6f788](https://github.com/qiaoqiao2521/hardware/tree/fb6f788750dec98ddf8da193d0364a423db7575c)，`master` |
 | 文件范围 | 源提交完整 Git tree 中的全部 5,631 个 blob 文件，树未截断 |
 | 整理前 | 5,619 个文件内容已在 hardware 存在；12 项需要补齐 |

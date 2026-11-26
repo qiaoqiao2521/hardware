@@ -2,7 +2,7 @@
 
 这里补齐原 `embedded-learning` 中未迁入 `hardware` 的文档、配置参考、七段数码管图和 Proteus 备份。学习代码统一在本仓库的 [MCU 工程](../../../mcu/) 与 [嵌入式实验台](../../../lab/embedded-lab-monorepo/)；当前硬件资料从 [hardware 首页](../../../README.md) 进入。
 
-来源固定为 `qiaoqiao2521/embedded-learning@ad4e5f15732bade382888a7711dd5685b73b409a`。整理日期为 2026-11-26。旧目录结构、安装路径、板卡连接与运行记录均属于历史上下文，实际使用前按当前环境核对，本次整理没有连接设备、烧录固件或重新验证硬件。
+来源固定为 `qiaoqiao2521/embedded-learning@ad4e5f15732bade382888a7711dd5685b73b409a`。整理日期为 2026-11-26，该远端仓库已于同日删除；其全部文件已在本仓库留存，提交历史另存于本地 `~/projects/embedded-learning-archive.bundle`。旧目录结构、安装路径、板卡连接与运行记录均属于历史上下文，实际使用前按当前环境核对，本次整理没有连接设备、烧录固件或重新验证硬件。
 
 ## 找资料
 
